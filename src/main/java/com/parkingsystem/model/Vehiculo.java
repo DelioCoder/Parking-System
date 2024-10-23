@@ -10,16 +10,18 @@ public class Vehiculo {
     private String placa_veh;
     private String color_veh;
     private String marca_veh;
+    private String modelo_veh;
     private String año_veh;
     private int id_conductor;
     
     public Vehiculo() { }
 
-    public Vehiculo(int id, String placa_veh, String color_veh, String marca_veh, String año_veh, int id_conductor) {
+    public Vehiculo(int id, String placa_veh, String color_veh, String marca_veh, String modelo_veh, String año_veh, int id_conductor) {
         this.id = id;
         this.placa_veh = placa_veh;
         this.color_veh = color_veh;
         this.marca_veh = marca_veh;
+        this.modelo_veh = modelo_veh;
         this.año_veh = año_veh;
         this.id_conductor = id_conductor;
     }
@@ -56,6 +58,16 @@ public class Vehiculo {
         this.marca_veh = marca_veh;
     }
 
+    public String getModelo_veh() {
+        return modelo_veh;
+    }
+
+    public void setModelo_veh(String modelo_veh) {
+        this.modelo_veh = modelo_veh;
+    }
+
+    
+    
     public String getAño_veh() {
         return año_veh;
     }

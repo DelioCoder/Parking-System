@@ -26,4 +26,14 @@ public class Cconnection {
         }
         return connect;
     }
+    
+        public void close() {
+        try {
+            if (connect != null && !connect.isClosed()) {
+                connect.close();
+            }
+        } catch (Exception e) {
+            System.out.println("Error closing connection: " + e.toString());
+        }
+    }
 }

@@ -1,11 +1,6 @@
-
+import com.parkingsystem.DAO.ConductorDAO;
 import com.parkingsystem.configuration.Cconnection;
-
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
+import com.parkingsystem.model.Conductor;
 /**
  *
  * @author David
@@ -13,9 +8,22 @@ import com.parkingsystem.configuration.Cconnection;
 public class crud {
     
     public static void main(String[] args){
-        Cconnection cconection = new Cconnection();
         
-        cconection.connect();
+//        ConductorDAO model = new ConductorDAO();
+//        
+//        Conductor conductor = new Conductor();
+//        
+//        conductor.setId_conductor(1);
+//        conductor.setNombre_cond("Isaac");
+//        conductor.setApellido_cond("Newton");
+//        conductor.setTelefono_cond(923538579);
+//        conductor.setDni_cond(72715829);
+//        
+//        if(model.agregarConductor(conductor)){
+//            System.out.println("Guardado");
+//        }else {
+//            System.out.println("No guardado");
+//        }
     }
     
 }

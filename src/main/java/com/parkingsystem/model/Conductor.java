@@ -12,6 +12,8 @@ public class Conductor {
     private int dni_cond;
     private int telefono_cond;
 
+    public Conductor() { }
+    
     public Conductor(int id_conductor, String nombre_cond, String apellido_cond, int dni_cond, int telefono_cond) {
         this.id_conductor = id_conductor;
         this.nombre_cond = nombre_cond;
