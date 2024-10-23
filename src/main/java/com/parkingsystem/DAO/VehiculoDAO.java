@@ -1,9 +1,12 @@
 package com.parkingsystem.DAO;
 
 import com.parkingsystem.configuration.Cconnection;
+import com.parkingsystem.model.Conductor;
 import com.parkingsystem.model.Vehiculo;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
 
 /**
  *
@@ -14,6 +17,60 @@ public class VehiculoDAO {
     private Cconnection connectionManager = new Cconnection();
     private Connection connection = null;
     private PreparedStatement pst;
+    private ResultSet rs;
+    
+    public ArrayList<Vehiculo> listarVehiculos(String filter, int id)
+    {
+        ArrayList<Vehiculo> list = new ArrayList<>();
+        Vehiculo vehiculo;
+        try {
+            connection = connectionManager.connect();
+            if(connection != null){
+                String sql = "";
+                
+                switch (filter) {
+                    case "codigo":
+                        sql = "SELECT * FROM Vehiculo WHERE id_veh = ?";
+                        pst = connection.prepareCall(sql);
+                        pst.setInt(1, id);
+                        break;
+                        
+                    default:
+                        sql = "SELECT * FROM Vehiculo";
+                        pst = connection.prepareCall(sql);
+                        break;
+                }
+                
+                rs = pst.executeQuery();
+                
+                while(rs.next()){
+                    vehiculo = new Vehiculo();
+                    
+                    vehiculo.setId(rs.getInt("id_veh"));
+                    vehiculo.setPlaca_veh(rs.getString("placa_veh"));
+                    vehiculo.setColor_veh("marca_veh");
+                    vehiculo.setMarca_veh("marca_veh");
+                    vehiculo.setAño_veh(rs.getString("año_veh"));
+                    vehiculo.setId_conductor(rs.getInt("id_conductor"));
+                    
+                    list.add(vehiculo);
+
+                }
+                
+            }else {
+                System.out.println("Conexión fallida");
+            }
+        } catch (Exception e) {
+        } finally {
+            try {
+                if (pst != null) pst.close();
+                if (connection != null) connection.close();
+            } catch (Exception e) {
+                System.out.println("Error al cerrar recursos: " + e.toString());
+            }
+        }
+        return list;
+    }
     
     public boolean agregarVehiculo(Vehiculo vehiculo)
     {
@@ -33,6 +90,79 @@ public class VehiculoDAO {
                 pst.setString(6, vehiculo.getAño_veh());
                 pst.setInt(7, vehiculo.getId_conductor());
                 
+                int res = pst.executeUpdate();
+                
+                state = res > 0;
+            }
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        } finally {
+            try {
+                if (pst != null) pst.close();
+                if (connection != null) connection.close();
+            } catch (Exception e) {
+                System.out.println("Error al cerrar recursos: " + e.toString());
+            }
+        }
+        
+        return state;
+    }
+    
+    public boolean actualizarVehiculo(Vehiculo vehiculo)
+    {
+        boolean state = false;
+        
+        try {
+            
+            connection = connectionManager.connect();
+            
+            if(connection != null){
+                
+                String sql = "UPDATE Vehiculo SET placa_veh = ?, color_veh = ?, marca_veh = ?, año_veh = ?, id_conductor = ? WHERE id_veh = ?";
+                
+                pst = connection.prepareStatement(sql);
+                pst.setString(1, vehiculo.getPlaca_veh());
+                pst.setString(2, vehiculo.getColor_veh());
+                pst.setString(3, vehiculo.getMarca_veh());
+                pst.setString(4, vehiculo.getAño_veh());
+                pst.setInt(5, vehiculo.getId_conductor());
+                pst.setInt(6, vehiculo.getId());
+                
+                int res = pst.executeUpdate();
+                
+                state = res > 0;
+                
+            }else {
+                System.out.println("Error al conectar");
+            }
+            
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        } finally {
+            try {
+                if (pst != null) pst.close();
+                if (connection != null) connection.close();
+            } catch (Exception e) {
+                System.out.println("Error al cerrar recursos: " + e.toString());
+            }
+        }
+        
+        return state;
+    }
+    
+    public boolean eliminarVehiculo(int id)
+    {
+        boolean state = false;
+        
+        try {
+            connection = connectionManager.connect();
+            
+            if(connection != null)
+            {
+                String sql = "DELETE FROM Vehiculo WHERE id_ticket = ?";
+                
+                pst = connection.prepareStatement(sql);
+                pst.setInt(1, id);
                 int res = pst.executeUpdate();
                 
                 state = res > 0;

@@ -1,8 +1,7 @@
 package com.parkingsystem.DAO;
 
 import com.parkingsystem.configuration.Cconnection;
-import com.parkingsystem.model.Conductor;
-import com.parkingsystem.model.Ticket_Estacionamiento;
+import com.parkingsystem.model.Piso_estacionamiento;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,50 +11,35 @@ import java.util.ArrayList;
  *
  * @author david
  */
-public class TicketDAO {
+public class Piso_EstacionamientoDAO {
 
     private Cconnection connectionManager = new Cconnection();
     private Connection connection = null;
     private PreparedStatement pst;
     private ResultSet rs;
-    
-    public ArrayList<Ticket_Estacionamiento> listarTickets(String filter, int id) {
-        ArrayList<Ticket_Estacionamiento> list = new ArrayList<>();
-        Ticket_Estacionamiento ticket;
+
+    // Método para listar todos los pisos de estacionamiento
+    public ArrayList<Piso_estacionamiento> listarPisos() {
+        ArrayList<Piso_estacionamiento> list = new ArrayList<>();
+        Piso_estacionamiento piso;
+        
         try {
             connection = connectionManager.connect();
-            if(connection != null){
-                String sql = "";
-                
-                switch (filter) {
-                    case "codigo":
-                        sql = "SELECT * FROM Ticket_Estacionamiento WHERE id_ticket = ?";
-                        pst = connection.prepareCall(sql);
-                        pst.setInt(1, id);
-                        break;
-                       
-                    default:
-                        sql = "SELECT * FROM Ticket_Estacionamiento";
-                        pst = connection.prepareCall(sql);
-                        break;
-                }
-                
+            if (connection != null) {
+                String sql = "SELECT * FROM Piso_estacionamiento";
+                pst = connection.prepareCall(sql);
                 rs = pst.executeQuery();
                 
-                while(rs.next()){
-                    ticket = new Ticket_Estacionamiento();
+                while (rs.next()) {
+                    piso = new Piso_estacionamiento();
                     
-                    ticket.setId_veh(rs.getInt("id_ticket"));
-                    ticket.setHora_entrada(rs.getString("hora_entrada"));
-                    ticket.setEstado_ticket(rs.getString("estado_ticket"));
-                    ticket.setId_veh(rs.getInt("id_veh"));
-                    ticket.setId_zona_est(rs.getInt("id_zona_est"));
+                    piso.setId_piso_est(rs.getInt("id_piso_est"));
+                    piso.setNumero_piso(rs.getInt("numero_piso"));
+                    piso.setCapacidad(rs.getInt("capacidad"));
                     
-                    list.add(ticket);
-
+                    list.add(piso);
                 }
-                
-            }else {
+            } else {
                 System.out.println("Conexión fallida");
             }
         } catch (Exception e) {
@@ -70,21 +54,21 @@ public class TicketDAO {
         }
         return list;
     }
-    
-    public boolean agregarTicket(Ticket_Estacionamiento ticket){
+
+    // Método para agregar un piso de estacionamiento
+    public boolean agregarPiso(Piso_estacionamiento piso) {
         boolean state = false;
         
         try {
-            if(connection != null){
-                String sql = "INSERT INTO ticket (id_ticket, hora_entrada, estado_ticket, id_veh, id_zona_est) VALUES (?,?,?,?,?)";
-                
+            connection = connectionManager.connect();
+            
+            if (connection != null) {
+                String sql = "INSERT INTO Piso_estacionamiento (id_piso_est, numero_piso, capacidad) VALUES (?, ?, ?)";
                 pst = connection.prepareStatement(sql);
                 
-                pst.setInt(1, ticket.getId_ticket());
-                pst.setString(2, ticket.getHora_entrada());
-                pst.setString(3, ticket.getEstado_ticket());
-                pst.setInt(4, ticket.getId_veh());
-                pst.setInt(5, ticket.getId_zona_est());
+                pst.setInt(1, piso.getId_piso_est());
+                pst.setInt(2, piso.getNumero_piso());
+                pst.setInt(3, piso.getCapacidad());
                 
                 int res = pst.executeUpdate();
                 
@@ -103,35 +87,26 @@ public class TicketDAO {
         
         return state;
     }
-    
-    public boolean actualizarTicket(Ticket_Estacionamiento ticket)
-    {
-    
+
+    // Método para actualizar un piso de estacionamiento
+    public boolean actualizarPiso(Piso_estacionamiento piso) {
         boolean state = false;
         
         try {
-            
             connection = connectionManager.connect();
             
-            if(connection != null){
-                
-                String sql = "UPDATE Ticket_Estacionamiento SET hora_entrada = ?, estado_ticket = ?, id_veh = ?, id_zona_est = ? WHERE id_ticket = ?";
-                
+            if (connection != null) {
+                String sql = "UPDATE Piso_estacionamiento SET numero_piso = ?, capacidad = ? WHERE id_piso_est = ?";
                 pst = connection.prepareStatement(sql);
-                pst.setString(1, ticket.getHora_entrada());
-                pst.setString(2, ticket.getEstado_ticket());
-                pst.setInt(3, ticket.getId_veh());
-                pst.setInt(4, ticket.getId_zona_est());
-                pst.setInt(5, ticket.getId_ticket());
+                
+                pst.setInt(1, piso.getNumero_piso());
+                pst.setInt(2, piso.getCapacidad());
+                pst.setInt(3, piso.getId_piso_est());
                 
                 int res = pst.executeUpdate();
                 
                 state = res > 0;
-                
-            }else {
-                System.out.println("Error al conectar");
             }
-            
         } catch (Exception e) {
             System.out.println(e.toString());
         } finally {
@@ -144,22 +119,20 @@ public class TicketDAO {
         }
         
         return state;
-        
     }
-    
-    public boolean eliminarTicket(int id)
-    {
+
+    // Método para eliminar un piso de estacionamiento
+    public boolean eliminarPiso(int id) {
         boolean state = false;
         
         try {
             connection = connectionManager.connect();
             
-            if(connection != null)
-            {
-                String sql = "DELETE FROM Ticket_Estacionamiento WHERE id_ticket = ?";
-                
+            if (connection != null) {
+                String sql = "DELETE FROM Piso_estacionamiento WHERE id_piso_est = ?";
                 pst = connection.prepareStatement(sql);
                 pst.setInt(1, id);
+                
                 int res = pst.executeUpdate();
                 
                 state = res > 0;
