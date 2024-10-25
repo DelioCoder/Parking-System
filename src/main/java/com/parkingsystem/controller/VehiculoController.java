@@ -4,6 +4,7 @@ package com.parkingsystem.controller;
  *
  * @author david
  */
+/*
 public class VehiculoController {
 
 package com.parkingsystem.controller;
@@ -96,3 +97,5 @@ public class VehiculoController {
 
     
 }
+
+*/
