@@ -14,7 +14,11 @@ public class Abonado {
 
     public Abonado() { }
 
-    public Abonado(int id_abo, String fecha_inicio_abo, String fecha_fin_abo, String tipo_abo, Float monto_abo) {
+    public Abonado(
+            int id_abo, String fecha_inicio_abo,
+            String fecha_fin_abo, String tipo_abo,
+            Float monto_abo)
+    {
         this.id_abo = id_abo;
         this.fecha_inicio_abo = fecha_inicio_abo;
         this.fecha_fin_abo = fecha_fin_abo;

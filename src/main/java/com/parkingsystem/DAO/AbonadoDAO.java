@@ -1,7 +1,7 @@
 package com.parkingsystem.DAO;
 
 import com.parkingsystem.configuration.Cconnection;
-import com.parkingsystem.model.Zona_Estacionamiento;
+import com.parkingsystem.model.Abonado;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,35 +9,54 @@ import java.util.ArrayList;
 
 /**
  *
- * @author david
+ * @author David
  */
-public class Zona_EstacionamientoDAO {
-
+public class AbonadoDAO {
+    
     private Cconnection connectionManager = new Cconnection();
     private Connection connection = null;
     private PreparedStatement pst;
     private ResultSet rs;
 
-    // Método para listar todas las zonas de estacionamiento
-    public ArrayList<Zona_Estacionamiento> listarZonas() {
-        ArrayList<Zona_Estacionamiento> list = new ArrayList<>();
-        Zona_Estacionamiento zona;
-        
+    public ArrayList<Abonado> listarAbonados(String filter, ArrayList<String> data) {
+        ArrayList<Abonado> list = new ArrayList<>();
+        Abonado abonado;
         try {
             connection = connectionManager.connect();
             if (connection != null) {
-                String sql = "SELECT * FROM Zona_estacionamiento";
-                pst = connection.prepareCall(sql);
+                String sql = "";
+
+                switch (filter) {
+                    case "tipo":
+                        sql = "SELECT * FROM abonado WHERE tipo_abo = ?";
+                        pst = connection.prepareStatement(sql);
+                        pst.setString(1, data.get(0));
+                        break;
+
+                    case "monto":
+                        sql = "SELECT * FROM abonado WHERE monto_abo = ?";
+                        pst = connection.prepareStatement(sql);
+                        pst.setFloat(1, Float.parseFloat(data.get(0)));
+                        break;
+
+                    default:
+                        sql = "SELECT * FROM abonado";
+                        pst = connection.prepareStatement(sql);
+                        break;
+                }
+
                 rs = pst.executeQuery();
-                
+
                 while (rs.next()) {
-                    zona = new Zona_Estacionamiento();
-                    
-                    zona.setId_zona_est(rs.getInt("id_zona_est"));
-                    zona.setEstado_espacio(rs.getString("estado_espacio"));
-                    zona.setId_piso_est(rs.getInt("id_piso_est"));
-                    
-                    list.add(zona);
+                    abonado = new Abonado();
+
+                    abonado.setId_abo(rs.getInt("id_abo"));
+                    abonado.setFecha_inicio_abo(rs.getString("fecha_inicio_abo"));
+                    abonado.setFecha_fin_abo(rs.getString("fecha_fin_abo"));
+                    abonado.setTipo_abo(rs.getString("tipo_abo"));
+                    abonado.setMonto_abo(rs.getFloat("monto_abo"));
+
+                    list.add(abonado);
                 }
             } else {
                 System.out.println("Conexión fallida");
@@ -55,23 +74,24 @@ public class Zona_EstacionamientoDAO {
         return list;
     }
 
-    // Método para agregar una zona de estacionamiento
-    public boolean agregarZona(Zona_Estacionamiento zona) {
+    public boolean agregarAbonado(Abonado abonado) {
         boolean state = false;
-        
+
         try {
             connection = connectionManager.connect();
-            
             if (connection != null) {
-                String sql = "INSERT INTO Zona_estacionamiento (id_zona_est, estado_espacio, id_piso_est) VALUES (?, ?, ?)";
+                String sql = "INSERT INTO abonado (id_abo, fecha_inicio_abo, fecha_fin_abo, tipo_abo, monto_abo) VALUES (?, ?, ?, ?, ?)";
+
                 pst = connection.prepareStatement(sql);
-                
-                pst.setInt(1, zona.getId_zona_est());
-                pst.setString(2, zona.getEstado_espacio());
-                pst.setInt(3, zona.getId_piso_est());
-                
+
+                pst.setInt(1, abonado.getId_abo());
+                pst.setString(2, abonado.getFecha_inicio_abo());
+                pst.setString(3, abonado.getFecha_fin_abo());
+                pst.setString(4, abonado.getTipo_abo());
+                pst.setFloat(5, abonado.getMonto_abo());
+
                 int res = pst.executeUpdate();
-                
+
                 state = res > 0;
             }
         } catch (Exception e) {
@@ -84,28 +104,31 @@ public class Zona_EstacionamientoDAO {
                 System.out.println("Error al cerrar recursos: " + e.toString());
             }
         }
-        
+
         return state;
     }
 
-    // Método para actualizar una zona de estacionamiento
-    public boolean actualizarZona(Zona_Estacionamiento zona) {
+    public boolean actualizarAbonado(Abonado abonado) {
         boolean state = false;
-        
+
         try {
             connection = connectionManager.connect();
-            
+
             if (connection != null) {
-                String sql = "UPDATE Zona_estacionamiento SET estado_espacio = ?, id_piso_est = ? WHERE id_zona_est = ?";
+                String sql = "UPDATE abonado SET fecha_inicio_abo = ?, fecha_fin_abo = ?, tipo_abo = ?, monto_abo = ? WHERE id_abo = ?";
+
                 pst = connection.prepareStatement(sql);
-                
-                pst.setString(1, zona.getEstado_espacio());
-                pst.setInt(2, zona.getId_piso_est());
-                pst.setInt(3, zona.getId_zona_est());
-                
+                pst.setString(1, abonado.getFecha_inicio_abo());
+                pst.setString(2, abonado.getFecha_fin_abo());
+                pst.setString(3, abonado.getTipo_abo());
+                pst.setFloat(4, abonado.getMonto_abo());
+                pst.setInt(5, abonado.getId_abo());
+
                 int res = pst.executeUpdate();
-                
+
                 state = res > 0;
+            } else {
+                System.out.println("Error al conectar");
             }
         } catch (Exception e) {
             System.out.println(e.toString());
@@ -117,24 +140,23 @@ public class Zona_EstacionamientoDAO {
                 System.out.println("Error al cerrar recursos: " + e.toString());
             }
         }
-        
+
         return state;
     }
 
-    // Método para eliminar una zona de estacionamiento
-    public boolean eliminarZona(int id) {
+    public boolean eliminarAbonado(int id) {
         boolean state = false;
-        
+
         try {
             connection = connectionManager.connect();
-            
+
             if (connection != null) {
-                String sql = "DELETE FROM Zona_estacionamiento WHERE id_zona_est = ?";
+                String sql = "DELETE FROM abonado WHERE id_abo = ?";
+
                 pst = connection.prepareStatement(sql);
                 pst.setInt(1, id);
-                
                 int res = pst.executeUpdate();
-                
+
                 state = res > 0;
             }
         } catch (Exception e) {
@@ -147,7 +169,7 @@ public class Zona_EstacionamientoDAO {
                 System.out.println("Error al cerrar recursos: " + e.toString());
             }
         }
-        
+
         return state;
     }
     
