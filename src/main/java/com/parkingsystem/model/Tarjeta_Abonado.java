@@ -14,7 +14,10 @@ public class Tarjeta_Abonado {
 
     public Tarjeta_Abonado() { }
     
-    public Tarjeta_Abonado(int id_tarj_abo, String fecha_emision_tarj_abo, String fecha_expiracion_tarj_abo, int id_abo, int id_veh) {
+    public Tarjeta_Abonado(
+            int id_tarj_abo, String fecha_emision_tarj_abo,
+            String fecha_expiracion_tarj_abo, int id_abo, int id_veh)
+    {
         this.id_tarj_abo = id_tarj_abo;
         this.fecha_emision_tarj_abo = fecha_emision_tarj_abo;
         this.fecha_expiracion_tarj_abo = fecha_expiracion_tarj_abo;

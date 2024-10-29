@@ -15,6 +15,22 @@ public class Boleta_Pago {
 
     public Boleta_Pago() { }
 
+    public Boleta_Pago(
+            int id_boleta_pago,
+            String fecha_pago,
+            String hora_salida,
+            Float monto_pago,
+            String metodo_pago,
+            int id_ticket)
+    {
+        this.id_boleta_pago = id_boleta_pago;
+        this.fecha_pago = fecha_pago;
+        this.hora_salida = hora_salida;
+        this.monto_pago = monto_pago;
+        this.metodo_pago = metodo_pago;
+        this.id_ticket = id_ticket;
+    }
+    
     public int getId_boleta_pago() {
         return id_boleta_pago;
     }

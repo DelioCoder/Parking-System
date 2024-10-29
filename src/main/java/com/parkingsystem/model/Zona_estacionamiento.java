@@ -4,13 +4,19 @@ package com.parkingsystem.model;
  *
  * @author david
  */
-public class Zona_estacionamiento {
+public class Zona_Estacionamiento {
 
     private int id_zona_est;
     private String estado_espacio;
     private int id_piso_est;
 
-    public Zona_estacionamiento() { }
+    public Zona_Estacionamiento() { }
+
+    public Zona_Estacionamiento(int id_zona_est, String estado_espacio, int id_piso_est) {
+        this.id_zona_est = id_zona_est;
+        this.estado_espacio = estado_espacio;
+        this.id_piso_est = id_piso_est;
+    }
 
     public int getId_zona_est() {
         return id_zona_est;
