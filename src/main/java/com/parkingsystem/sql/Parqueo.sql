@@ -130,3 +130,18 @@ INSERT INTO vehiculo (placa_veh, color_veh, marca_veh, modelo_veh, año_veh, id_
 ('LMN456', 'Negro', 'Ford', 'Focus', '2020', 3),
 ('PQR678', 'Blanco', 'Chevrolet', 'Cruze', '2019', 4),
 ('GHI321', 'Gris', 'Mazda', '3', '2018', 5);
+
+INSERT INTO Boleta_Pago (fecha_pago, monto_pago, metodo_pago, hora_salida, id_ticket) VALUES
+('2024-10-29 01:19', 25.00, 'Efectivo', '2024-10-29 01:19', 1);
+
+INSERT INTO Boleta_Pago (fecha_pago, monto_pago, metodo_pago, hora_salida, id_ticket) VALUES
+('2024-10-03 18:45', 20.50, 'Tarjeta', '2024-10-03 18:45', 2);
+
+INSERT INTO Boleta_Pago (fecha_pago, monto_pago, metodo_pago, hora_salida, id_ticket) VALUES
+('2024-09-15 10:30', 15.75, 'Efectivo', '2024-09-15 10:30', 1);
+
+INSERT INTO Boleta_Pago (fecha_pago, monto_pago, metodo_pago, hora_salida, id_ticket) VALUES
+('2024-10-01 14:00', 18.90, 'Tarjeta', '2024-10-01 14:00', 2);
+
+INSERT INTO Boleta_Pago (fecha_pago, monto_pago, metodo_pago, hora_salida, id_ticket) VALUES
+('2024-10-10 09:45', 22.00, 'Efectivo', '2024-10-10 09:45', 2);

@@ -18,7 +18,6 @@ public class Boleta_PagoDAO
     private PreparedStatement pst;
     private ResultSet rs;
 
-    // Método para listar todas las boletas de pago
     public ArrayList<Boleta_Pago> listarBoletas() {
         ArrayList<Boleta_Pago> list = new ArrayList<>();
         Boleta_Pago boleta;
@@ -26,22 +25,49 @@ public class Boleta_PagoDAO
         try {
             connection = connectionManager.connect();
             if (connection != null) {
-                String sql = "SELECT * FROM Boleta_Pago";
+                String sql = "SELECT \n" +
+"    c.nombre_cond AS Conductor,\n" +
+"    c.dni_cond AS DNI,\n" +
+"    c.telefono_cond AS Telefono,\n" +
+"    v.placa_veh AS Placa,\n" +
+"    v.color_veh AS 'Color de vehiculo',\n" +
+"    t.fecha_entrada AS 'Hora de entrada',\n" +
+"    b.hora_salida AS 'Hora de Salida',\n" +
+"	b.monto_pago AS 'Monto',\n" +
+"    z.nombre_espacio AS Zona,\n" +
+"    p.numero_piso_est AS Piso\n" +
+"FROM \n" +
+"    Boleta_Pago b\n" +
+"JOIN \n" +
+"    Ticket_Estacionamiento t ON b.id_ticket = t.id_ticket\n" +
+"JOIN \n" +
+"    Vehiculo v ON t.id_veh = v.id_veh\n" +
+"JOIN \n" +
+"    Conductor c ON v.id_cond = c.id_cond\n" +
+"JOIN \n" +
+"    Zona_Estacionamiento z ON t.id_zona_est = z.numero_espacio\n" +
+"JOIN \n" +
+"    Piso_estacionamiento p ON z.id_piso_est = p.numero_piso_est;";
                 pst = connection.prepareStatement(sql);
                 rs = pst.executeQuery();
 
                 while (rs.next()) {
                     boleta = new Boleta_Pago();
 
-                    boleta.setId_boleta_pago(rs.getInt("id_boleta_pago"));
-                    boleta.setFecha_pago(rs.getString("fecha_pago"));
-                    boleta.setHora_salida(rs.getString("hora_salida"));
-                    boleta.setMonto_pago(rs.getFloat("monto_pago"));
-                    boleta.setMetodo_pago(rs.getString("metodo_pago"));
-                    boleta.setId_ticket(rs.getInt("id_ticket"));
+                    boleta.setConductor(rs.getString("Conductor"));
+                    boleta.setDni(rs.getString("DNI"));
+                    boleta.setTelefono(rs.getString("Telefono"));
+                    boleta.setPlaca(rs.getString("Placa"));
+                    boleta.setColorVehiculo(rs.getString("Color de vehiculo"));
+                    boleta.setHoraEntrada(rs.getString("Hora de entrada"));
+                    boleta.setHora_salida(rs.getString("Hora de Salida"));
+                    boleta.setMonto_pago(rs.getFloat("Monto"));
+                    boleta.setZona(rs.getString("Zona"));
+                    boleta.setPiso(rs.getInt("Piso"));
 
                     list.add(boleta);
                 }
+
             } else {
                 System.out.println("Conexión fallida");
             }
@@ -58,7 +84,6 @@ public class Boleta_PagoDAO
         return list;
     }
 
-    // Método para agregar una boleta de pago
     public boolean agregarBoleta(Boleta_Pago boleta) {
         boolean state = false;
 
@@ -94,7 +119,6 @@ public class Boleta_PagoDAO
         return state;
     }
 
-    // Método para actualizar una boleta de pago
     public boolean actualizarBoleta(Boleta_Pago boleta) {
         boolean state = false;
 
@@ -130,7 +154,6 @@ public class Boleta_PagoDAO
         return state;
     }
 
-    // Método para eliminar una boleta de pago
     public boolean eliminarBoleta(int id) {
         boolean state = false;
 

@@ -23,7 +23,7 @@ public class GenerarTicket extends javax.swing.JFrame {
     }
 
     private void inicializarControlador() {
-        // Crear una instancia del controlador y pasarle la vista (el formulario) actual
+        
         ticketController = new TicketController(this);
     }
     
