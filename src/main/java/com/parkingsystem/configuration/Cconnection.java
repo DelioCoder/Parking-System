@@ -18,8 +18,11 @@ public class Cconnection {
     
     public Connection connect() {
         try {
-            String cadena = "jdbc:sqlserver://localhost:"+puerto+";"+"databaseName="+database+";encrypt=false";
-            connect = DriverManager.getConnection(cadena, this.user, this.password);
+            //String cadena = "jdbc:sqlserver://localhost:"+puerto+";"+"databaseName="+database+";encrypt=false";
+            String cadena = "jdbc:sqlserver://localhost:1433;databaseName=dbparqueo;user=john1;password=123;encrypt=false";
+            
+            //connect = DriverManager.getConnection(cadena, this.user, this.password);
+            connect = DriverManager.getConnection(cadena);
             System.out.println("Connected");
         } catch (Exception e) {
             System.out.println(e.toString());

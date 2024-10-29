@@ -131,17 +131,19 @@ INSERT INTO vehiculo (placa_veh, color_veh, marca_veh, modelo_veh, año_veh, id_
 ('PQR678', 'Blanco', 'Chevrolet', 'Cruze', '2019', 4),
 ('GHI321', 'Gris', 'Mazda', '3', '2018', 5);
 
-INSERT INTO Boleta_Pago (fecha_pago, monto_pago, metodo_pago, hora_salida, id_ticket) VALUES
-('2024-10-29 01:19', 25.00, 'Efectivo', '2024-10-29 01:19', 1);
 
-INSERT INTO Boleta_Pago (fecha_pago, monto_pago, metodo_pago, hora_salida, id_ticket) VALUES
-('2024-10-03 18:45', 20.50, 'Tarjeta', '2024-10-03 18:45', 2);
+INSERT INTO Ticket_Estacionamiento (fecha_entrada, hora_entrada, estado_ticket, id_veh, id_zona_est)  
+VALUES   
+    ('2024-10-29', '08:00:00','Activo', 1, 1),  -- Ticket para el veh�culo con id_veh = 1 en la zona con id_zona_est = 1  
+    ('2024-10-28', '04:00:00','Activo', 2, 2),  -- Ticket para el veh�culo con id_veh = 2 en la zona con id_zona_est = 2  
+    ('2024-10-27', '05:00:00','Activo', 3, 3);  -- Ticket para el veh�culo con id_veh = 3 en la zona con id_zona_est = 3  
 
-INSERT INTO Boleta_Pago (fecha_pago, monto_pago, metodo_pago, hora_salida, id_ticket) VALUES
-('2024-09-15 10:30', 15.75, 'Efectivo', '2024-09-15 10:30', 1);
 
-INSERT INTO Boleta_Pago (fecha_pago, monto_pago, metodo_pago, hora_salida, id_ticket) VALUES
-('2024-10-01 14:00', 18.90, 'Tarjeta', '2024-10-01 14:00', 2);
+select * from Ticket_Estacionamiento;
 
-INSERT INTO Boleta_Pago (fecha_pago, monto_pago, metodo_pago, hora_salida, id_ticket) VALUES
-('2024-10-10 09:45', 22.00, 'Efectivo', '2024-10-10 09:45', 2);
+
+INSERT INTO Boleta_Pago (fecha_pago, monto_pago, metodo_pago, hora_salida, id_ticket)  
+VALUES   
+    ('2024-10-29 12:00:00', 20.00, 'Efectivo', '2024-10-29 12:00:00', 1),  -- Boleta para el ticket con id_ticket = 1  
+    ('2024-10-29 12:30:00', 45.50, 'Tarjeta', '2024-10-29 12:30:00', 2),  -- Boleta para el ticket con id_ticket = 2  
+    ('2024-10-29 13:00:00', 30.50, 'Tarjeta', '2024-10-29 13:00:00', 3);  -- Boleta para el ticket con id_ticket = 3
