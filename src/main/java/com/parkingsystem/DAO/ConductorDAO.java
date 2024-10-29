@@ -30,19 +30,19 @@ public class ConductorDAO {
                 switch (filter) {
                     case "nombre":
                         sql = "SELECT * FROM conductor WHERE nombre_cond REGEXP ? AND apellido_cond REGEXP ?";
-                        pst = connection.prepareCall(sql);
+                        pst = connection.prepareStatement(sql);
                         pst.setString(1, data.get(0));
                         pst.setString(1, data.get(1));
                         break;
                         
                     case "dni":
                         sql = "SELECT * FROM conductor WHERE dni_cond REGEXP ?";
-                        pst = connection.prepareCall(sql);
+                        pst = connection.prepareStatement(sql);
                         pst.setString(1, data.get(0));
                         break;
                     default:
                         sql = "SELECT * FROM conductor";
-                        pst = connection.prepareCall(sql);
+                        pst = connection.prepareStatement(sql);
                         break;
                 }
                 

@@ -27,7 +27,7 @@ public class Piso_EstacionamientoDAO {
             connection = connectionManager.connect();
             if (connection != null) {
                 String sql = "SELECT * FROM Piso_estacionamiento";
-                pst = connection.prepareCall(sql);
+                pst = connection.prepareStatement(sql);
                 rs = pst.executeQuery();
                 
                 while (rs.next()) {

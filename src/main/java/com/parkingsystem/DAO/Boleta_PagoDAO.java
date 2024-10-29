@@ -27,7 +27,7 @@ public class Boleta_PagoDAO
             connection = connectionManager.connect();
             if (connection != null) {
                 String sql = "SELECT * FROM Boleta_Pago";
-                pst = connection.prepareCall(sql);
+                pst = connection.prepareStatement(sql);
                 rs = pst.executeQuery();
 
                 while (rs.next()) {

@@ -7,6 +7,7 @@ package com.parkingsystem.model;
 public class Ticket_Estacionamiento {
 
     private int id_ticket;
+    private String fecha_entrada;
     private String hora_entrada;
     private String estado_ticket;
     private int id_veh;
@@ -14,8 +15,9 @@ public class Ticket_Estacionamiento {
 
     public Ticket_Estacionamiento() { }
     
-    public Ticket_Estacionamiento(int id_ticket, String hora_entrada, String estado_ticket, int id_veh, int id_zona_est) {
+    public Ticket_Estacionamiento(int id_ticket, String fecha_entrada, String hora_entrada, String estado_ticket, int id_veh, int id_zona_est) {
         this.id_ticket = id_ticket;
+        this.fecha_entrada = fecha_entrada;
         this.hora_entrada = hora_entrada;
         this.estado_ticket = estado_ticket;
         this.id_veh = id_veh;
@@ -30,6 +32,14 @@ public class Ticket_Estacionamiento {
         this.id_ticket = id_ticket;
     }
 
+    public String getFecha_entrada() {
+        return fecha_entrada;
+    }
+
+    public void setFecha_entrada(String fecha_entrada) {
+        this.fecha_entrada = fecha_entrada;
+    }
+    
     public String getHora_entrada() {
         return hora_entrada;
     }

@@ -19,53 +19,52 @@ public class VehiculoDAO {
     private PreparedStatement pst;
     private ResultSet rs;
     
-    public ArrayList<Vehiculo> listarVehiculos(String filter, ArrayList<String> data)
-    {
+    public ArrayList<Vehiculo> listarVehiculos(String filter, ArrayList<String> data) {
         ArrayList<Vehiculo> list = new ArrayList<>();
         Vehiculo vehiculo;
         try {
             connection = connectionManager.connect();
-            if(connection != null){
+            if (connection != null) {
                 String sql = "";
-                
+
                 switch (filter) {
                     case "codigo":
                         sql = "SELECT * FROM Vehiculo WHERE id_veh = ?";
-                        pst = connection.prepareCall(sql);
+                        pst = connection.prepareStatement(sql);
                         pst.setString(1, data.get(0));
                         break;
                     case "matricula":
                         sql = "SELECT * FROM Vehiculo WHERE placa_veh = ?";
-                        pst = connection.prepareCall(sql);
+                        pst = connection.prepareStatement(sql);
                         pst.setString(1, data.get(1));
                         break;
-                        
+
                     default:
                         sql = "SELECT * FROM Vehiculo";
-                        pst = connection.prepareCall(sql);
+                        pst = connection.prepareStatement(sql);
                         break;
                 }
-                
+
                 rs = pst.executeQuery();
-                
-                while(rs.next()){
+
+                while (rs.next()) {
                     vehiculo = new Vehiculo();
-                    
+
                     vehiculo.setId(rs.getInt("id_veh"));
                     vehiculo.setPlaca_veh(rs.getString("placa_veh"));
-                    vehiculo.setColor_veh("marca_veh");
-                    vehiculo.setMarca_veh("marca_veh");
+                    vehiculo.setColor_veh(rs.getString("color_veh"));
+                    vehiculo.setMarca_veh(rs.getString("marca_veh"));
                     vehiculo.setAño_veh(rs.getString("año_veh"));
-                    vehiculo.setId_conductor(rs.getInt("id_conductor"));
-                    
-                    list.add(vehiculo);
+                    vehiculo.setId_conductor(rs.getInt("id_cond"));
 
+                    list.add(vehiculo);
                 }
-                
-            }else {
+
+            } else {
                 System.out.println("Conexión fallida");
             }
         } catch (Exception e) {
+            e.printStackTrace(); // Para ver el error si ocurre
         } finally {
             try {
                 if (pst != null) pst.close();
@@ -76,6 +75,7 @@ public class VehiculoDAO {
         }
         return list;
     }
+
     
     public boolean agregarVehiculo(Vehiculo vehiculo)
     {

@@ -29,19 +29,19 @@ public class Tarjeta_AbonadoDAO {
                 switch (filter) {
                     case "id_abo":
                         sql = "SELECT * FROM tarjeta_abonado WHERE id_abo = ?";
-                        pst = connection.prepareCall(sql);
+                        pst = connection.prepareStatement(sql);
                         pst.setInt(1, Integer.parseInt(data.get(0)));
                         break;
 
                     case "id_veh":
                         sql = "SELECT * FROM tarjeta_abonado WHERE id_veh = ?";
-                        pst = connection.prepareCall(sql);
+                        pst = connection.prepareStatement(sql);
                         pst.setInt(1, Integer.parseInt(data.get(0)));
                         break;
 
                     default:
                         sql = "SELECT * FROM tarjeta_abonado";
-                        pst = connection.prepareCall(sql);
+                        pst = connection.prepareStatement(sql);
                         break;
                 }
 

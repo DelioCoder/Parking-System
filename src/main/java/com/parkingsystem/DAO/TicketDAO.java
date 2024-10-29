@@ -30,13 +30,13 @@ public class TicketDAO {
                 switch (filter) {
                     case "codigo":
                         sql = "SELECT * FROM Ticket_Estacionamiento WHERE id_ticket = ?";
-                        pst = connection.prepareCall(sql);
+                        pst = connection.prepareStatement(sql);
                         pst.setInt(1, id);
                         break;
                        
                     default:
                         sql = "SELECT * FROM Ticket_Estacionamiento";
-                        pst = connection.prepareCall(sql);
+                        pst = connection.prepareStatement(sql);
                         break;
                 }
                 
@@ -71,27 +71,27 @@ public class TicketDAO {
         return list;
     }
     
-    public boolean agregarTicket(Ticket_Estacionamiento ticket){
+    public boolean agregarTicket(Ticket_Estacionamiento ticket) {
         boolean state = false;
-        
+        connection = connectionManager.connect();
         try {
-            if(connection != null){
-                String sql = "INSERT INTO ticket (id_ticket, hora_entrada, estado_ticket, id_veh, id_zona_est) VALUES (?,?,?,?,?)";
-                
+            if (connection != null) {
+                String sql = "INSERT INTO Ticket_Estacionamiento (fecha_entrada, hora_entrada, estado_ticket, id_veh, id_zona_est) VALUES (?, ?, ?, ?, ?)";
+
                 pst = connection.prepareStatement(sql);
-                
-                pst.setInt(1, ticket.getId_ticket());
+
+                pst.setString(1, ticket.getFecha_entrada());
                 pst.setString(2, ticket.getHora_entrada());
                 pst.setString(3, ticket.getEstado_ticket());
                 pst.setInt(4, ticket.getId_veh());
                 pst.setInt(5, ticket.getId_zona_est());
-                
+
                 int res = pst.executeUpdate();
-                
+
                 state = res > 0;
             }
         } catch (Exception e) {
-            System.out.println(e.toString());
+            System.out.println("Error al agregar ticket: " + e.toString());
         } finally {
             try {
                 if (pst != null) pst.close();
@@ -100,9 +100,10 @@ public class TicketDAO {
                 System.out.println("Error al cerrar recursos: " + e.toString());
             }
         }
-        
+
         return state;
     }
+
     
     public boolean actualizarTicket(Ticket_Estacionamiento ticket)
     {
@@ -115,14 +116,15 @@ public class TicketDAO {
             
             if(connection != null){
                 
-                String sql = "UPDATE Ticket_Estacionamiento SET hora_entrada = ?, estado_ticket = ?, id_veh = ?, id_zona_est = ? WHERE id_ticket = ?";
+                String sql = "UPDATE Ticket_Estacionamiento SET fecha_entrada = ?, hora_entrada = ?, estado_ticket = ?, id_veh = ?, id_zona_est = ? WHERE id_ticket = ?";
                 
                 pst = connection.prepareStatement(sql);
                 pst.setString(1, ticket.getHora_entrada());
-                pst.setString(2, ticket.getEstado_ticket());
-                pst.setInt(3, ticket.getId_veh());
-                pst.setInt(4, ticket.getId_zona_est());
-                pst.setInt(5, ticket.getId_ticket());
+                pst.setString(2, ticket.getFecha_entrada());
+                pst.setString(3, ticket.getEstado_ticket());
+                pst.setInt(4, ticket.getId_veh());
+                pst.setInt(5, ticket.getId_zona_est());
+                pst.setInt(6, ticket.getId_ticket());
                 
                 int res = pst.executeUpdate();
                 

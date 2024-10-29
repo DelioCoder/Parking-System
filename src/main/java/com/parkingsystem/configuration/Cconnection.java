@@ -20,7 +20,7 @@ public class Cconnection {
         try {
             String cadena = "jdbc:sqlserver://localhost:"+puerto+";"+"databaseName="+database+";encrypt=false";
             connect = DriverManager.getConnection(cadena, this.user, this.password);
-            JOptionPane.showMessageDialog(null, "Connected :D");
+            System.out.println("Connected");
         } catch (Exception e) {
             System.out.println(e.toString());
         }
