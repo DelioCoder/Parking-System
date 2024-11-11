@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package com.parkingsystem.view;
+package com.parkingsystem.view.vehiculo;
 import com.parkingsystem.controller.ConsultaVehiculoController;
 import com.parkingsystem.input.ComboBoxItem;
 import com.parkingsystem.input.ComboBoxItemVeh;

@@ -9,7 +9,7 @@ import com.parkingsystem.input.ComboBoxItemVeh;
 import com.parkingsystem.model.Ticket_Estacionamiento;
 import com.parkingsystem.model.Vehiculo;
 import com.parkingsystem.model.Zona_Estacionamiento;
-import com.parkingsystem.view.ConsultaVehiculo;
+import com.parkingsystem.view.vehiculo.ConsultaVehiculo;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
