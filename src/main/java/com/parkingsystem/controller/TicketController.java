@@ -8,7 +8,7 @@ import com.parkingsystem.model.Vehiculo;
 import com.parkingsystem.model.Zona_Estacionamiento;
 import com.parkingsystem.input.ComboBoxItem;
 import com.parkingsystem.input.ComboBoxItemVeh;
-import com.parkingsystem.view.GenerarTicket;
+import com.parkingsystem.view.ticket.GenerarTicket;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;

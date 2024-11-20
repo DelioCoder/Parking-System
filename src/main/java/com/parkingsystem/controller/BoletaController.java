@@ -2,7 +2,7 @@ package com.parkingsystem.controller;
 
 import com.parkingsystem.DAO.Boleta_PagoDAO;
 import com.parkingsystem.model.Boleta_Pago;
-import com.parkingsystem.view.REstacionamiento;
+import com.parkingsystem.view.reportes.REstacionamiento;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
