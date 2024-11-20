@@ -4,19 +4,48 @@
  */
 package com.parkingsystem.view.abonado;
 
+import com.parkingsystem.controller.AbonadoController;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author David
  */
-public class registrarAbonado extends javax.swing.JFrame {
+public class RegistrarAbonado extends javax.swing.JFrame {
 
-    /**
-     * Creates new form registrarAbonado
-     */
-    public registrarAbonado() {
+    private AbonadoController abonadoController;
+    
+    public RegistrarAbonado() {
         initComponents();
+        inicializarControlador();
+        rellenarFechas();
     }
 
+    private void inicializarControlador(){
+        abonadoController = new AbonadoController(this);
+    }
+    
+    private void rellenarFechas(){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        String fechaHoy = LocalDate.now().format(formatter);
+
+        txtFechaInicio.setText(fechaHoy);
+
+        String fechaInicioTexto = txtFechaInicio.getText();
+        
+        try {
+            
+            LocalDate fechaInicio = LocalDate.parse(fechaInicioTexto, formatter);
+            LocalDate fechaFin = fechaInicio.plusDays(30);
+            txtFechaFin.setText(fechaFin.format(formatter));
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Por favor ingrese una fecha válida.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -30,12 +59,12 @@ public class registrarAbonado extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        txtHoraEntrada = new javax.swing.JTextField();
-        txtHoraEntrada1 = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        txtHoraEntrada2 = new javax.swing.JTextField();
-        btnGrabar = new javax.swing.JButton();
-        btnGrabar1 = new javax.swing.JButton();
+        txtFechaInicio = new javax.swing.JTextField();
+        txtFechaFin = new javax.swing.JTextField();
+        TipoBX = new javax.swing.JComboBox<>();
+        txtMonto = new javax.swing.JTextField();
+        btnCancelar = new javax.swing.JButton();
+        btnGrabarAbono = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setType(java.awt.Window.Type.UTILITY);
@@ -55,33 +84,43 @@ public class registrarAbonado extends javax.swing.JFrame {
         jLabel3.setForeground(new java.awt.Color(0, 26, 114));
         jLabel3.setText("Registro de Abonado");
 
-        txtHoraEntrada.setFont(new java.awt.Font("Century Gothic", 0, 13)); // NOI18N
-        txtHoraEntrada.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        txtHoraEntrada.setText("Fecha de inicio: DD-MM-YYYY");
-        txtHoraEntrada.setAlignmentX(5.0F);
-        txtHoraEntrada.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(211, 211, 211), 1, true));
+        txtFechaInicio.setFont(new java.awt.Font("Century Gothic", 0, 13)); // NOI18N
+        txtFechaInicio.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        txtFechaInicio.setText("Fecha de inicio: DD-MM-YYYY");
+        txtFechaInicio.setAlignmentX(5.0F);
+        txtFechaInicio.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(211, 211, 211), 1, true));
+        txtFechaInicio.setEnabled(false);
+        txtFechaInicio.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtFechaInicioKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtFechaInicioKeyTyped(evt);
+            }
+        });
 
-        txtHoraEntrada1.setFont(new java.awt.Font("Century Gothic", 0, 13)); // NOI18N
-        txtHoraEntrada1.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        txtHoraEntrada1.setText("Fecha de fin:");
-        txtHoraEntrada1.setAlignmentX(5.0F);
-        txtHoraEntrada1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(211, 211, 211), 1, true));
+        txtFechaFin.setFont(new java.awt.Font("Century Gothic", 0, 13)); // NOI18N
+        txtFechaFin.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        txtFechaFin.setText("Fecha de fin:");
+        txtFechaFin.setAlignmentX(5.0F);
+        txtFechaFin.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(211, 211, 211), 1, true));
+        txtFechaFin.setEnabled(false);
 
-        jComboBox1.setFont(new java.awt.Font("Century Gothic", 0, 13)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox1.setOpaque(false);
+        TipoBX.setFont(new java.awt.Font("Century Gothic", 0, 13)); // NOI18N
+        TipoBX.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mensual" }));
+        TipoBX.setOpaque(false);
 
-        txtHoraEntrada2.setFont(new java.awt.Font("Century Gothic", 0, 13)); // NOI18N
-        txtHoraEntrada2.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        txtHoraEntrada2.setText("Monto");
-        txtHoraEntrada2.setAlignmentX(5.0F);
-        txtHoraEntrada2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(211, 211, 211), 1, true));
+        txtMonto.setFont(new java.awt.Font("Century Gothic", 0, 13)); // NOI18N
+        txtMonto.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        txtMonto.setText("Monto");
+        txtMonto.setAlignmentX(5.0F);
+        txtMonto.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(211, 211, 211), 1, true));
 
-        btnGrabar.setBackground(new java.awt.Color(255, 255, 255));
-        btnGrabar.setText("Cancelar");
+        btnCancelar.setBackground(new java.awt.Color(255, 255, 255));
+        btnCancelar.setText("Cancelar");
 
-        btnGrabar1.setBackground(new java.awt.Color(255, 255, 255));
-        btnGrabar1.setText("Grabar Abonado");
+        btnGrabarAbono.setBackground(new java.awt.Color(255, 255, 255));
+        btnGrabarAbono.setText("Grabar Abonado");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -97,12 +136,12 @@ public class registrarAbonado extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtHoraEntrada1, javax.swing.GroupLayout.DEFAULT_SIZE, 425, Short.MAX_VALUE)
-                    .addComponent(txtHoraEntrada)
-                    .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(txtHoraEntrada2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 425, Short.MAX_VALUE)
-                    .addComponent(btnGrabar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnGrabar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(txtFechaFin, javax.swing.GroupLayout.DEFAULT_SIZE, 425, Short.MAX_VALUE)
+                    .addComponent(txtFechaInicio)
+                    .addComponent(TipoBX, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtMonto, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 425, Short.MAX_VALUE)
+                    .addComponent(btnCancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnGrabarAbono, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(32, 32, 32))
         );
         jPanel1Layout.setVerticalGroup(
@@ -115,18 +154,18 @@ public class registrarAbonado extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
                 .addGap(34, 34, 34)
-                .addComponent(txtHoraEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtFechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(txtHoraEntrada1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtFechaFin, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(TipoBX, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(txtHoraEntrada2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtMonto, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(28, 28, 28)
-                .addComponent(btnGrabar1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnGrabarAbono, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(btnGrabar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(205, Short.MAX_VALUE))
+                .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(61, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -137,11 +176,21 @@ public class registrarAbonado extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void txtFechaInicioKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFechaInicioKeyReleased
+         
+    }//GEN-LAST:event_txtFechaInicioKeyReleased
+
+    private void txtFechaInicioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFechaInicioKeyTyped
+
+    }//GEN-LAST:event_txtFechaInicioKeyTyped
 
     /**
      * @param args the command line arguments
@@ -160,34 +209,35 @@ public class registrarAbonado extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(registrarAbonado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RegistrarAbonado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(registrarAbonado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RegistrarAbonado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(registrarAbonado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RegistrarAbonado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(registrarAbonado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RegistrarAbonado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new registrarAbonado().setVisible(true);
+                new RegistrarAbonado().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    public javax.swing.JButton btnGrabar;
-    public javax.swing.JButton btnGrabar1;
-    private javax.swing.JComboBox<String> jComboBox1;
+    public javax.swing.JComboBox<String> TipoBX;
+    public javax.swing.JButton btnCancelar;
+    public javax.swing.JButton btnGrabarAbono;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
-    public javax.swing.JTextField txtHoraEntrada;
-    public javax.swing.JTextField txtHoraEntrada1;
-    public javax.swing.JTextField txtHoraEntrada2;
+    public javax.swing.JTextField txtFechaFin;
+    public javax.swing.JTextField txtFechaInicio;
+    public javax.swing.JTextField txtMonto;
     // End of variables declaration//GEN-END:variables
 }

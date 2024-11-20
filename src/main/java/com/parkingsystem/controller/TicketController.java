@@ -14,10 +14,6 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author David
- */
 public class TicketController implements ActionListener
 {
     private TicketDAO ticketDao;

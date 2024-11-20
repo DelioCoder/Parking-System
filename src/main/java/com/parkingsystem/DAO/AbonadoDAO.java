@@ -76,19 +76,18 @@ public class AbonadoDAO {
 
     public boolean agregarAbonado(Abonado abonado) {
         boolean state = false;
-
+        connection = connectionManager.connect();
         try {
-            connection = connectionManager.connect();
+         
             if (connection != null) {
-                String sql = "INSERT INTO abonado (id_abo, fecha_inicio_abo, fecha_fin_abo, tipo_abo, monto_abo) VALUES (?, ?, ?, ?, ?)";
+                String sql = "INSERT INTO abonado (fecha_inicio_abo, fecha_fin_abo, tipo_abo, monto_abo) VALUES (?, ?, ?, ?)";
 
                 pst = connection.prepareStatement(sql);
-
-                pst.setInt(1, abonado.getId_abo());
-                pst.setString(2, abonado.getFecha_inicio_abo());
-                pst.setString(3, abonado.getFecha_fin_abo());
-                pst.setString(4, abonado.getTipo_abo());
-                pst.setFloat(5, abonado.getMonto_abo());
+                
+                pst.setString(1, abonado.getFecha_inicio_abo());
+                pst.setString(2, abonado.getFecha_fin_abo());
+                pst.setString(3, abonado.getTipo_abo());
+                pst.setFloat(4, abonado.getMonto_abo());
 
                 int res = pst.executeUpdate();
 

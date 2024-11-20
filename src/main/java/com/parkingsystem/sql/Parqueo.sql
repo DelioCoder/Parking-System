@@ -26,10 +26,10 @@ FOREIGN KEY (id_cond) REFERENCES conductor(id_cond);
 
 CREATE TABLE Abonado (
     id_abo INT PRIMARY KEY IDENTITY,
-    fecha_inicio_abo DATETIME,
-    fecha_fin_abo DATETIME,
+    fecha_inicio_abo varchar(15),
+    fecha_fin_abo varchar(15),
     tipo_abo VARCHAR(15),
-    monto_abo DECIMAL(8, 4)
+    monto_abo DECIMAL(8, 2)
 );
 
 CREATE TABLE Tarjeta_Abonado (
@@ -147,3 +147,61 @@ VALUES
     ('2024-10-29 12:00:00', 20.00, 'Efectivo', '2024-10-29 12:00:00', 1),  -- Boleta para el ticket con id_ticket = 1  
     ('2024-10-29 12:30:00', 45.50, 'Tarjeta', '2024-10-29 12:30:00', 2),  -- Boleta para el ticket con id_ticket = 2  
     ('2024-10-29 13:00:00', 30.50, 'Tarjeta', '2024-10-29 13:00:00', 3);  -- Boleta para el ticket con id_ticket = 3
+
+--Procedimientos almacenados
+
+CREATE PROCEDURE ListarTickets 
+    @filter NVARCHAR(50), 
+    @id INT = NULL
+AS
+BEGIN
+    IF @filter = 'codigo'
+        SELECT * FROM Ticket_Estacionamiento WHERE id_ticket = @id;
+    ELSE
+        SELECT * FROM Ticket_Estacionamiento;
+END;
+GO;
+
+
+CREATE PROCEDURE AgregarTicket
+    @fecha_entrada NVARCHAR(15),
+    @hora_entrada NVARCHAR(15),
+    @estado_ticket NVARCHAR(50),
+    @id_veh INT,
+    @id_zona_est INT
+AS
+BEGIN
+    INSERT INTO Ticket_Estacionamiento (fecha_entrada, hora_entrada, estado_ticket, id_veh, id_zona_est)
+    VALUES (@fecha_entrada, @hora_entrada, @estado_ticket, @id_veh, @id_zona_est);
+END;
+
+CREATE PROCEDURE ActualizarTicket
+    @id_ticket INT,
+    @fecha_entrada DATE,
+    @hora_entrada TIME,
+    @estado_ticket NVARCHAR(50),
+    @id_veh INT,
+    @id_zona_est INT
+AS
+BEGIN
+    UPDATE Ticket_Estacionamiento
+    SET fecha_entrada = @fecha_entrada,
+        hora_entrada = @hora_entrada,
+        estado_ticket = @estado_ticket,
+        id_veh = @id_veh,
+        id_zona_est = @id_zona_est
+    WHERE id_ticket = @id_ticket;
+END;
+
+CREATE PROCEDURE EliminarTicket
+    @id_ticket INT
+AS
+BEGIN
+    DELETE FROM Ticket_Estacionamiento WHERE id_ticket = @id_ticket;
+END;
+
+--ALTER TABLE Abonado
+--ALTER COLUMN fecha_inicio_abo VARCHAR(15);
+
+--ALTER TABLE Abonado
+--ALTER COLUMN fecha_fin_abo VARCHAR(15);
