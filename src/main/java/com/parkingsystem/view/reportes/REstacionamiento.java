@@ -49,7 +49,6 @@ public class REstacionamiento extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(2147483647, 750));
-        setPreferredSize(new java.awt.Dimension(1150, 750));
         setResizable(false);
         setType(java.awt.Window.Type.UTILITY);
 
@@ -86,14 +85,11 @@ public class REstacionamiento extends javax.swing.JFrame {
         });
         txtTablaReporte.setRowHeight(25);
         txtTablaReporte.setSelectionBackground(new java.awt.Color(232, 57, 95));
-        txtTablaReporte.setShowVerticalLines(false);
         txtTablaReporte.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(txtTablaReporte);
 
-        jButton1.setBackground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Volver");
 
-        jButton2.setBackground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Imprimir");
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/ticket-header-2.png"))); // NOI18N
