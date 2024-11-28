@@ -4,6 +4,8 @@
  */
 package com.parkingsystem.view.abonado;
 
+import com.parkingsystem.view.conductor.*;
+import com.parkingsystem.view.abonado.*;
 import com.parkingsystem.controller.AbonadoController;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -108,7 +110,6 @@ public class RegistrarAbonado extends javax.swing.JFrame {
 
         TipoBX.setFont(new java.awt.Font("Century Gothic", 0, 13)); // NOI18N
         TipoBX.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mensual" }));
-        TipoBX.setOpaque(false);
 
         txtMonto.setFont(new java.awt.Font("Century Gothic", 0, 13)); // NOI18N
         txtMonto.setHorizontalAlignment(javax.swing.JTextField.LEFT);
@@ -116,10 +117,8 @@ public class RegistrarAbonado extends javax.swing.JFrame {
         txtMonto.setAlignmentX(5.0F);
         txtMonto.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(211, 211, 211), 1, true));
 
-        btnCancelar.setBackground(new java.awt.Color(255, 255, 255));
         btnCancelar.setText("Cancelar");
 
-        btnGrabarAbono.setBackground(new java.awt.Color(255, 255, 255));
         btnGrabarAbono.setText("Grabar Abonado");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -217,6 +216,8 @@ public class RegistrarAbonado extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(RegistrarAbonado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
