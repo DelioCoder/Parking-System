@@ -35,6 +35,7 @@ public class ConductorController implements ActionListener {
 
     private ConductorDAO conductorDao = new ConductorDAO();
     private TablaC tablaConductor;
+    private ModalConductor modalConductor;
 
     public TablaC getTablaConductor() {
         return tablaConductor;
@@ -43,7 +44,6 @@ public class ConductorController implements ActionListener {
     public void setTablaConductor(TablaC tablaConductor) {
         this.tablaConductor = tablaConductor;
     }
-    private ModalConductor modalConductor;
 
     public ConductorController(TablaC tablaConductor) {
         this.tablaConductor = tablaConductor;
@@ -181,14 +181,10 @@ public class ConductorController implements ActionListener {
     }
     
     private void abrirModalEditarConductor(Conductor conductor) {
-        try {
-            ModalConductor form = new ModalConductor(tablaConductor, conductor, false);
-            form.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE); // Evita que la ventana principal se cierre
-            Thread.sleep(300); // 1000 milisegundos = 1 segundo
-            form.setVisible(true);
-        } catch (InterruptedException e) {
-            e.printStackTrace(); // Maneja la excepción si el hilo es interrumpido
-        }
+        ModalConductor form = new ModalConductor(tablaConductor, conductor, false);
+        form.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE); // Evita que la ventana principal se cierre
+        form.setVisible(true);
+        form.toFront();  // Asegura que el formulario aparezca en el frente
     };
     
 
@@ -200,10 +196,14 @@ public class ConductorController implements ActionListener {
         if (respuesta == JOptionPane.YES_OPTION) {
             // Lógica de eliminación (ej. llamar a conductorDao para borrar)
             //conductorDao.eliminarConductor(conductor);
+            conductorDao.cambiarEstadoConductor(conductor.getId_conductor(), false);
             JOptionPane.showMessageDialog(null, "Conductor eliminado exitosamente.");
-            // Opcional: actualizar la tabla para reflejar los cambios
+            
+            String conductorText = tablaConductor.txtNombreConductor.getText();
+            System.out.println("conductorText"+ conductorText);
             ArrayList<String> keyList = new ArrayList<>();
-            rellenarTabla("", keyList);
+            keyList.add(0, conductorText);
+            rellenarTabla("nombre", keyList);
         }
     }
 

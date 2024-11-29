@@ -41,3 +41,27 @@ BEGIN
     PRINT @output_message;
 END;
 
+
+
+CREATE PROCEDURE spCrearConductor
+    @nombre_cond NVARCHAR(100),
+    @apellido_cond NVARCHAR(100),
+    @dni_cond INT,
+    @telefono_cond BIGINT,
+    @estado BIT -- Estado del conductor (activo o inactivo)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    DECLARE @output_message NVARCHAR(100);
+
+    -- Insertar un nuevo conductor en la tabla (sin incluir id_cond, ya que es auto-generado)
+    INSERT INTO conductor (nombre_cond, apellido_cond, dni_cond, telefono_cond, estado)
+    VALUES (@nombre_cond, @apellido_cond, @dni_cond, @telefono_cond, @estado);
+
+    -- Confirmar la inserción
+    SET @output_message = 'El conductor se creó exitosamente.';
+
+    -- Imprimir el mensaje de confirmación
+    PRINT @output_message;
+END;

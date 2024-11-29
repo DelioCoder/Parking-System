@@ -10,8 +10,8 @@ public class Cconnection {
     
     Connection connect = null;
     
-    String user = "john1"; // user_el
-    String password = "123"; // T@@st456789
+    String user = "user_el"; // user_el
+    String password = "T@@st456789"; // T@@st456789
     String database = "dbparqueo";
     String ip = "localhost";
     String puerto = "1433";

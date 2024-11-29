@@ -44,7 +44,7 @@ public class TicketController implements ActionListener
     
     private void cargarVehiculos()
     {
-        ArrayList<Vehiculo> vehiculos = vehiculoDao.listarVehiculos("", null);
+        ArrayList<Vehiculo> vehiculos = vehiculoDao.listarVehiculos("");
         for(Vehiculo vehiculo : vehiculos)
         {
             this.vista.BxPlacaVeh.addItem(new ComboBoxItemVeh(vehiculo.getId(), vehiculo.getPlaca_veh()));

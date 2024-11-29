@@ -4,7 +4,7 @@ package com.parkingsystem.model;
  *
  * @author david
  */
-public class Vehiculo {
+public class Vehiculo extends Conductor {
     
     private int id;
     private String placa_veh;
@@ -14,8 +14,10 @@ public class Vehiculo {
     private String año_veh;
     private int id_conductor;
     
-    public Vehiculo() { }
-
+    public Vehiculo() {
+             
+    }
+    
     public Vehiculo(int id, String placa_veh, String color_veh, String marca_veh, String modelo_veh, String año_veh, int id_conductor) {
         this.id = id;
         this.placa_veh = placa_veh;
@@ -25,6 +27,31 @@ public class Vehiculo {
         this.año_veh = año_veh;
         this.id_conductor = id_conductor;
     }
+
+    @Override
+    public void setNombre_cond(String nombre_cond) {
+        super.setNombre_cond(nombre_cond); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+    }
+
+    @Override
+    public String getNombre_cond() {
+        return super.getNombre_cond(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+    }
+
+    @Override
+    public String getDni_cond() {
+        return super.getDni_cond(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+    }
+
+    @Override
+    public void setDni_cond(String dni_cond) {
+        super.setDni_cond(dni_cond); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+    }
+    
+    
+    
+
+
 
     public int getId() {
         return id;

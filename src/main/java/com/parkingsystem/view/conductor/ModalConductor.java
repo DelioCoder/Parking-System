@@ -9,6 +9,7 @@ import com.parkingsystem.model.Conductor;
 import java.awt.Color;
 import java.awt.Cursor;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 /**
@@ -47,21 +48,14 @@ public class ModalConductor extends javax.swing.JFrame {
         } else {
             txtTitulo.setText("Editar conductor");
             btnAction.setText("Editar");
+            // Asignar los valores del conductor a los campos de texto
+            txtNombre.setText(conductor.getNombre_cond());
+            txtApellido.setText(conductor.getApellido_cond());
+            txtDNI.setText(conductor.getDni_cond()) ;
+            txtTelefono.setText(conductor.getTelefono_cond());
         }
         estilizarBotones();
-        // Asignar los valores del conductor a los campos de texto
-        txtNombre.setText(conductor.getNombre_cond());
-        txtApellido.setText(conductor.getApellido_cond());
-        int dni = conductor.getDni_cond();
-        int telefono = conductor.getTelefono_cond();
-        txtDNI.setText(conductor.getDni_cond()+"") ;
-        txtTelefono.setText(conductor.getTelefono_cond()+"");
-        if (dni == 0) {
-            txtDNI.setText("") ;
-        }
-        if (telefono == 0) {
-            txtTelefono.setText("");
-        }
+
     }
     
 
@@ -252,12 +246,20 @@ public class ModalConductor extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelMouseClicked
 
     private void btnActionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnActionMouseClicked
-        conductorController.setTablaConductor(tablaConductor);
-        if (this.nuevoConductor == true) {
-            conductorController.agregarConductor(conductor);
+        
+        if (getInputText(txtNombre).trim().isEmpty() ||
+            getInputText(txtApellido).trim().isEmpty() ||
+            getInputText(txtDNI).trim().isEmpty() ||
+            getInputText(txtTelefono).trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Todos los campos deben ser completados.", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
-            conductorController.editarConductor(conductor);
-
+            conductorController.setTablaConductor(tablaConductor);
+            if (this.nuevoConductor == true) {
+                conductorController.agregarConductor(conductor);
+            } else {
+                conductorController.editarConductor(conductor);
+            }
+            
         }
         
     }//GEN-LAST:event_btnActionMouseClicked
@@ -274,12 +276,12 @@ public class ModalConductor extends javax.swing.JFrame {
 
     private void txtDNIKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDNIKeyReleased
         String text = getInputText(txtDNI);
-        conductor.setDni_cond(Integer.parseInt(text));
+        conductor.setDni_cond((text));
     }//GEN-LAST:event_txtDNIKeyReleased
 
     private void txtTelefonoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTelefonoKeyReleased
         String text = getInputText(txtTelefono);
-        conductor.setTelefono_cond(Integer.parseInt(text));
+        conductor.setTelefono_cond((text));
     }//GEN-LAST:event_txtTelefonoKeyReleased
 
     
