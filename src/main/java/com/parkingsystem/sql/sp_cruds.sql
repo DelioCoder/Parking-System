@@ -43,10 +43,10 @@ END;
 
 
 CREATE PROCEDURE spCrearConductor
-    @nombre_cond NVARCHAR(100),
-    @apellido_cond NVARCHAR(100),
-    @dni_cond INT,
-    @telefono_cond BIGINT,
+    @nombre_cond NVARCHAR(40),
+    @apellido_cond NVARCHAR(40),
+    @dni_cond NVARCHAR(10),
+    @telefono_cond NVARCHAR(10),
     @estado BIT -- Estado del conductor (activo o inactivo)
 AS
 BEGIN
