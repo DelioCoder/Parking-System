@@ -3,11 +3,12 @@ CREATE DATABASE dbparqueo;
 USE dbparqueo;
 
 CREATE TABLE conductor (
-    id_cond INT PRIMARY KEY IDENTITY,
-    nombre_cond VARCHAR(100),
-    apellido_cond VARCHAR(100),
-    dni_cond INT,
-    telefono_cond INT
+    id_cond INT PRIMARY KEY IDENTITY, -- Identificador único
+    nombre_cond VARCHAR(100),         -- Nombre del conductor
+    apellido_cond VARCHAR(100),       -- Apellido del conductor
+    dni_cond VARCHAR(20),                     -- DNI del conductor
+    telefono_cond VARCHAR(20),                -- Teléfono del conductor
+    estado BIT                        -- Estado (0 o 1, donde 0 es falso y 1 es verdadero)
 );
 
 CREATE TABLE Vehiculo (
@@ -17,9 +18,9 @@ CREATE TABLE Vehiculo (
     marca_veh VARCHAR(50),
     modelo_veh VARCHAR(50),
     id_cond INT,
-    año_veh DATETIME
+    año_veh VARCHAR(50),
+    estado BIT
 );
-
 ALTER TABLE Vehiculo
 ADD CONSTRAINT FK_Vehiculo_Conductor 
 FOREIGN KEY (id_cond) REFERENCES conductor(id_cond);

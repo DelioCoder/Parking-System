@@ -9,12 +9,12 @@ public class Conductor {
     private int id_conductor;
     private String nombre_cond;
     private String apellido_cond;
-    private int dni_cond;
-    private int telefono_cond;
+    private String dni_cond;
+    private String telefono_cond;
 
     public Conductor() { }
     
-    public Conductor(int id_conductor, String nombre_cond, String apellido_cond, int dni_cond, int telefono_cond) {
+    public Conductor(int id_conductor, String nombre_cond, String apellido_cond, String dni_cond, String telefono_cond) {
         this.id_conductor = id_conductor;
         this.nombre_cond = nombre_cond;
         this.apellido_cond = apellido_cond;
@@ -46,19 +46,19 @@ public class Conductor {
         this.apellido_cond = apellido_cond;
     }
 
-    public int getDni_cond() {
+    public String getDni_cond() {
         return dni_cond;
     }
 
-    public void setDni_cond(int dni_cond) {
+    public void setDni_cond(String dni_cond) {
         this.dni_cond = dni_cond;
     }
 
-    public int getTelefono_cond() {
+    public String getTelefono_cond() {
         return telefono_cond;
     }
 
-    public void setTelefono_cond(int telefono_cond) {
+    public void setTelefono_cond(String telefono_cond) {
         this.telefono_cond = telefono_cond;
     }
 

@@ -3,10 +3,13 @@ package com.parkingsystem.DAO;
 import com.parkingsystem.configuration.Cconnection;
 import com.parkingsystem.model.Conductor;
 import com.parkingsystem.model.Vehiculo;
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -16,34 +19,21 @@ public class VehiculoDAO {
     
     private Cconnection connectionManager = new Cconnection();
     private Connection connection = null;
+    private CallableStatement callableStatement = null;
     private PreparedStatement pst;
     private ResultSet rs;
     
-    public ArrayList<Vehiculo> listarVehiculos(String filter, ArrayList<String> data) {
+    
+    public ArrayList<Vehiculo> listarVehiculos(String placa) {
         ArrayList<Vehiculo> list = new ArrayList<>();
         Vehiculo vehiculo;
         try {
             connection = connectionManager.connect();
             if (connection != null) {
-                String sql = "";
 
-                switch (filter) {
-                    case "codigo":
-                        sql = "SELECT * FROM Vehiculo WHERE id_veh = ?";
-                        pst = connection.prepareStatement(sql);
-                        pst.setString(1, data.get(0));
-                        break;
-                    case "matricula":
-                        sql = "SELECT * FROM Vehiculo WHERE placa_veh = ?";
-                        pst = connection.prepareStatement(sql);
-                        pst.setString(1, data.get(1));
-                        break;
-
-                    default:
-                        sql = "SELECT * FROM Vehiculo";
-                        pst = connection.prepareStatement(sql);
-                        break;
-                }
+                String sql = "{CALL spObtenerVehiculosPorPlaca(?)}";
+                pst = connection.prepareStatement(sql);
+                pst.setString(1, placa); // Pasar la placa como parámetro
 
                 rs = pst.executeQuery();
 
@@ -54,9 +44,12 @@ public class VehiculoDAO {
                     vehiculo.setPlaca_veh(rs.getString("placa_veh"));
                     vehiculo.setColor_veh(rs.getString("color_veh"));
                     vehiculo.setMarca_veh(rs.getString("marca_veh"));
+                    vehiculo.setModelo_veh(rs.getString("modelo_veh"));
                     vehiculo.setAño_veh(rs.getString("año_veh"));
                     vehiculo.setId_conductor(rs.getInt("id_cond"));
-
+                    vehiculo.setNombre_cond(rs.getString("nombre_cond"));
+                    vehiculo.setApellido_cond(rs.getString("apellido_cond"));
+                    vehiculo.setDni_cond(rs.getString("dni_cond"));
                     list.add(vehiculo);
                 }
 
@@ -77,33 +70,33 @@ public class VehiculoDAO {
     }
 
     
-    public boolean agregarVehiculo(Vehiculo vehiculo)
-    {
+    public boolean agregarVehiculo(Vehiculo vehiculo){
         boolean state = false;
         
         try {
+            connection = connectionManager.connect();
             if(connection != null){
-                String sql = "INSERT INTO Vehiculo (id_veh, placa_veh, color_veh, marca_veh, modelo_veh, año_deh, id_cond) VALUES (?,?,?,?,?,?,?)";
                 
-                pst = connection.prepareStatement(sql);
-                
-                pst.setInt(1, vehiculo.getId());
-                pst.setString(2, vehiculo.getPlaca_veh());
-                pst.setString(3, vehiculo.getColor_veh());
-                pst.setString(4, vehiculo.getMarca_veh());
-                pst.setString(5, vehiculo.getModelo_veh());
-                pst.setString(6, vehiculo.getAño_veh());
-                pst.setInt(7, vehiculo.getId_conductor());
-                
-                int res = pst.executeUpdate();
-                
-                state = res > 0;
+            // 2. Preparar la llamada al procedimiento almacenado
+            String sql = "{CALL spCrearVehiculo(?, ?, ?, ?, ?, ?, ?)}"; // Llamada al procedimiento
+            callableStatement = connection.prepareCall(sql);
+
+            // 3. Establecer los parámetros
+            callableStatement.setString(1, vehiculo.getPlaca_veh());
+            callableStatement.setString(2, vehiculo.getColor_veh());
+            callableStatement.setString(3, vehiculo.getMarca_veh());
+            callableStatement.setString(4, vehiculo.getModelo_veh());
+            callableStatement.setString(5, vehiculo.getAño_veh());
+            callableStatement.setInt(6, vehiculo.getId_conductor());
+            callableStatement.setBoolean(7, true);
+
+            state = callableStatement.execute();
             }
         } catch (Exception e) {
             System.out.println(e.toString());
         } finally {
             try {
-                if (pst != null) pst.close();
+                if (callableStatement != null) callableStatement.close();
                 if (connection != null) connection.close();
             } catch (Exception e) {
                 System.out.println("Error al cerrar recursos: " + e.toString());
@@ -113,70 +106,72 @@ public class VehiculoDAO {
         return state;
     }
     
-    public boolean actualizarVehiculo(Vehiculo vehiculo)
-    {
+    public boolean actualizarVehiculo (Vehiculo vehiculo) {
         boolean state = false;
         
         try {
-            
             connection = connectionManager.connect();
-            
-            if(connection != null){
-                
-                String sql = "UPDATE Vehiculo SET placa_veh = ?, color_veh = ?, marca_veh = ?, año_veh = ?, id_conductor = ? WHERE id_veh = ?";
-                
-                pst = connection.prepareStatement(sql);
-                pst.setString(1, vehiculo.getPlaca_veh());
-                pst.setString(2, vehiculo.getColor_veh());
-                pst.setString(3, vehiculo.getMarca_veh());
-                pst.setString(4, vehiculo.getAño_veh());
-                pst.setInt(5, vehiculo.getId_conductor());
-                pst.setInt(6, vehiculo.getId());
-                
-                int res = pst.executeUpdate();
-                
-                state = res > 0;
-                
-            }else {
+            if (connection != null) {
+                // Preparar la llamada al procedimiento almacenado
+                String sql = "{CALL spActualizarVehiculo(?, ?, ?, ?, ?, ?, ?)}";
+                callableStatement = connection.prepareCall(sql);
+
+                // 3. Establecer los parámetros
+                callableStatement.setInt(1, vehiculo.getId());
+                callableStatement.setString(2, vehiculo.getPlaca_veh());
+                callableStatement.setString(3, vehiculo.getColor_veh());
+                callableStatement.setString(4, vehiculo.getMarca_veh());
+                callableStatement.setString(5, vehiculo.getModelo_veh());
+                callableStatement.setString(6, vehiculo.getAño_veh());
+                callableStatement.setInt(7, vehiculo.getId_conductor());
+                // Ejecutar el procedimiento
+                callableStatement.execute();
+
+                System.out.println("Procedimiento ejecutado correctamente.");
+            } else {
                 System.out.println("Error al conectar");
             }
-            
-        } catch (Exception e) {
-            System.out.println(e.toString());
+        } catch (SQLException e) {
+            e.printStackTrace();
         } finally {
             try {
-                if (pst != null) pst.close();
+                if (callableStatement != null) callableStatement.close();
                 if (connection != null) connection.close();
-            } catch (Exception e) {
-                System.out.println("Error al cerrar recursos: " + e.toString());
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
         }
         
+        
         return state;
+        
     }
     
-    public boolean eliminarVehiculo(int id)
-    {
+    
+    public boolean cambiarEstadoVehiculo(int id, boolean nuevoEstado) {
         boolean state = false;
-        
+
         try {
             connection = connectionManager.connect();
             
             if(connection != null)
             {
-                String sql = "DELETE FROM Vehiculo WHERE id_ticket = ?";
-                
-                pst = connection.prepareStatement(sql);
-                pst.setInt(1, id);
-                int res = pst.executeUpdate();
-                
-                state = res > 0;
+                String sql = "{CALL ActualizarEstadoVehiculo(?, ?)}"; // Llamada al procedimiento
+                callableStatement = connection.prepareCall(sql);
+
+                // 3. Asignar valores a los parámetros del procedimiento
+                callableStatement.setInt(1, id); // Parámetro @id_cond
+                callableStatement.setBoolean(2, nuevoEstado); // Parámetro @nuevo_estado
+
+                // 4. Ejecutar el procedimiento almacenado
+                callableStatement.executeUpdate();
+
             }
         } catch (Exception e) {
-            System.out.println(e.toString());
+            System.out.println("ERROR FATAL: "+e.toString());
         } finally {
             try {
-                if (pst != null) pst.close();
+                if (callableStatement != null) callableStatement.close();
                 if (connection != null) connection.close();
             } catch (Exception e) {
                 System.out.println("Error al cerrar recursos: " + e.toString());
@@ -185,4 +180,6 @@ public class VehiculoDAO {
         
         return state;
     }
+        
+    
 }

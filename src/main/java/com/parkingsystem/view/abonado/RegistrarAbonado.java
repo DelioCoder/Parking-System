@@ -4,6 +4,8 @@
  */
 package com.parkingsystem.view.abonado;
 
+import com.parkingsystem.view.conductor.*;
+import com.parkingsystem.view.abonado.*;
 import com.parkingsystem.controller.AbonadoController;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -124,7 +126,6 @@ public class RegistrarAbonado extends javax.swing.JFrame {
 
         TipoBX.setFont(new java.awt.Font("Century Gothic", 0, 13)); // NOI18N
         TipoBX.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar", "Mensual", "Trimestral" }));
-        TipoBX.setOpaque(false);
         TipoBX.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 TipoBXItemStateChanged(evt);
@@ -136,7 +137,6 @@ public class RegistrarAbonado extends javax.swing.JFrame {
         txtMonto.setAlignmentX(5.0F);
         txtMonto.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(211, 211, 211), 1, true));
 
-        btnCancelar.setBackground(new java.awt.Color(255, 255, 255));
         btnCancelar.setText("Cancelar");
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -144,7 +144,6 @@ public class RegistrarAbonado extends javax.swing.JFrame {
             }
         });
 
-        btnGrabarAbono.setBackground(new java.awt.Color(255, 255, 255));
         btnGrabarAbono.setText("Grabar Abonado");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -282,6 +281,8 @@ public class RegistrarAbonado extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(RegistrarAbonado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 

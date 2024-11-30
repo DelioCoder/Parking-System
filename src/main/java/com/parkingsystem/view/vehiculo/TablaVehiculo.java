@@ -2,10 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package com.parkingsystem.view.conductor;
-
-import com.parkingsystem.controller.ConductorController;
+package com.parkingsystem.view.vehiculo;
+import com.parkingsystem.controller.VehiculoController;
 import com.parkingsystem.model.Conductor;
+import com.parkingsystem.model.Vehiculo;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
@@ -25,9 +25,9 @@ import javax.swing.table.JTableHeader;
  *
  * @author Christian BR
  */
-public class TablaC extends javax.swing.JFrame { 
+public class TablaVehiculo extends javax.swing.JFrame { 
 
-    private ConductorController conductorController;
+    private VehiculoController vehiculoController;
 
     /**
      * Creates new form TablaC
@@ -35,16 +35,15 @@ public class TablaC extends javax.swing.JFrame {
     /**
      * Creates new form TablaC
      */
-    public TablaC() {
+    public TablaVehiculo() {
         this.setResizable(false);
         initComponents();
         estilizarBotones();
         inicializarControlador();
-        ArrayList<String> keyList = new ArrayList<>();
-        conductorController.rellenarTabla("", keyList);
+        vehiculoController.rellenarTabla("");
 
         // Configura la cabecera de la tabla
-        JTableHeader tableHeader = jTableConductor.getTableHeader();
+        JTableHeader tableHeader = jTableVehiculo.getTableHeader();
         tableHeader.setBackground(Color.WHITE);
         tableHeader.setForeground(Color.BLACK);
 
@@ -54,9 +53,9 @@ public class TablaC extends javax.swing.JFrame {
         tableHeader.setPreferredSize(new Dimension(tableHeader.getWidth(), 30));
 
         // Configura la tabla
-        jTableConductor.setBackground(Color.WHITE);
-        jTableConductor.setShowGrid(false); // Desactiva la cuadrícula de la tabla
-        jTableConductor.setRowHeight(30); // Altura de las filas
+        jTableVehiculo.setBackground(Color.WHITE);
+        jTableVehiculo.setShowGrid(false); // Desactiva la cuadrícula de la tabla
+        jTableVehiculo.setRowHeight(30); // Altura de las filas
 
         // Aplicar borde a todas las celdas del encabezado
         tableHeader.setDefaultRenderer(new DefaultTableCellRenderer() {
@@ -76,7 +75,7 @@ public class TablaC extends javax.swing.JFrame {
         });
 
         // Configura el renderizador para las celdas de la tabla
-        jTableConductor.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+        jTableVehiculo.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
             @Override
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
                 Component component = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
@@ -112,7 +111,7 @@ public class TablaC extends javax.swing.JFrame {
     
     private void inicializarControlador()
     {
-        conductorController = new ConductorController(this);
+        vehiculoController = new VehiculoController(this);
     }
 
     /**
@@ -126,10 +125,10 @@ public class TablaC extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        txtNombreConductor = new javax.swing.JTextField();
+        txtPlacaVehiculo = new javax.swing.JTextField();
         btnRegistrar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTableConductor = new javax.swing.JTable();
+        jTableVehiculo = new javax.swing.JTable();
         btnVolver = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -140,24 +139,24 @@ public class TablaC extends javax.swing.JFrame {
         jPanel1.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
 
         jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
-        jLabel1.setText("Conductores");
+        jLabel1.setText("Vehículos");
 
-        txtNombreConductor.setToolTipText("Ingrese el nombre");
-        txtNombreConductor.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtPlacaVehiculo.setToolTipText("Ingrese el nombre");
+        txtPlacaVehiculo.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtNombreConductorKeyPressed(evt);
+                txtPlacaVehiculoKeyPressed(evt);
             }
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtNombreConductorKeyReleased(evt);
+                txtPlacaVehiculoKeyReleased(evt);
             }
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtNombreConductorKeyTyped(evt);
+                txtPlacaVehiculoKeyTyped(evt);
             }
         });
 
         btnRegistrar.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         btnRegistrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/edit.png"))); // NOI18N
-        btnRegistrar.setText("Registrar Conductor");
+        btnRegistrar.setText("Registrar Vehículo");
         btnRegistrar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnRegistrarMouseClicked(evt);
@@ -169,29 +168,38 @@ public class TablaC extends javax.swing.JFrame {
             }
         });
 
-        jTableConductor.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        jTableConductor.setModel(new javax.swing.table.DefaultTableModel(
+        jTableVehiculo.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        jTableVehiculo.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Nombre", "Apellidos", "DNI", "Telefono", "Acciones"
+                "Placa", "Color", "Marca", "Modelo", "Año", "Nombre de conductor", "DNI de conductor", "Acciones"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Object.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
         });
-        jTableConductor.setGridColor(new java.awt.Color(255, 255, 255));
-        jTableConductor.setSelectionBackground(new java.awt.Color(255, 255, 255));
-        jScrollPane1.setViewportView(jTableConductor);
+        jTableVehiculo.setGridColor(new java.awt.Color(255, 255, 255));
+        jTableVehiculo.setSelectionBackground(new java.awt.Color(255, 255, 255));
+        jScrollPane1.setViewportView(jTableVehiculo);
+        if (jTableVehiculo.getColumnModel().getColumnCount() > 0) {
+            jTableVehiculo.getColumnModel().getColumn(0).setResizable(false);
+            jTableVehiculo.getColumnModel().getColumn(1).setResizable(false);
+            jTableVehiculo.getColumnModel().getColumn(2).setResizable(false);
+            jTableVehiculo.getColumnModel().getColumn(3).setResizable(false);
+            jTableVehiculo.getColumnModel().getColumn(4).setResizable(false);
+            jTableVehiculo.getColumnModel().getColumn(5).setResizable(false);
+            jTableVehiculo.getColumnModel().getColumn(7).setResizable(false);
+        }
 
         btnVolver.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         btnVolver.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/anterior.png"))); // NOI18N
@@ -207,16 +215,17 @@ public class TablaC extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(txtNombreConductor, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnRegistrar)
-                        .addGap(28, 28, 28))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 973, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 28, Short.MAX_VALUE))))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(btnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1120, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(txtPlacaVehiculo, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnRegistrar)))
+                        .addGap(51, 51, 51))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -224,20 +233,20 @@ public class TablaC extends javax.swing.JFrame {
                 .addGap(40, 40, 40)
                 .addComponent(jLabel1)
                 .addGap(32, 32, 32)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtNombreConductor, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtPlacaVehiculo, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnRegistrar))
                 .addGap(29, 29, 29)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 507, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(53, Short.MAX_VALUE))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
 
-        txtNombreConductor.getAccessibleContext().setAccessibleName("Ingrese Nombre");
-        txtNombreConductor.getAccessibleContext().setAccessibleDescription("Ingrese Nombre");
+        txtPlacaVehiculo.getAccessibleContext().setAccessibleName("Ingrese Nombre");
+        txtPlacaVehiculo.getAccessibleContext().setAccessibleDescription("Ingrese Nombre");
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1030, 780));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1200, 760));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -248,8 +257,8 @@ public class TablaC extends javax.swing.JFrame {
 
     private void btnRegistrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRegistrarMouseClicked
         // TODO add your handling code here:
-            Conductor conductor = new Conductor();
-            ModalConductor form = new ModalConductor(this, conductor, true);
+            Vehiculo vehiculo = new Vehiculo();
+            ModalVehiculo form = new ModalVehiculo(this, vehiculo, true);
             form.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE); // Evita que la ventana principal se cierre
             
             form.setVisible(true);
@@ -258,19 +267,17 @@ public class TablaC extends javax.swing.JFrame {
     
     }//GEN-LAST:event_btnRegistrarMouseClicked
 
-    private void txtNombreConductorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreConductorKeyTyped
-    }//GEN-LAST:event_txtNombreConductorKeyTyped
+    private void txtPlacaVehiculoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPlacaVehiculoKeyTyped
+    }//GEN-LAST:event_txtPlacaVehiculoKeyTyped
 
-    private void txtNombreConductorKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreConductorKeyReleased
-        String conductorText = txtNombreConductor.getText();
-        ArrayList<String> keyList = new ArrayList<>();
-        keyList.add(0, conductorText);
-        conductorController.rellenarTabla("nombre", keyList);
-    }//GEN-LAST:event_txtNombreConductorKeyReleased
+    private void txtPlacaVehiculoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPlacaVehiculoKeyReleased
+        String vehiculoText = txtPlacaVehiculo.getText();
+        vehiculoController.rellenarTabla(vehiculoText);
+    }//GEN-LAST:event_txtPlacaVehiculoKeyReleased
 
-    private void txtNombreConductorKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreConductorKeyPressed
+    private void txtPlacaVehiculoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPlacaVehiculoKeyPressed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtNombreConductorKeyPressed
+    }//GEN-LAST:event_txtPlacaVehiculoKeyPressed
 
     /**
      * @param args the command line arguments
@@ -289,20 +296,23 @@ public class TablaC extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TablaC.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TablaVehiculo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TablaC.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TablaVehiculo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TablaC.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TablaVehiculo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TablaC.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TablaVehiculo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new TablaC().setVisible(true);
+                new TablaVehiculo().setVisible(true);
             }
         });
     }
@@ -313,7 +323,7 @@ public class TablaC extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    public javax.swing.JTable jTableConductor;
-    public javax.swing.JTextField txtNombreConductor;
+    public javax.swing.JTable jTableVehiculo;
+    public javax.swing.JTextField txtPlacaVehiculo;
     // End of variables declaration//GEN-END:variables
 }

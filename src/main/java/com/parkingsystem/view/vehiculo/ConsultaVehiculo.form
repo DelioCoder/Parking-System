@@ -45,8 +45,8 @@
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="jButton1" min="-2" pref="126" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel2" alignment="0" min="-2" pref="103" max="-2" attributes="0"/>
+                          <Component id="jLabel1" alignment="0" min="-2" pref="254" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
@@ -588,7 +588,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Segoe UI" size="18" style="1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Consulta de Vehiculo"/>
+        <Property name="text" type="java.lang.String" value="Consulta detalle de Vehiculo"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel2">
