@@ -1,3 +1,12 @@
+/* 
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Other/SQLTemplate.sql to edit this template
+ */
+/**
+ * Author:  John
+ * Created: 28 nov. 2024
+ */
+
 CREATE PROCEDURE spActualizarConductor
     @id_cond INT,
     @nombre_cond NVARCHAR(100),
@@ -34,10 +43,10 @@ END;
 
 
 CREATE PROCEDURE spCrearConductor
-    @nombre_cond NVARCHAR(100),
-    @apellido_cond NVARCHAR(100),
-    @dni_cond INT,
-    @telefono_cond BIGINT,
+    @nombre_cond NVARCHAR(40),
+    @apellido_cond NVARCHAR(40),
+    @dni_cond NVARCHAR(10),
+    @telefono_cond NVARCHAR(10),
     @estado BIT -- Estado del conductor (activo o inactivo)
 AS
 BEGIN
@@ -54,6 +63,40 @@ BEGIN
 
     -- Imprimir el mensaje de confirmación
     PRINT @output_message;
+END;
+
+
+CREATE PROCEDURE ActualizarEstadoConductor
+    @id_cond INT,       -- ID del conductor que se desea actualizar
+    @nuevo_estado BIT   -- Nuevo valor para la columna estado (0 o 1)
+AS
+BEGIN
+    -- Manejo de errores y asegurando una transacción consistente
+    BEGIN TRY
+        BEGIN TRANSACTION;
+
+        -- Actualización del estado del conductor
+        UPDATE conductor
+        SET estado = @nuevo_estado
+        WHERE id_cond = @id_cond;
+
+        -- Verificar si se actualizó alguna fila
+        IF @@ROWCOUNT = 0
+        BEGIN
+            -- Si no se encuentra el conductor, se arroja un error personalizado
+            THROW 50001, 'Conductor no encontrado con el ID especificado.', 1;
+        END
+
+        -- Confirmar la transacción
+        COMMIT TRANSACTION;
+    END TRY
+    BEGIN CATCH
+        -- Si ocurre un error, se revierte la transacción
+        ROLLBACK TRANSACTION;
+
+        -- Lanzar el error para que el cliente lo reciba
+        THROW;
+    END CATCH
 END;
 
 
@@ -85,7 +128,8 @@ BEGIN
     ON 
         v.id_cond = c.id_cond
     WHERE 
-        v.placa_veh LIKE '%' + @placa_veh + '%'; -- Búsqueda parcial con comodines
+        v.placa_veh LIKE '%' + @placa_veh + '%' -- Búsqueda parcial con comodines
+        AND v.estado = 1; -- Solo vehículos activos
 
 END;
 
