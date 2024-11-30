@@ -7,9 +7,6 @@
  * Created: 28 nov. 2024
  */
 
-
-
-
 CREATE PROCEDURE spActualizarConductor
     @id_cond INT,
     @nombre_cond NVARCHAR(100),
@@ -215,8 +212,6 @@ BEGIN
     -- Imprimir mensaje de salida
     PRINT @output_message;
 END;
-GO
-
 
 CREATE PROCEDURE ActualizarEstadoVehiculo
     @id_veh INT,       -- ID del vehículo que se desea actualizar
@@ -250,4 +245,4 @@ BEGIN
         THROW;
     END CATCH
 END;
-go
+

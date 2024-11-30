@@ -189,6 +189,7 @@ public class ConductorController implements ActionListener {
     
 
     private void abrirModalEliminarConductor(Conductor conductor) {
+        System.out.println(conductor);
         int respuesta = JOptionPane.showConfirmDialog(null, 
             "¿Estás seguro de que deseas eliminar a " + conductor.getNombre_cond() + "?",
             "Confirmar Eliminación", JOptionPane.YES_NO_OPTION);
