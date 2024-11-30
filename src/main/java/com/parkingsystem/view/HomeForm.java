@@ -4,17 +4,30 @@
  */
 package com.parkingsystem.view;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
+
 /**
  *
  * @author David
  */
-public class home extends javax.swing.JFrame {
+public class HomeForm extends javax.swing.JFrame {
 
     /**
      * Creates new form home
      */
-    public home() {
+    public HomeForm() {
         initComponents();
+        
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        
+        int w = this.getSize().width;
+        int h = this.getSize().height;
+        int x = (dim.width-w)/2;
+        int y = (dim.height-h)/2;
+
+        // Move the window
+        this.setLocation(x, y);
     }
 
     /**
@@ -206,20 +219,21 @@ public class home extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(HomeForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(HomeForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(HomeForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(HomeForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new home().setVisible(true);
+                new HomeForm().setVisible(true);
             }
         });
     }

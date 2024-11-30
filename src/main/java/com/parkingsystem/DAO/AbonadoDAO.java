@@ -2,6 +2,7 @@ package com.parkingsystem.DAO;
 
 import com.parkingsystem.configuration.Cconnection;
 import com.parkingsystem.model.Abonado;
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,36 +18,29 @@ public class AbonadoDAO {
     private Connection connection = null;
     private PreparedStatement pst;
     private ResultSet rs;
+    private CallableStatement cst = null;
 
     public ArrayList<Abonado> listarAbonados(String filter, ArrayList<String> data) {
         ArrayList<Abonado> list = new ArrayList<>();
         Abonado abonado;
+        CallableStatement cst = null; // Declarar cst aquí para usarlo globalmente
         try {
             connection = connectionManager.connect();
             if (connection != null) {
-                String sql = "";
+                String sql = "{CALL ListarAbonados(?, ?)}"; // Usar un SP único
+                cst = connection.prepareCall(sql);
 
-                switch (filter) {
-                    case "tipo":
-                        sql = "SELECT * FROM abonado WHERE tipo_abo = ?";
-                        pst = connection.prepareStatement(sql);
-                        pst.setString(1, data.get(0));
-                        break;
-
-                    case "monto":
-                        sql = "SELECT * FROM abonado WHERE monto_abo = ?";
-                        pst = connection.prepareStatement(sql);
-                        pst.setFloat(1, Float.parseFloat(data.get(0)));
-                        break;
-
-                    default:
-                        sql = "SELECT * FROM abonado";
-                        pst = connection.prepareStatement(sql);
-                        break;
+                // Configurar parámetros del procedimiento almacenado
+                cst.setString(1, filter); // El filtro siempre es el primer parámetro
+                if (data != null && !data.isEmpty()) {
+                    cst.setString(2, data.get(0)); // Segundo parámetro opcional
+                } else {
+                    cst.setNull(2, java.sql.Types.NVARCHAR); // Pasar NULL si no hay datos
                 }
 
-                rs = pst.executeQuery();
+                rs = cst.executeQuery();
 
+                // Procesar resultados
                 while (rs.next()) {
                     abonado = new Abonado();
 
@@ -65,7 +59,8 @@ public class AbonadoDAO {
             System.out.println(e.toString());
         } finally {
             try {
-                if (pst != null) pst.close();
+                if (rs != null) rs.close();
+                if (cst != null) cst.close();
                 if (connection != null) connection.close();
             } catch (Exception e) {
                 System.out.println("Error al cerrar recursos: " + e.toString());
@@ -80,16 +75,17 @@ public class AbonadoDAO {
         try {
          
             if (connection != null) {
-                String sql = "INSERT INTO abonado (fecha_inicio_abo, fecha_fin_abo, tipo_abo, monto_abo) VALUES (?, ?, ?, ?)";
+//                String sql = "INSERT INTO abonado (fecha_inicio_abo, fecha_fin_abo, tipo_abo, monto_abo) VALUES (?, ?, ?, ?)";
+//                pst = connection.prepareStatement(sql);
+                String sql = "{CALL AgregarAbonado(?, ?, ?, ?)}";
+                cst = connection.prepareCall(sql);
 
-                pst = connection.prepareStatement(sql);
-                
-                pst.setString(1, abonado.getFecha_inicio_abo());
-                pst.setString(2, abonado.getFecha_fin_abo());
-                pst.setString(3, abonado.getTipo_abo());
-                pst.setFloat(4, abonado.getMonto_abo());
+                cst.setString(1, abonado.getFecha_inicio_abo());
+                cst.setString(2, abonado.getFecha_fin_abo());
+                cst.setString(3, abonado.getTipo_abo());
+                cst.setFloat(4, abonado.getMonto_abo());
 
-                int res = pst.executeUpdate();
+                int res = cst.executeUpdate();
 
                 state = res > 0;
             }
@@ -97,7 +93,7 @@ public class AbonadoDAO {
             System.out.println(e.toString());
         } finally {
             try {
-                if (pst != null) pst.close();
+                if (cst != null) cst.close();
                 if (connection != null) connection.close();
             } catch (Exception e) {
                 System.out.println("Error al cerrar recursos: " + e.toString());
@@ -114,16 +110,18 @@ public class AbonadoDAO {
             connection = connectionManager.connect();
 
             if (connection != null) {
-                String sql = "UPDATE abonado SET fecha_inicio_abo = ?, fecha_fin_abo = ?, tipo_abo = ?, monto_abo = ? WHERE id_abo = ?";
+//                String sql = "UPDATE abonado SET fecha_inicio_abo = ?, fecha_fin_abo = ?, tipo_abo = ?, monto_abo = ? WHERE id_abo = ?";
+//                pst = connection.prepareStatement(sql);
+                String sql = "{CALL ActualizarAbonado(?, ?, ?, ?, ?)}";
+                cst = connection.prepareCall(sql);
+                
+                cst.setString(1, abonado.getFecha_inicio_abo());
+                cst.setString(2, abonado.getFecha_fin_abo());
+                cst.setString(3, abonado.getTipo_abo());
+                cst.setFloat(4, abonado.getMonto_abo());
+                cst.setInt(5, abonado.getId_abo());
 
-                pst = connection.prepareStatement(sql);
-                pst.setString(1, abonado.getFecha_inicio_abo());
-                pst.setString(2, abonado.getFecha_fin_abo());
-                pst.setString(3, abonado.getTipo_abo());
-                pst.setFloat(4, abonado.getMonto_abo());
-                pst.setInt(5, abonado.getId_abo());
-
-                int res = pst.executeUpdate();
+                int res = cst.executeUpdate();
 
                 state = res > 0;
             } else {
@@ -133,7 +131,7 @@ public class AbonadoDAO {
             System.out.println(e.toString());
         } finally {
             try {
-                if (pst != null) pst.close();
+                if (cst != null) cst.close();
                 if (connection != null) connection.close();
             } catch (Exception e) {
                 System.out.println("Error al cerrar recursos: " + e.toString());
@@ -150,11 +148,13 @@ public class AbonadoDAO {
             connection = connectionManager.connect();
 
             if (connection != null) {
-                String sql = "DELETE FROM abonado WHERE id_abo = ?";
-
-                pst = connection.prepareStatement(sql);
-                pst.setInt(1, id);
-                int res = pst.executeUpdate();
+//                String sql = "DELETE FROM abonado WHERE id_abo = ?";
+//                pst = connection.prepareStatement(sql);
+                String sql = "{CALL EliminarAbonado(?)}";
+                cst = connection.prepareCall(sql);
+                
+                cst.setInt(1, id);
+                int res = cst.executeUpdate();
 
                 state = res > 0;
             }
@@ -162,7 +162,7 @@ public class AbonadoDAO {
             System.out.println(e.toString());
         } finally {
             try {
-                if (pst != null) pst.close();
+                if (cst != null) cst.close();
                 if (connection != null) connection.close();
             } catch (Exception e) {
                 System.out.println("Error al cerrar recursos: " + e.toString());
