@@ -8,6 +8,8 @@
  */
 
 
+
+
 CREATE PROCEDURE spActualizarConductor
     @id_cond INT,
     @nombre_cond NVARCHAR(100),
@@ -67,6 +69,40 @@ BEGIN
 END;
 
 
+CREATE PROCEDURE ActualizarEstadoConductor
+    @id_cond INT,       -- ID del conductor que se desea actualizar
+    @nuevo_estado BIT   -- Nuevo valor para la columna estado (0 o 1)
+AS
+BEGIN
+    -- Manejo de errores y asegurando una transacción consistente
+    BEGIN TRY
+        BEGIN TRANSACTION;
+
+        -- Actualización del estado del conductor
+        UPDATE conductor
+        SET estado = @nuevo_estado
+        WHERE id_cond = @id_cond;
+
+        -- Verificar si se actualizó alguna fila
+        IF @@ROWCOUNT = 0
+        BEGIN
+            -- Si no se encuentra el conductor, se arroja un error personalizado
+            THROW 50001, 'Conductor no encontrado con el ID especificado.', 1;
+        END
+
+        -- Confirmar la transacción
+        COMMIT TRANSACTION;
+    END TRY
+    BEGIN CATCH
+        -- Si ocurre un error, se revierte la transacción
+        ROLLBACK TRANSACTION;
+
+        -- Lanzar el error para que el cliente lo reciba
+        THROW;
+    END CATCH
+END;
+
+
 
 /************ VEHICULO ********/
 
@@ -95,7 +131,8 @@ BEGIN
     ON 
         v.id_cond = c.id_cond
     WHERE 
-        v.placa_veh LIKE '%' + @placa_veh + '%'; -- Búsqueda parcial con comodines
+        v.placa_veh LIKE '%' + @placa_veh + '%' -- Búsqueda parcial con comodines
+        AND v.estado = 1; -- Solo vehículos activos
 
 END;
 
