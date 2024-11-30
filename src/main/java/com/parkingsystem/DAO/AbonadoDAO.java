@@ -23,11 +23,11 @@ public class AbonadoDAO {
     public ArrayList<Abonado> listarAbonados(String filter, ArrayList<String> data) {
         ArrayList<Abonado> list = new ArrayList<>();
         Abonado abonado;
-        CallableStatement cst = null; // Declarar cst aquí para usarlo globalmente
+        
         try {
             connection = connectionManager.connect();
             if (connection != null) {
-                String sql = "{CALL ListarAbonados(?, ?)}"; // Usar un SP único
+                String sql = "{CALL ListarAbonados(?, ?)}";
                 cst = connection.prepareCall(sql);
 
                 // Configurar parámetros del procedimiento almacenado

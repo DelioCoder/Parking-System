@@ -66,12 +66,12 @@
                                   <EmptySpace min="-2" pref="397" max="-2" attributes="0"/>
                                   <Component id="jLabel3" min="-2" pref="329" max="-2" attributes="0"/>
                               </Group>
-                              <Component id="jScrollPane1" min="-2" pref="1056" max="-2" attributes="0"/>
+                              <Component id="jScrollPane1" alignment="0" min="-2" pref="1056" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace pref="48" max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="jButton2" min="-2" pref="132" max="-2" attributes="0"/>
+                          <Component id="btnPDF" min="-2" pref="132" max="-2" attributes="0"/>
                           <EmptySpace max="32767" attributes="0"/>
                           <Component id="jButton1" min="-2" pref="132" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="56" max="-2" attributes="0"/>
@@ -84,20 +84,20 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace max="32767" attributes="0"/>
-                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                       <Group type="102" attributes="0">
                           <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
                           <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="32767" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
                   <Component id="jScrollPane1" min="-2" pref="400" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jButton2" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+                      <Component id="btnPDF" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
                       <Component id="jButton1" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="166" max="-2" attributes="0"/>
@@ -125,7 +125,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="99" green="99" red="99" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Busca e imprime los datos de estacionamiento"/>
+            <Property name="text" type="java.lang.String" value="Imprime los datos de estacionamiento"/>
           </Properties>
         </Component>
         <Container class="javax.swing.JScrollPane" name="jScrollPane1">
@@ -227,10 +227,13 @@
             <Property name="text" type="java.lang.String" value="Volver"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton2">
+        <Component class="javax.swing.JButton" name="btnPDF">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Imprimir"/>
+            <Property name="text" type="java.lang.String" value="Exportar PDF"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnPDFActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel3">
           <Properties>

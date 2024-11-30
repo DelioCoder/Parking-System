@@ -4,8 +4,22 @@
  */
 package com.parkingsystem.view.reportes;
 
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+
 import com.parkingsystem.controller.BoletaController;
 import java.awt.Color;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import javax.swing.JTable;
 
 /**
  *
@@ -44,7 +58,7 @@ public class REstacionamiento extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         txtTablaReporte = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnPDF = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -61,7 +75,7 @@ public class REstacionamiento extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Century Gothic", 0, 13)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(153, 153, 153));
-        jLabel2.setText("Busca e imprime los datos de estacionamiento");
+        jLabel2.setText("Imprime los datos de estacionamiento");
 
         txtTablaReporte.setFont(new java.awt.Font("Century Gothic", 0, 13)); // NOI18N
         txtTablaReporte.setModel(new javax.swing.table.DefaultTableModel(
@@ -90,7 +104,12 @@ public class REstacionamiento extends javax.swing.JFrame {
 
         jButton1.setText("Volver");
 
-        jButton2.setText("Imprimir");
+        btnPDF.setText("Exportar PDF");
+        btnPDF.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPDFActionPerformed(evt);
+            }
+        });
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/ticket-header-2.png"))); // NOI18N
 
@@ -109,10 +128,10 @@ public class REstacionamiento extends javax.swing.JFrame {
                                     .addComponent(jLabel2))
                                 .addGap(397, 397, 397)
                                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 329, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1056, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 1056, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap(48, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnPDF, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(56, 56, 56))))
@@ -121,18 +140,18 @@ public class REstacionamiento extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(40, 40, 40)
                         .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel2)))
-                .addGap(36, 36, 36)
+                .addGap(35, 35, 35)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32)
+                .addGap(33, 33, 33)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnPDF, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(166, 166, 166))
         );
@@ -150,6 +169,70 @@ public class REstacionamiento extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    public void exportTableToPDF(JTable table, String filePath) {
+        Document document = new Document();
+
+        try {
+            PdfWriter.getInstance(document, new FileOutputStream(filePath));
+            document.open();
+
+            // Título del documento
+            Font titleFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18);
+            Paragraph title = new Paragraph("Reporte de Estacionamiento", titleFont);
+            title.setAlignment(Element.ALIGN_CENTER);
+            document.add(title);
+
+            document.add(new Paragraph("\n")); // Espaciado
+
+            // Crear la tabla PDF
+            PdfPTable pdfTable = new PdfPTable(table.getColumnCount());
+            pdfTable.setWidthPercentage(100);
+
+            // Agregar encabezados
+            for (int i = 0; i < table.getColumnCount(); i++) {
+                PdfPCell header = new PdfPCell();
+                header.setPhrase(new Phrase(table.getColumnName(i), FontFactory.getFont(FontFactory.HELVETICA_BOLD)));
+                header.setHorizontalAlignment(Element.ALIGN_CENTER);
+                pdfTable.addCell(header);
+            }
+
+            // Agregar datos de las filas
+            for (int row = 0; row < table.getRowCount(); row++) {
+                for (int col = 0; col < table.getColumnCount(); col++) {
+                    Object value = table.getValueAt(row, col);
+                    PdfPCell cell = new PdfPCell(new Phrase(value != null ? value.toString() : ""));
+                    cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    pdfTable.addCell(cell);
+                }
+            }
+
+            document.add(pdfTable);
+            System.out.println("Archivo PDF creado: " + filePath);
+        } catch (DocumentException | IOException e) {
+            e.printStackTrace();
+        } finally {
+            document.close();
+        }
+    }
+    
+    private void btnPDFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPDFActionPerformed
+
+        String filePath = "reporte_estacionamiento.pdf";
+
+        try {
+            exportTableToPDF(txtTablaReporte, filePath);
+            javax.swing.JOptionPane.showMessageDialog(this, 
+                "Archivo PDF exportado correctamente a: " + filePath, 
+                "Exportar PDF", 
+                javax.swing.JOptionPane.INFORMATION_MESSAGE);
+        } catch (Exception e) {
+            javax.swing.JOptionPane.showMessageDialog(this, 
+                "Error al exportar el archivo PDF:\n" + e.getMessage(), 
+                "Error", 
+                javax.swing.JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnPDFActionPerformed
 
     /**
      * @param args the command line arguments
@@ -188,8 +271,8 @@ public class REstacionamiento extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnPDF;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
