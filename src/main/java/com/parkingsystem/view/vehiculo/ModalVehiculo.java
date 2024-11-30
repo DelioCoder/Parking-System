@@ -57,7 +57,8 @@ public class ModalVehiculo extends javax.swing.JFrame {
             // Asignar los valores del conductor a los campos de texto
             txtPlaca.setText(vehiculo.getPlaca_veh());
             txtColor.setText(vehiculo.getColor_veh());
-            txtMarca.setText(vehiculo.getMarca_veh()) ;
+            txtMarca.setText(vehiculo.getMarca_veh());
+            txtModelo.setText(vehiculo.getModelo_veh());
             txtAño.setText(vehiculo.getAño_veh());
             
             int idConductor = vehiculo.getId_conductor();
@@ -69,7 +70,7 @@ public class ModalVehiculo extends javax.swing.JFrame {
                     break; // Salir del bucle cuando encontramos la coincidencia
                 }
             }
-            System.out.println("index: "+index);
+
             comboConductor.setSelectedIndex(index);
             
         }
@@ -87,6 +88,10 @@ public class ModalVehiculo extends javax.swing.JFrame {
         {
             String name = "DNI: "+conductor.getDni_cond()+" - "+conductor.getNombre_cond()+" "+conductor.getApellido_cond();
             this.comboConductor.addItem(new ComboBoxItem(conductor.getId_conductor(), name));
+        }
+        
+        if (this.nuevoVehiculo == true) {
+            comboConductor.setSelectedIndex(-1);
         }
         
     }
@@ -138,9 +143,11 @@ public class ModalVehiculo extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         comboConductor = new javax.swing.JComboBox<ComboBoxItem>();
-        jPanel2 = new javax.swing.JPanel();
-        btnCancel = new javax.swing.JButton();
         btnAction = new javax.swing.JButton();
+        btnCancel = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        txtModelo = new javax.swing.JTextField();
+        jPanel2 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -155,7 +162,7 @@ public class ModalVehiculo extends javax.swing.JFrame {
                 txtAñoKeyReleased(evt);
             }
         });
-        getContentPane().add(txtAño, new org.netbeans.lib.awtextra.AbsoluteConstraints(82, 263, 347, -1));
+        getContentPane().add(txtAño, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 320, 347, -1));
 
         jLabel3.setFont(new java.awt.Font("Century Gothic", 0, 10)); // NOI18N
         jLabel3.setText("Color");
@@ -214,15 +221,15 @@ public class ModalVehiculo extends javax.swing.JFrame {
                 txtTelefono1KeyReleased(evt);
             }
         });
-        getContentPane().add(txtTelefono1, new org.netbeans.lib.awtextra.AbsoluteConstraints(82, 263, 347, -1));
+        getContentPane().add(txtTelefono1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 320, 347, -1));
 
         jLabel6.setFont(new java.awt.Font("Century Gothic", 0, 10)); // NOI18N
         jLabel6.setText("Año");
-        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(82, 243, -1, -1));
+        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 300, -1, -1));
 
         jLabel7.setFont(new java.awt.Font("Century Gothic", 0, 10)); // NOI18N
         jLabel7.setText("Conductor");
-        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 310, -1, -1));
+        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 360, -1, -1));
 
         comboConductor.setModel(new javax.swing.DefaultComboBoxModel<>());
         comboConductor.addActionListener(new java.awt.event.ActionListener() {
@@ -230,10 +237,16 @@ public class ModalVehiculo extends javax.swing.JFrame {
                 comboConductorActionPerformed(evt);
             }
         });
-        getContentPane().add(comboConductor, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 330, 350, -1));
+        getContentPane().add(comboConductor, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 380, 350, -1));
 
-        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        btnAction.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        btnAction.setText("Editar");
+        btnAction.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnActionMouseClicked(evt);
+            }
+        });
+        getContentPane().add(btnAction, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 450, 130, 30));
 
         btnCancel.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         btnCancel.setText("Cancelar");
@@ -247,18 +260,39 @@ public class ModalVehiculo extends javax.swing.JFrame {
                 btnCancelActionPerformed(evt);
             }
         });
-        jPanel2.add(btnCancel, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 390, 120, 30));
+        getContentPane().add(btnCancel, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 450, 120, 30));
 
-        btnAction.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        btnAction.setText("Editar");
-        btnAction.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnActionMouseClicked(evt);
+        jLabel5.setFont(new java.awt.Font("Century Gothic", 0, 10)); // NOI18N
+        jLabel5.setText("Modelo");
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 240, 90, -1));
+
+        txtModelo.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        txtModelo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtModeloActionPerformed(evt);
             }
         });
-        jPanel2.add(btnAction, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 390, 130, 30));
+        txtModelo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtModeloKeyReleased(evt);
+            }
+        });
+        getContentPane().add(txtModelo, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 260, 347, -1));
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 540, 480));
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 540, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 520, Short.MAX_VALUE)
+        );
+
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 540, 520));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -277,22 +311,22 @@ public class ModalVehiculo extends javax.swing.JFrame {
 
     private void txtPlacaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPlacaKeyReleased
         String text = getInputText(txtPlaca);
-        vehiculo.setNombre_cond(text);
+        vehiculo.setPlaca_veh(text);
     }//GEN-LAST:event_txtPlacaKeyReleased
 
     private void txtColorKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtColorKeyReleased
         String text = getInputText(txtColor);
-        vehiculo.setApellido_cond(text);
+        vehiculo.setColor_veh(text);
     }//GEN-LAST:event_txtColorKeyReleased
 
     private void txtMarcaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMarcaKeyReleased
         String text = getInputText(txtMarca);
-        vehiculo.setDni_cond((text));
+        vehiculo.setMarca_veh((text));
     }//GEN-LAST:event_txtMarcaKeyReleased
 
     private void txtAñoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAñoKeyReleased
         String text = getInputText(txtAño);
-        vehiculo.setTelefono_cond((text));
+        vehiculo.setAño_veh((text));
     }//GEN-LAST:event_txtAñoKeyReleased
 
     private void txtTelefono1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTelefono1KeyReleased
@@ -304,15 +338,19 @@ public class ModalVehiculo extends javax.swing.JFrame {
     }//GEN-LAST:event_comboConductorActionPerformed
 
     private void btnActionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnActionMouseClicked
-        ComboBoxItem seleccionado = (ComboBoxItem) comboConductor.getSelectedItem();
+        ComboBoxItem cbxConductor = (ComboBoxItem) comboConductor.getSelectedItem();
 
-        if (getInputText(txtPlaca).trim().isEmpty() ||
+        if (cbxConductor == null ||
+            getInputText(txtPlaca).trim().isEmpty() ||
             getInputText(txtColor).trim().isEmpty() ||
             getInputText(txtMarca).trim().isEmpty() ||
-            getInputText(txtAño).trim().isEmpty() ||
-            seleccionado.getName().trim().isEmpty()) {
+            getInputText(txtModelo).trim().isEmpty() ||
+            getInputText(txtAño).trim().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Todos los campos deben ser completados.", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
+            int id = cbxConductor.getId();
+            vehiculo.setId_conductor(id);
+
             vehiculoController.setTablaVehiculo(tablaVehiculo);
             if (this.nuevoVehiculo == true) {
                 vehiculoController.agregarConductor(vehiculo);
@@ -331,6 +369,15 @@ public class ModalVehiculo extends javax.swing.JFrame {
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnCancelActionPerformed
+
+    private void txtModeloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtModeloActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtModeloActionPerformed
+
+    private void txtModeloKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtModeloKeyReleased
+        String text = getInputText(txtModelo);
+        vehiculo.setModelo_veh((text));
+    }//GEN-LAST:event_txtModeloKeyReleased
 
     
     public String getInputText(JTextField field) {
@@ -355,12 +402,14 @@ public class ModalVehiculo extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JTextField txtAño;
     private javax.swing.JTextField txtColor;
     private javax.swing.JTextField txtMarca;
+    private javax.swing.JTextField txtModelo;
     private javax.swing.JTextField txtPlaca;
     private javax.swing.JTextField txtTelefono1;
     public javax.swing.JLabel txtTitulo;

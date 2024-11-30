@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -146,6 +147,7 @@ public class VehiculoDAO {
         
     }
     
+    
     public boolean cambiarEstadoVehiculo(int id, boolean nuevoEstado) {
         boolean state = false;
 
@@ -154,8 +156,7 @@ public class VehiculoDAO {
             
             if(connection != null)
             {
-                
-                String sql = "{CALL ActualizarEstadoConductor(?, ?)}"; // Llamada al procedimiento
+                String sql = "{CALL ActualizarEstadoVehiculo(?, ?)}"; // Llamada al procedimiento
                 callableStatement = connection.prepareCall(sql);
 
                 // 3. Asignar valores a los parámetros del procedimiento
@@ -163,22 +164,14 @@ public class VehiculoDAO {
                 callableStatement.setBoolean(2, nuevoEstado); // Parámetro @nuevo_estado
 
                 // 4. Ejecutar el procedimiento almacenado
-                int filasAfectadas = callableStatement.executeUpdate();
+                callableStatement.executeUpdate();
 
-                // 5. Verificar si se realizó la actualización
-                if (filasAfectadas > 0) {
-                    System.out.println("Estado del conductor actualizado correctamente.");
-                } else {
-                    System.out.println("No se encontró un conductor con el ID especificado.");
-                }
-                
-                state = filasAfectadas > 0;
             }
         } catch (Exception e) {
-            System.out.println(e.toString());
+            System.out.println("ERROR FATAL: "+e.toString());
         } finally {
             try {
-                if (pst != null) pst.close();
+                if (callableStatement != null) callableStatement.close();
                 if (connection != null) connection.close();
             } catch (Exception e) {
                 System.out.println("Error al cerrar recursos: " + e.toString());
@@ -187,5 +180,6 @@ public class VehiculoDAO {
         
         return state;
     }
+        
     
 }

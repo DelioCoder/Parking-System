@@ -125,7 +125,7 @@ public class TablaVehiculo extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        txtNombreVehiculo = new javax.swing.JTextField();
+        txtPlacaVehiculo = new javax.swing.JTextField();
         btnRegistrar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableVehiculo = new javax.swing.JTable();
@@ -141,16 +141,16 @@ public class TablaVehiculo extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
         jLabel1.setText("Vehículos");
 
-        txtNombreVehiculo.setToolTipText("Ingrese el nombre");
-        txtNombreVehiculo.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtPlacaVehiculo.setToolTipText("Ingrese el nombre");
+        txtPlacaVehiculo.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtNombreVehiculoKeyPressed(evt);
+                txtPlacaVehiculoKeyPressed(evt);
             }
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtNombreVehiculoKeyReleased(evt);
+                txtPlacaVehiculoKeyReleased(evt);
             }
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtNombreVehiculoKeyTyped(evt);
+                txtPlacaVehiculoKeyTyped(evt);
             }
         });
 
@@ -171,17 +171,17 @@ public class TablaVehiculo extends javax.swing.JFrame {
         jTableVehiculo.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         jTableVehiculo.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Placa", "Color", "Marca", "Año", "Nombre de conductor", "DNI de conductor"
+                "Placa", "Color", "Marca", "Modelo", "Año", "Nombre de conductor", "DNI de conductor", "Acciones"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -191,6 +191,15 @@ public class TablaVehiculo extends javax.swing.JFrame {
         jTableVehiculo.setGridColor(new java.awt.Color(255, 255, 255));
         jTableVehiculo.setSelectionBackground(new java.awt.Color(255, 255, 255));
         jScrollPane1.setViewportView(jTableVehiculo);
+        if (jTableVehiculo.getColumnModel().getColumnCount() > 0) {
+            jTableVehiculo.getColumnModel().getColumn(0).setResizable(false);
+            jTableVehiculo.getColumnModel().getColumn(1).setResizable(false);
+            jTableVehiculo.getColumnModel().getColumn(2).setResizable(false);
+            jTableVehiculo.getColumnModel().getColumn(3).setResizable(false);
+            jTableVehiculo.getColumnModel().getColumn(4).setResizable(false);
+            jTableVehiculo.getColumnModel().getColumn(5).setResizable(false);
+            jTableVehiculo.getColumnModel().getColumn(7).setResizable(false);
+        }
 
         btnVolver.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         btnVolver.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/anterior.png"))); // NOI18N
@@ -206,16 +215,17 @@ public class TablaVehiculo extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(txtNombreVehiculo, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnRegistrar)
-                        .addGap(28, 28, 28))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 973, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 28, Short.MAX_VALUE))))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(btnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1120, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(txtPlacaVehiculo, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnRegistrar)))
+                        .addGap(51, 51, 51))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -223,20 +233,20 @@ public class TablaVehiculo extends javax.swing.JFrame {
                 .addGap(40, 40, 40)
                 .addComponent(jLabel1)
                 .addGap(32, 32, 32)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtNombreVehiculo, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtPlacaVehiculo, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnRegistrar))
                 .addGap(29, 29, 29)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 507, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(53, Short.MAX_VALUE))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
 
-        txtNombreVehiculo.getAccessibleContext().setAccessibleName("Ingrese Nombre");
-        txtNombreVehiculo.getAccessibleContext().setAccessibleDescription("Ingrese Nombre");
+        txtPlacaVehiculo.getAccessibleContext().setAccessibleName("Ingrese Nombre");
+        txtPlacaVehiculo.getAccessibleContext().setAccessibleDescription("Ingrese Nombre");
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1030, 780));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1200, 760));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -257,17 +267,17 @@ public class TablaVehiculo extends javax.swing.JFrame {
     
     }//GEN-LAST:event_btnRegistrarMouseClicked
 
-    private void txtNombreVehiculoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreVehiculoKeyTyped
-    }//GEN-LAST:event_txtNombreVehiculoKeyTyped
+    private void txtPlacaVehiculoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPlacaVehiculoKeyTyped
+    }//GEN-LAST:event_txtPlacaVehiculoKeyTyped
 
-    private void txtNombreVehiculoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreVehiculoKeyReleased
-        String vehiculoText = txtNombreVehiculo.getText();
+    private void txtPlacaVehiculoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPlacaVehiculoKeyReleased
+        String vehiculoText = txtPlacaVehiculo.getText();
         vehiculoController.rellenarTabla(vehiculoText);
-    }//GEN-LAST:event_txtNombreVehiculoKeyReleased
+    }//GEN-LAST:event_txtPlacaVehiculoKeyReleased
 
-    private void txtNombreVehiculoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreVehiculoKeyPressed
+    private void txtPlacaVehiculoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPlacaVehiculoKeyPressed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtNombreVehiculoKeyPressed
+    }//GEN-LAST:event_txtPlacaVehiculoKeyPressed
 
     /**
      * @param args the command line arguments
@@ -314,6 +324,6 @@ public class TablaVehiculo extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     public javax.swing.JTable jTableVehiculo;
-    public javax.swing.JTextField txtNombreVehiculo;
+    public javax.swing.JTextField txtPlacaVehiculo;
     // End of variables declaration//GEN-END:variables
 }

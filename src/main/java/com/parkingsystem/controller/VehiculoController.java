@@ -70,21 +70,21 @@ public class VehiculoController {
             return;
         }
 
-        
-        String[] columnas = {"Placa", "Color", "Marca", "Año", "Nombre de conductor", "DNI de conductor", "Acciones"};
+        String[] columnas = {"Placa", "Color", "Marca", "Modelo", "Año", "Nombre de conductor", "DNI de conductor", "Acciones"};
         DefaultTableModel modeloTabla = new DefaultTableModel(columnas, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return column == 6; // Solo la columna de "Acciones" será editable
+                return column == 7; // Solo la columna de "Acciones" será editable
             }
         };
 
         for (Vehiculo vehiculo : vehiculos) {
-            System.out.println("xd: "+vehiculo.getNombre_cond());
+
             Object[] fila = {
                 vehiculo.getPlaca_veh(),
                 vehiculo.getColor_veh(),
                 vehiculo.getMarca_veh(),
+                vehiculo.getModelo_veh(),
                 vehiculo.getAño_veh(),
                 vehiculo.getNombre_cond()+" "+vehiculo.getApellido_cond(),
                 vehiculo.getDni_cond(),
@@ -106,7 +106,7 @@ public class VehiculoController {
                 int column = table.columnAtPoint(point);
 
                 // Verificar si se hizo clic en la columna de acciones
-                if (column == 6) {
+                if (column == 7) {
                     table.editCellAt(row, column);
                     Component editor = table.getEditorComponent();
                     if (editor != null) {
@@ -137,8 +137,8 @@ public class VehiculoController {
         }
 
         // Renderizador y editor para la columna de acciones
-        this.tablaVehiculo.jTableVehiculo.getColumnModel().getColumn(6).setCellRenderer(new AccionesRenderer());
-        this.tablaVehiculo.jTableVehiculo.getColumnModel().getColumn(6).setCellEditor(new AccionesEditor());
+        this.tablaVehiculo.jTableVehiculo.getColumnModel().getColumn(7).setCellRenderer(new AccionesRenderer());
+        this.tablaVehiculo.jTableVehiculo.getColumnModel().getColumn(7).setCellEditor(new AccionesEditor());
 
         // Configuración de la tabla
         this.tablaVehiculo.jTableVehiculo.setRowHeight(30); // Altura de fila
@@ -181,7 +181,7 @@ public class VehiculoController {
     }
     
     public void reloadTabla() {
-        String conductorText = this.tablaVehiculo.txtNombreVehiculo.getText();
+        String conductorText = this.tablaVehiculo.txtPlacaVehiculo.getText();
         rellenarTabla(conductorText);
     }
     
@@ -199,10 +199,10 @@ public class VehiculoController {
             "Confirmar Eliminación", JOptionPane.YES_NO_OPTION);
 
         if (respuesta == JOptionPane.YES_OPTION) {
-            vehiculoDao.cambiarEstadoVehiculo(vehiculo.getId_conductor(), false);
+            vehiculoDao.cambiarEstadoVehiculo(vehiculo.getId(), false);
             JOptionPane.showMessageDialog(null, "Conductor eliminado exitosamente.");
             
-            String conductorText = tablaVehiculo.txtNombreVehiculo.getText();
+            String conductorText = tablaVehiculo.txtPlacaVehiculo.getText();
 
             rellenarTabla(conductorText);
         }

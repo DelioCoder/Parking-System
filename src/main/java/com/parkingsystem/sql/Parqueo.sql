@@ -18,10 +18,9 @@ CREATE TABLE Vehiculo (
     marca_veh VARCHAR(50),
     modelo_veh VARCHAR(50),
     id_cond INT,
-    año_veh DATETIME,
+    año_veh VARCHAR(50),
     estado BIT
 );
-
 ALTER TABLE Vehiculo
 ADD CONSTRAINT FK_Vehiculo_Conductor 
 FOREIGN KEY (id_cond) REFERENCES conductor(id_cond);
