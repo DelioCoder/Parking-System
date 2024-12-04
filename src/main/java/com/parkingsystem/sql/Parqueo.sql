@@ -25,29 +25,25 @@ ALTER TABLE Vehiculo
 ADD CONSTRAINT FK_Vehiculo_Conductor 
 FOREIGN KEY (id_cond) REFERENCES conductor(id_cond);
 
+CREATE TABLE Tipo_Abonado(
+	id_tipo_abo INT PRIMARY KEY NOT NULL IDENTITY,
+	nombre varchar(15),
+	monto DECIMAL(4, 2)
+);
+
 CREATE TABLE Abonado (
     id_abo INT PRIMARY KEY IDENTITY,
     fecha_inicio_abo varchar(15),
     fecha_fin_abo varchar(15),
     tipo_abo VARCHAR(15),
-    monto_abo DECIMAL(8, 2)
+    monto_abo DECIMAL(8, 2),
+    id_vehiculo INT,
+    id_tipo_abonado INT
 );
 
-CREATE TABLE Tarjeta_Abonado (
-    id_tarj_abo INT PRIMARY KEY IDENTITY,
-    fecha_emision_tarj_abo DATETIME,
-    fecha_expiracion_tarj_abo DATETIME,
-    id_abo INT,
-    id_veh INT
-);
-
-ALTER TABLE Tarjeta_Abonado
-ADD CONSTRAINT FK_Tarjeta_Abonado_Abonado
-FOREIGN KEY (id_abo) REFERENCES Abonado(id_abo);
-
-ALTER TABLE Tarjeta_Abonado
-ADD CONSTRAINT FK_Tarjeta_Abonado_Vehiculo
-FOREIGN KEY (id_veh) REFERENCES Vehiculo(id_veh);
+ALTER TABLE Abonado
+ADD CONSTRAINT FK_TipoAbonado
+FOREIGN KEY (id_tipo_abonado) REFERENCES Tipo_Abonado(id_tipo_abo);
 
 CREATE TABLE Piso_estacionamiento (
     id_piso_est INT PRIMARY KEY IDENTITY,
@@ -83,6 +79,10 @@ FOREIGN KEY (id_veh) REFERENCES Vehiculo(id_veh);
 ALTER TABLE Ticket_Estacionamiento
 ADD CONSTRAINT FK_Ticket_Estacionamiento_Zona_Estacionamiento
 FOREIGN KEY (id_zona_est) REFERENCES Zona_Estacionamiento(id_zona_est);
+
+ALTER TABLE Abonado
+ADD CONSTRAINT FK_VehiculoAbonado
+FOREIGN KEY (id_vehiculo) REFERENCES Vehiculo(id_veh);
 
 CREATE TABLE Boleta_Pago (
     id_boleta_pago INT PRIMARY KEY IDENTITY,
@@ -148,6 +148,8 @@ VALUES
     ('2024-10-29 12:00:00', 20.00, 'Efectivo', '2024-10-29 12:00:00', 1),  -- Boleta para el ticket con id_ticket = 1  
     ('2024-10-29 12:30:00', 45.50, 'Tarjeta', '2024-10-29 12:30:00', 2),  -- Boleta para el ticket con id_ticket = 2  
     ('2024-10-29 13:00:00', 30.50, 'Tarjeta', '2024-10-29 13:00:00', 3);  -- Boleta para el ticket con id_ticket = 3
+
+INSERT INTO Tipo_Abonado(nombre, monto) VALUES ('mensual', 30), ('trimestral', 15);
 
 --ALTER TABLE Abonado
 --ALTER COLUMN fecha_inicio_abo VARCHAR(15);
