@@ -13,7 +13,7 @@ public class Abonado {
     private String placa_veh;
     private int id_tipo_abonado;
     private String nombre_abonado;
-
+    
     public Abonado() { }
 
     public Abonado(int id_abo, String fecha_inicio_abo, String fecha_fin_abo, int id_vehiculo, String placa_veh, int id_tipo_abonado, String nombre_abonado) {

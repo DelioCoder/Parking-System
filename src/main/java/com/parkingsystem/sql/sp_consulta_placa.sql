@@ -1,7 +1,5 @@
-
-
 CREATE PROCEDURE sp_consulta_placa
-    @Placa VARCHAR(10)
+    @id_veh int
 AS
 BEGIN
 
@@ -47,8 +45,7 @@ BEGIN
 	JOIN   
 		Piso_estacionamiento pe ON ze.id_piso_est = pe.id_piso_est
 
-	where v.placa_veh = @Placa;
+	where v.id_veh = @id_veh;
 END;
-
 
 EXEC sp_consulta_placa 'ABC123';
