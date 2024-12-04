@@ -42,7 +42,7 @@ public class RegistrarAbonado extends javax.swing.JFrame {
     }
 
     private void inicializarControlador(){
-        abonadoController = new AbonadoController(this);
+        abonadoController = new AbonadoController(this, null);
     }
     
     private void rellenarFechas(){

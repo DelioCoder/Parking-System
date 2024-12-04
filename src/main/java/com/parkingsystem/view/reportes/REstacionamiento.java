@@ -62,7 +62,6 @@ public class REstacionamiento extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(2147483647, 750));
         setResizable(false);
         setType(java.awt.Window.Type.UTILITY);
 
@@ -103,6 +102,11 @@ public class REstacionamiento extends javax.swing.JFrame {
         jScrollPane1.setViewportView(txtTablaReporte);
 
         jButton1.setText("Volver");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         btnPDF.setText("Exportar PDF");
         btnPDF.addActionListener(new java.awt.event.ActionListener() {
@@ -233,6 +237,11 @@ public class REstacionamiento extends javax.swing.JFrame {
                 javax.swing.JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnPDFActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments

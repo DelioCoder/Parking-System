@@ -9,13 +9,18 @@ import com.parkingsystem.model.Abonado;
 import com.parkingsystem.model.Tipo_Abonado;
 import com.parkingsystem.model.Vehiculo;
 import com.parkingsystem.view.abonado.RegistrarAbonado;
+import com.parkingsystem.view.abonado.TablaAbonado;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -26,30 +31,106 @@ public class AbonadoController implements ActionListener {
     private VehiculoDAO vehiculoDao;
     private Tipo_AbonadoDAO tipoAbonadoDao;
     private RegistrarAbonado vista;
+    private TablaAbonado vista_principal;
     private Abonado abonado;
     
-    public AbonadoController(RegistrarAbonado v) {
+    public AbonadoController(RegistrarAbonado v, TablaAbonado home) {
         this.abonadoDao = new AbonadoDAO();
         this.vehiculoDao = new VehiculoDAO();
         this.tipoAbonadoDao = new Tipo_AbonadoDAO();
         this.vista = v;
+        this.vista_principal = home;
+        
         this.abonado = new Abonado();
         
-        this.vista.btnGrabarAbono.addActionListener(this);
-        cargarVehiculos();
-        cargarTipoAbonado();
+        if(this.vista != null)
+        {
+            this.vista.btnGrabarAbono.addActionListener(this);
+            cargarVehiculos();
+            cargarTipoAbonado();
+            
+            this.vista.TipoBX.addItemListener(e -> {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    actualizarCamposSegunTipo();
+                }
+            });
+        }
         
-        this.vista.TipoBX.addItemListener(e -> {
-            if (e.getStateChange() == ItemEvent.SELECTED) {
-                actualizarCamposSegunTipo();
-            }
-        });
+        if(this.vista_principal != null)
+        {
+            rellenarTabla();
+            agregarEventos();
+        }
+        
     }
     
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == vista.btnGrabarAbono) {
             agregarAbonado(abonado);
+        }
+    }
+    
+    private void rellenarTabla()
+    {
+        List<Abonado> abonados = this.abonadoDao.listarAbonados("", 0);
+        System.out.println(abonados);
+        if (abonados == null) {
+            System.out.println("No se han podido recuperar abonados.");
+            return;
+        }
+        
+        String[] columnas = {"Id", "Fecha_inicio_Abonado", "Fecha_Fin_Abonado", "Placa_Vehiculo", "Tipo_Abonado"};
+        DefaultTableModel modeloTabla = new DefaultTableModel(columnas, 0);
+        
+        for(Abonado abonado : abonados){
+            
+            Object[] fila = {
+                abonado.getId_abo(),
+                abonado.getFecha_inicio_abo(),
+                abonado.getFecha_fin_abo(),
+                abonado.getPlaca_veh(),
+                abonado.getNombre_abonado()
+            };
+            
+            modeloTabla.addRow(fila);   
+        }
+        this.vista_principal.TablaAbonado.setModel(modeloTabla);
+    }
+    
+    private void agregarEventos() {
+        vista_principal.txtBuscarIdAbonado.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                try {
+                    String texto = vista_principal.txtBuscarIdAbonado.getText().trim();
+
+                    if (!texto.isEmpty()) {
+                        int id = Integer.parseInt(texto);
+                        buscarPorCodigo(id);
+                    } else {
+                        rellenarTabla();
+                    }
+                } catch (NumberFormatException ex) {
+                    System.out.println("Ingrese un código válido.");
+                }
+            }
+        });
+    }
+    
+    private void buscarPorCodigo(int id) {
+        ArrayList<Abonado> abonados = this.abonadoDao.listarAbonados("codigo", id);
+        DefaultTableModel modelo = (DefaultTableModel) vista_principal.TablaAbonado.getModel();
+        modelo.setRowCount(0);
+
+        for (Abonado abonado : abonados) {
+            modelo.addRow(new Object[]{
+                abonado.getId_abo(),
+                abonado.getFecha_inicio_abo(),
+                abonado.getFecha_fin_abo(),
+                abonado.getPlaca_veh(),
+                abonado.getNombre_abonado()
+            });
         }
     }
     
@@ -111,12 +192,6 @@ public class AbonadoController implements ActionListener {
         LocalDate fechaFin = fechaActual.plusMonths(meses);
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         return fechaFin.format(formato);
-    }
-
-    
-    public ArrayList<Abonado> listarAbonados(String filter, ArrayList<String> data)
-    {
-        return this.abonadoDao.listarAbonados(filter, data);
     }
     
     public void agregarAbonado(Abonado abonado)

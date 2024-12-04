@@ -2,6 +2,7 @@ package com.parkingsystem.DAO;
 
 import com.parkingsystem.configuration.Cconnection;
 import com.parkingsystem.model.Boleta_Pago;
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,6 +18,7 @@ public class Boleta_PagoDAO
     private Connection connection = null;
     private PreparedStatement pst;
     private ResultSet rs;
+    private CallableStatement cst = null;
 
     public ArrayList<Boleta_Pago> listarBoletas() {
         ArrayList<Boleta_Pago> list = new ArrayList<>();
@@ -25,31 +27,9 @@ public class Boleta_PagoDAO
         try {
             connection = connectionManager.connect();
             if (connection != null) {
-                String sql = "SELECT \n" +
-"    c.nombre_cond AS Conductor,\n" +
-"    c.dni_cond AS DNI,\n" +
-"    c.telefono_cond AS Telefono,\n" +
-"    v.placa_veh AS Placa,\n" +
-"    v.color_veh AS 'Color de vehiculo',\n" +
-"    t.fecha_entrada AS 'Hora de entrada',\n" +
-"    b.hora_salida AS 'Hora de Salida',\n" +
-"	b.monto_pago AS 'Monto',\n" +
-"    z.nombre_espacio AS Zona,\n" +
-"    p.numero_piso_est AS Piso\n" +
-"FROM \n" +
-"    Boleta_Pago b\n" +
-"JOIN \n" +
-"    Ticket_Estacionamiento t ON b.id_ticket = t.id_ticket\n" +
-"JOIN \n" +
-"    Vehiculo v ON t.id_veh = v.id_veh\n" +
-"JOIN \n" +
-"    Conductor c ON v.id_cond = c.id_cond\n" +
-"JOIN \n" +
-"    Zona_Estacionamiento z ON t.id_zona_est = z.numero_espacio\n" +
-"JOIN \n" +
-"    Piso_estacionamiento p ON z.id_piso_est = p.numero_piso_est;";
-                pst = connection.prepareStatement(sql);
-                rs = pst.executeQuery();
+                String sql = "{CALL ListarBoletas}";
+                cst = connection.prepareCall(sql);
+                rs = cst.executeQuery();
 
                 while (rs.next()) {
                     boleta = new Boleta_Pago();
@@ -91,17 +71,16 @@ public class Boleta_PagoDAO
             connection = connectionManager.connect();
 
             if (connection != null) {
-                String sql = "INSERT INTO Boleta_Pago (id_boleta_pago, fecha_pago, hora_salida, monto_pago, metodo_pago, id_ticket) VALUES (?, ?, ?, ?, ?, ?)";
-                pst = connection.prepareStatement(sql);
+                String sql = "{CALL AgregarBoleta(?, ?, ?, ?, ?)}";
+                cst = connection.prepareCall(sql);
 
-                pst.setInt(1, boleta.getId_boleta_pago());
-                pst.setString(2, boleta.getFecha_pago());
-                pst.setString(3, boleta.getHora_salida());
-                pst.setFloat(4, boleta.getMonto_pago());
-                pst.setString(5, boleta.getMetodo_pago());
-                pst.setInt(6, boleta.getId_ticket());
+                cst.setString(1, boleta.getFecha_pago());
+                cst.setString(2, boleta.getHora_salida());
+                cst.setFloat(3, boleta.getMonto_pago());
+                cst.setString(4, boleta.getMetodo_pago());
+                cst.setInt(5, boleta.getId_ticket());
 
-                int res = pst.executeUpdate();
+                int res = cst.executeUpdate();
 
                 state = res > 0;
             }
@@ -109,7 +88,7 @@ public class Boleta_PagoDAO
             System.out.println(e.toString());
         } finally {
             try {
-                if (pst != null) pst.close();
+                if (cst != null) cst.close();
                 if (connection != null) connection.close();
             } catch (Exception e) {
                 System.out.println("Error al cerrar recursos: " + e.toString());
@@ -126,17 +105,17 @@ public class Boleta_PagoDAO
             connection = connectionManager.connect();
 
             if (connection != null) {
-                String sql = "UPDATE Boleta_Pago SET fecha_pago = ?, hora_salida = ?, monto_pago = ?, metodo_pago = ?, id_ticket = ? WHERE id_boleta_pago = ?";
-                pst = connection.prepareStatement(sql);
+                String sql = "{CALL ActualizarBoleta(?, ?, ?, ?, ?, ?)}";
+                cst = connection.prepareCall(sql);
 
-                pst.setString(1, boleta.getFecha_pago());
-                pst.setString(2, boleta.getHora_salida());
-                pst.setFloat(3, boleta.getMonto_pago());
-                pst.setString(4, boleta.getMetodo_pago());
-                pst.setInt(5, boleta.getId_ticket());
-                pst.setInt(6, boleta.getId_boleta_pago());
+                cst.setString(1, boleta.getFecha_pago());
+                cst.setString(2, boleta.getHora_salida());
+                cst.setFloat(3, boleta.getMonto_pago());
+                cst.setString(4, boleta.getMetodo_pago());
+                cst.setInt(5, boleta.getId_ticket());
+                cst.setInt(6, boleta.getId_boleta_pago());
 
-                int res = pst.executeUpdate();
+                int res = cst.executeUpdate();
 
                 state = res > 0;
             }
@@ -144,7 +123,7 @@ public class Boleta_PagoDAO
             System.out.println(e.toString());
         } finally {
             try {
-                if (pst != null) pst.close();
+                if (cst != null) cst.close();
                 if (connection != null) connection.close();
             } catch (Exception e) {
                 System.out.println("Error al cerrar recursos: " + e.toString());
@@ -161,11 +140,11 @@ public class Boleta_PagoDAO
             connection = connectionManager.connect();
 
             if (connection != null) {
-                String sql = "DELETE FROM Boleta_Pago WHERE id_boleta_pago = ?";
-                pst = connection.prepareStatement(sql);
-                pst.setInt(1, id);
+                String sql = "{CALL EliminarBoleta(?)}";
+                cst = connection.prepareCall(sql);
+                cst.setInt(1, id);
 
-                int res = pst.executeUpdate();
+                int res = cst.executeUpdate();
 
                 state = res > 0;
             }
@@ -173,7 +152,7 @@ public class Boleta_PagoDAO
             System.out.println(e.toString());
         } finally {
             try {
-                if (pst != null) pst.close();
+                if (cst != null) cst.close();
                 if (connection != null) connection.close();
             } catch (Exception e) {
                 System.out.println("Error al cerrar recursos: " + e.toString());

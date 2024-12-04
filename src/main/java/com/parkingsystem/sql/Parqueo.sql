@@ -89,9 +89,11 @@ CREATE TABLE Boleta_Pago (
     fecha_pago DATETIME,
     monto_pago DECIMAL(8, 4),
     metodo_pago VARCHAR(15),
-    hora_salida DATETIME,
+    hora_salida TIME,
     id_ticket INT
 );
+
+ALTER TABLE Boleta_Pago ALTER COLUMN hora_salida TIME;
 
 ALTER TABLE Boleta_Pago
 ADD CONSTRAINT FK_Boleta_Pago_Ticket_Estacionamiento
