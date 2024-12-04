@@ -20,7 +20,7 @@ public class AbonadoDAO {
     private ResultSet rs;
     private CallableStatement cst = null;
 
-    public ArrayList<Abonado> listarAbonados(String filter, ArrayList<String> data) {
+    public ArrayList<Abonado> listarAbonados(String filter, int id) {
         ArrayList<Abonado> list = new ArrayList<>();
         Abonado abonado;
         
@@ -28,14 +28,23 @@ public class AbonadoDAO {
             connection = connectionManager.connect();
             if (connection != null) {
                 String sql = "{CALL ListarAbonados(?, ?)}";
-                cst = connection.prepareCall(sql);
-
-                // Configurar parámetros del procedimiento almacenado
-                cst.setString(1, filter); // El filtro siempre es el primer parámetro
-                if (data != null && !data.isEmpty()) {
-                    cst.setString(2, data.get(0)); // Segundo parámetro opcional
-                } else {
-                    cst.setNull(2, java.sql.Types.NVARCHAR); // Pasar NULL si no hay datos
+                
+                switch (filter) {
+                    case "codigo":
+                        cst = connection.prepareCall(sql);
+                        cst.setString(1, filter);
+                        cst.setInt(2, id);
+                        break;
+                       
+                    case "":
+                        cst = connection.prepareCall(sql);
+                        cst.setString(1, "");
+                        cst.setInt(2, 0);
+                        break;    
+                        
+                    default:
+                        cst = connection.prepareCall(sql);
+                        break;
                 }
 
                 rs = cst.executeQuery();
@@ -44,12 +53,12 @@ public class AbonadoDAO {
                 while (rs.next()) {
                     abonado = new Abonado();
 
-                    abonado.setId_abo(rs.getInt("id_abo"));
-                    abonado.setFecha_inicio_abo(rs.getString("fecha_inicio_abo"));
-                    abonado.setFecha_fin_abo(rs.getString("fecha_fin_abo"));
-                    abonado.setId_vehiculo(rs.getInt("id_vehiculo"));
-                    abonado.setId_tipo_abonado(rs.getInt("id_tipo_abonado"));
-
+                    abonado.setId_abo(rs.getInt("Id_Abonado"));
+                    abonado.setFecha_inicio_abo(rs.getString("Fecha_Inicio_Abo"));
+                    abonado.setFecha_fin_abo(rs.getString("Fecha_Fin_Abo"));
+                    abonado.setPlaca_veh(rs.getString("Placa_Veh"));
+                    abonado.setNombre_abonado(rs.getString("Abonado"));
+                    
                     list.add(abonado);
                 }
             } else {

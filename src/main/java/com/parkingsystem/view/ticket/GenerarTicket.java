@@ -7,6 +7,8 @@ package com.parkingsystem.view.ticket;
 import com.parkingsystem.input.ComboBoxItem;
 import com.parkingsystem.input.ComboBoxItemVeh;
 import com.parkingsystem.controller.TicketController;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.net.URL;
 import javax.imageio.ImageIO;
 /**
@@ -20,6 +22,13 @@ public class GenerarTicket extends javax.swing.JFrame {
     public GenerarTicket() {
         initComponents();
         inicializarControlador();
+        
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        
+        int w = this.getSize().width;
+        int h = this.getSize().height;
+        int x = (dim.width-w)/2;
+        int y = (dim.height-h)/2;
     }
 
     private void inicializarControlador() {
@@ -156,6 +165,11 @@ public class GenerarTicket extends javax.swing.JFrame {
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
         jPanel2.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 560, 180, 40));
 
         btnGrabar.setText("Grabar ticket");
@@ -222,6 +236,11 @@ public class GenerarTicket extends javax.swing.JFrame {
     private void BxUbiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BxUbiActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_BxUbiActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_btnCancelarActionPerformed
 
     /**
      * @param args the command line arguments

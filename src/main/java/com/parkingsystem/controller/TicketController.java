@@ -1,5 +1,6 @@
 package com.parkingsystem.controller;
 
+import com.parkingsystem.DAO.Boleta_PagoDAO;
 import com.parkingsystem.DAO.TicketDAO;
 import com.parkingsystem.DAO.VehiculoDAO;
 import com.parkingsystem.DAO.Zona_EstacionamientoDAO;
@@ -8,12 +9,17 @@ import com.parkingsystem.model.Vehiculo;
 import com.parkingsystem.model.Zona_Estacionamiento;
 import com.parkingsystem.input.ComboBoxItem;
 import com.parkingsystem.input.ComboBoxItemVeh;
+import com.parkingsystem.model.Boleta_Pago;
 import com.parkingsystem.view.ticket.GenerarTicket;
 import com.parkingsystem.view.ticket.TablaTickets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -24,6 +30,7 @@ public class TicketController implements ActionListener
     private TicketDAO ticketDao;
     private Zona_EstacionamientoDAO zonaDao;
     private VehiculoDAO vehiculoDao;
+    private Boleta_PagoDAO boletaDao;
     private Ticket_Estacionamiento ticket;
     private TablaTickets vista_principal;
     private GenerarTicket vista;
@@ -32,6 +39,7 @@ public class TicketController implements ActionListener
         this.zonaDao = new Zona_EstacionamientoDAO();
         this.vehiculoDao = new VehiculoDAO();
         this.ticketDao = new TicketDAO();
+        this.boletaDao = new Boleta_PagoDAO();
         this.ticket = new Ticket_Estacionamiento();
         this.vista = v;
         this.vista_principal = home;
@@ -157,6 +165,7 @@ public class TicketController implements ActionListener
             ticket.setEstado_ticket("Activo");
             
             if (ticketDao.agregarTicket(ticket)) {
+                
                 JOptionPane.showMessageDialog(vista, "Ticket registrado con éxito.");
             } else {
                 JOptionPane.showMessageDialog(vista, "Error al registrar el ticket.");
@@ -169,6 +178,8 @@ public class TicketController implements ActionListener
     
     public void pagarTicket(){
         try {
+            Boleta_Pago boleta = new Boleta_Pago();
+            
             int filaSeleccionada = vista_principal.JTableTickets.getSelectedRow();
             if (filaSeleccionada == -1) {
                 JOptionPane.showMessageDialog(vista_principal, "Por favor, seleccione un ticket.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -176,8 +187,21 @@ public class TicketController implements ActionListener
             }
 
             int idTicket = (int) vista_principal.JTableTickets.getValueAt(filaSeleccionada, 0);
-
-            if (this.ticketDao.actualizarEstadoTicket(idTicket, "Pagado")) {
+            String horaEntradaStr = (String) vista_principal.JTableTickets.getValueAt(filaSeleccionada, 2);
+            
+            LocalDateTime ahora = LocalDateTime.now();
+            String fechaPago = ahora.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            String horaSalida = ahora.format(DateTimeFormatter.ofPattern("HH:mm"));
+     
+            double montoPago = calcularMonto(horaEntradaStr, horaSalida);
+            
+            boleta.setFecha_pago(fechaPago);
+            boleta.setMonto_pago((float) montoPago);
+            boleta.setMetodo_pago("efectivo");
+            boleta.setHora_salida(horaSalida);
+            boleta.setId_ticket(idTicket);
+            
+            if (this.ticketDao.actualizarEstadoTicket(idTicket, "Pagado") && this.boletaDao.agregarBoleta(boleta)) {
                 JOptionPane.showMessageDialog(vista_principal, "El estado del ticket se actualizó a 'Pagado'.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
 
                 rellenarTablaTickets("");
@@ -199,5 +223,25 @@ public class TicketController implements ActionListener
     {
         return this.ticketDao.eliminarTicket(id);
     }
+
+    private double calcularMonto(String horaEntradaStr, String horaSalidaStr) {
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+
+            LocalTime horaEntrada = LocalTime.parse(horaEntradaStr, formatter);
+            LocalTime horaSalida = LocalTime.parse(horaSalidaStr, formatter);
+
+            long duracionEnMinutos = Duration.between(horaEntrada, horaSalida).toMinutes();
+            long duracionEnHoras = (duracionEnMinutos / 60) + (duracionEnMinutos % 60 == 0 ? 0 : 1);
+
+            double montoBase = 20.0;
+            double montoAdicionalPorHora = 10.0;
+            return montoBase + (duracionEnHoras - 1) * montoAdicionalPorHora;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 20.0;
+        }
+    }
+
     
 }

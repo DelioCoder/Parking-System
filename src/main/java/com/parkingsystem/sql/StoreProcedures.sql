@@ -59,15 +59,38 @@ END;
 
 CREATE PROCEDURE ListarAbonados
     @filter NVARCHAR(50),
-    @data NVARCHAR(MAX) = NULL
+	@id INT = NULL
 AS
 BEGIN
-    IF @filter = 'tipo'
-        SELECT * FROM abonado WHERE tipo_abo = @data;
-    ELSE IF @filter = 'monto'
-        SELECT * FROM abonado WHERE monto_abo = CAST(@data AS FLOAT);
+        
+    IF @filter = 'codigo'
+        SELECT 
+            a.id_abo AS Id_Abonado,
+            a.fecha_inicio_abo AS Fecha_Inicio_Abo,
+            a.fecha_fin_abo AS Fecha_Fin_Abo,
+            v.placa_veh AS Placa_Veh,
+            t.nombre AS Abonado
+        FROM 
+            abonado a
+        INNER JOIN 
+            vehiculo v ON a.id_vehiculo = v.id_veh
+        INNER JOIN 
+            tipo_abonado t ON a.id_tipo_abonado = t.id_tipo_abo
+        WHERE 
+            a.id_abo = @id 
     ELSE
-        SELECT * FROM abonado;
+        SELECT 
+            a.id_abo AS Id_Abonado,
+            a.fecha_inicio_abo AS Fecha_Inicio_Abo,
+            a.fecha_fin_abo AS Fecha_Fin_Abo,
+            v.placa_veh AS Placa_Veh,
+            t.nombre AS Abonado
+        FROM 
+            abonado a
+        INNER JOIN 
+            vehiculo v ON a.id_vehiculo = v.id_veh
+        INNER JOIN 
+            tipo_abonado t ON a.id_tipo_abonado = t.id_tipo_abo;
 END;
 GO
 
@@ -113,3 +136,74 @@ BEGIN
     SELECT id_tipo_abo, nombre, monto
     FROM Tipo_Abonado;
 END;
+
+CREATE PROCEDURE ListarBoletas
+AS
+BEGIN
+    SELECT 
+        c.nombre_cond AS Conductor,
+        c.dni_cond AS DNI,
+        c.telefono_cond AS Telefono,
+        v.placa_veh AS Placa,
+        v.color_veh AS 'Color de vehiculo',
+        t.fecha_entrada AS 'Hora de entrada',
+        b.hora_salida AS 'Hora de Salida',
+        b.monto_pago AS 'Monto',
+        z.nombre_espacio AS Zona,
+        p.numero_piso_est AS Piso
+    FROM 
+        Boleta_Pago b
+    JOIN 
+        Ticket_Estacionamiento t ON b.id_ticket = t.id_ticket
+    JOIN 
+        Vehiculo v ON t.id_veh = v.id_veh
+    JOIN 
+        Conductor c ON v.id_cond = c.id_cond
+    JOIN 
+        Zona_Estacionamiento z ON t.id_zona_est = z.numero_espacio
+    JOIN 
+        Piso_estacionamiento p ON z.id_piso_est = p.numero_piso_est;
+END;
+
+CREATE PROCEDURE AgregarBoleta
+    @fecha_pago NVARCHAR(50),
+    @hora_salida NVARCHAR(50),
+    @monto_pago FLOAT,
+    @metodo_pago NVARCHAR(50),
+    @id_ticket INT
+AS
+BEGIN
+    INSERT INTO Boleta_Pago (fecha_pago, hora_salida, monto_pago, metodo_pago, id_ticket)
+    VALUES (@fecha_pago, @hora_salida, @monto_pago, @metodo_pago, @id_ticket);
+END;
+GO
+
+CREATE PROCEDURE ActualizarBoleta
+    @id_boleta_pago INT,
+    @fecha_pago NVARCHAR(50),
+    @hora_salida NVARCHAR(50),
+    @monto_pago FLOAT,
+    @metodo_pago NVARCHAR(50),
+    @id_ticket INT
+AS
+BEGIN
+    UPDATE Boleta_Pago
+    SET 
+        fecha_pago = @fecha_pago,
+        hora_salida = @hora_salida,
+        monto_pago = @monto_pago,
+        metodo_pago = @metodo_pago,
+        id_ticket = @id_ticket
+    WHERE 
+        id_boleta_pago = @id_boleta_pago;
+END;
+GO
+
+CREATE PROCEDURE EliminarBoleta
+    @id_boleta_pago INT
+AS
+BEGIN
+    DELETE FROM Boleta_Pago
+    WHERE id_boleta_pago = @id_boleta_pago;
+END;
+
