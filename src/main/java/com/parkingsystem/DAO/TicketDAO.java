@@ -27,27 +27,34 @@ public class TicketDAO {
         try {
             connection = connectionManager.connect();
             if(connection != null){
-                String sql = "";
+                String sql = "{CALL ListarTickets(?, ?)}";
+                
                 
                 switch (filter) {
                     case "codigo":
-                        sql = "SELECT * FROM Ticket_Estacionamiento WHERE id_ticket = ?";
-                        pst = connection.prepareStatement(sql);
-                        pst.setInt(1, id);
+                        cst = connection.prepareCall(sql);
+                        cst.setString(1, filter);
+                        cst.setInt(2, id);
                         break;
                        
+                    case "":
+                        cst = connection.prepareCall(sql);
+                        cst.setString(1, filter);
+                        cst.setInt(2, id);
+                        break;    
+                        
                     default:
-                        sql = "SELECT * FROM Ticket_Estacionamiento";
-                        pst = connection.prepareStatement(sql);
+                        cst = connection.prepareCall(sql);
                         break;
                 }
                 
-                rs = pst.executeQuery();
+                rs = cst.executeQuery();
                 
                 while(rs.next()){
                     ticket = new Ticket_Estacionamiento();
                     
-                    ticket.setId_veh(rs.getInt("id_ticket"));
+                    ticket.setId_ticket(rs.getInt("id_ticket"));
+                    ticket.setFecha_entrada(rs.getString("fecha_entrada"));
                     ticket.setHora_entrada(rs.getString("hora_entrada"));
                     ticket.setEstado_ticket(rs.getString("estado_ticket"));
                     ticket.setId_veh(rs.getInt("id_veh"));
@@ -152,6 +159,40 @@ public class TicketDAO {
         return state;
         
     }
+    
+    public boolean actualizarEstadoTicket(int id_ticket, String nuevoEstado) {
+        boolean state = false;
+
+        try {
+            connection = connectionManager.connect();
+
+            if (connection != null) {
+
+                String sql = "UPDATE Ticket_Estacionamiento SET estado_ticket = ? WHERE id_ticket = ?";
+
+                pst = connection.prepareStatement(sql);
+                pst.setString(1, nuevoEstado);
+                pst.setInt(2, id_ticket);
+
+                int res = pst.executeUpdate();
+                state = res > 0;
+            } else {
+                System.out.println("Conexión fallida.");
+            }
+        } catch (Exception e) {
+            System.out.println("Error al actualizar el estado del ticket: " + e.toString());
+        } finally {
+            try {
+                if (pst != null) pst.close();
+                if (connection != null) connection.close();
+            } catch (Exception e) {
+                System.out.println("Error al cerrar recursos: " + e.toString());
+            }
+        }
+
+        return state;
+    }
+
     
     public boolean eliminarTicket(int id)
     {

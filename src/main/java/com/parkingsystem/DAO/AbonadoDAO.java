@@ -23,11 +23,11 @@ public class AbonadoDAO {
     public ArrayList<Abonado> listarAbonados(String filter, ArrayList<String> data) {
         ArrayList<Abonado> list = new ArrayList<>();
         Abonado abonado;
-        CallableStatement cst = null; // Declarar cst aquí para usarlo globalmente
+        
         try {
             connection = connectionManager.connect();
             if (connection != null) {
-                String sql = "{CALL ListarAbonados(?, ?)}"; // Usar un SP único
+                String sql = "{CALL ListarAbonados(?, ?)}";
                 cst = connection.prepareCall(sql);
 
                 // Configurar parámetros del procedimiento almacenado
@@ -47,8 +47,8 @@ public class AbonadoDAO {
                     abonado.setId_abo(rs.getInt("id_abo"));
                     abonado.setFecha_inicio_abo(rs.getString("fecha_inicio_abo"));
                     abonado.setFecha_fin_abo(rs.getString("fecha_fin_abo"));
-                    abonado.setTipo_abo(rs.getString("tipo_abo"));
-                    abonado.setMonto_abo(rs.getFloat("monto_abo"));
+                    abonado.setId_vehiculo(rs.getInt("id_vehiculo"));
+                    abonado.setId_tipo_abonado(rs.getInt("id_tipo_abonado"));
 
                     list.add(abonado);
                 }
@@ -79,11 +79,10 @@ public class AbonadoDAO {
 //                pst = connection.prepareStatement(sql);
                 String sql = "{CALL AgregarAbonado(?, ?, ?, ?)}";
                 cst = connection.prepareCall(sql);
-
                 cst.setString(1, abonado.getFecha_inicio_abo());
                 cst.setString(2, abonado.getFecha_fin_abo());
-                cst.setString(3, abonado.getTipo_abo());
-                cst.setFloat(4, abonado.getMonto_abo());
+                cst.setInt(3, abonado.getId_vehiculo());
+                cst.setInt(4, abonado.getId_tipo_abonado());
 
                 int res = cst.executeUpdate();
 
@@ -115,11 +114,12 @@ public class AbonadoDAO {
                 String sql = "{CALL ActualizarAbonado(?, ?, ?, ?, ?)}";
                 cst = connection.prepareCall(sql);
                 
-                cst.setString(1, abonado.getFecha_inicio_abo());
-                cst.setString(2, abonado.getFecha_fin_abo());
-                cst.setString(3, abonado.getTipo_abo());
-                cst.setFloat(4, abonado.getMonto_abo());
-                cst.setInt(5, abonado.getId_abo());
+                cst.setInt(1, abonado.getId_abo());
+                cst.setString(2, abonado.getFecha_inicio_abo());
+                cst.setString(3, abonado.getFecha_fin_abo());
+                cst.setInt(4, abonado.getId_vehiculo());
+                cst.setInt(5, abonado.getId_tipo_abonado());
+                
 
                 int res = cst.executeUpdate();
 

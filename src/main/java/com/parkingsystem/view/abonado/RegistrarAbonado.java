@@ -14,6 +14,8 @@ import java.awt.event.ItemListener;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import javax.swing.JOptionPane;
+import com.parkingsystem.input.ComboBoxItemVeh;
+import com.parkingsystem.input.ComboBoxTipoAbonado;
 
 /**
  *
@@ -78,10 +80,11 @@ public class RegistrarAbonado extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         txtFechaInicio = new javax.swing.JTextField();
         txtFechaFin = new javax.swing.JTextField();
-        TipoBX = new javax.swing.JComboBox<>();
+        TipoBX = new javax.swing.JComboBox<ComboBoxTipoAbonado>();
         txtMonto = new javax.swing.JTextField();
         btnCancelar = new javax.swing.JButton();
         btnGrabarAbono = new javax.swing.JButton();
+        VehiculosCBX = new javax.swing.JComboBox<ComboBoxItemVeh>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setType(java.awt.Window.Type.UTILITY);
@@ -125,7 +128,7 @@ public class RegistrarAbonado extends javax.swing.JFrame {
         txtFechaFin.setEnabled(false);
 
         TipoBX.setFont(new java.awt.Font("Century Gothic", 0, 13)); // NOI18N
-        TipoBX.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar", "Mensual", "Trimestral" }));
+        TipoBX.setModel(new javax.swing.DefaultComboBoxModel<>());
         TipoBX.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 TipoBXItemStateChanged(evt);
@@ -146,6 +149,9 @@ public class RegistrarAbonado extends javax.swing.JFrame {
 
         btnGrabarAbono.setText("Grabar Abonado");
 
+        VehiculosCBX.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        VehiculosCBX.setModel(new javax.swing.DefaultComboBoxModel<>());
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -156,16 +162,17 @@ public class RegistrarAbonado extends javax.swing.JFrame {
                     .addComponent(jLabel2)
                     .addComponent(jLabel3)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(135, Short.MAX_VALUE))
+                .addContainerGap(139, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtFechaFin, javax.swing.GroupLayout.DEFAULT_SIZE, 425, Short.MAX_VALUE)
-                    .addComponent(txtFechaInicio)
-                    .addComponent(TipoBX, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(txtMonto, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 425, Short.MAX_VALUE)
-                    .addComponent(btnCancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnGrabarAbono, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(VehiculosCBX, 0, 425, Short.MAX_VALUE)
+                    .addComponent(txtFechaFin, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 425, Short.MAX_VALUE)
+                    .addComponent(txtFechaInicio, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(TipoBX, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtMonto, javax.swing.GroupLayout.DEFAULT_SIZE, 425, Short.MAX_VALUE)
+                    .addComponent(btnCancelar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnGrabarAbono, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(32, 32, 32))
         );
         jPanel1Layout.setVerticalGroup(
@@ -182,14 +189,16 @@ public class RegistrarAbonado extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(txtFechaFin, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
+                .addComponent(VehiculosCBX, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(TipoBX, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(txtMonto, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28)
+                .addGap(46, 46, 46)
                 .addComponent(btnGrabarAbono, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(61, Short.MAX_VALUE))
+                .addGap(50, 50, 50))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -200,9 +209,7 @@ public class RegistrarAbonado extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -222,38 +229,6 @@ public class RegistrarAbonado extends javax.swing.JFrame {
 
     private void TipoBXItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_TipoBXItemStateChanged
 
-         if (evt.getStateChange() == ItemEvent.SELECTED) {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
-            String fechaHoy = LocalDate.now().format(formatter);
-            txtFechaInicio.setText(fechaHoy);
-
-            String selectedValue = TipoBX.getSelectedItem().toString();
-            LocalDate fechaInicio;
-            LocalDate fechaFin;
-
-            try {
-                fechaInicio = LocalDate.parse(txtFechaInicio.getText(), formatter);
-
-                if (selectedValue.equals("Seleccionar")) {
-                    txtMonto.setText("0");
-                    txtFechaFin.setText("");
-                    btnGrabarAbono.setEnabled(false);
-                } else if (selectedValue.equals("Mensual")) {
-                    txtMonto.setText("30");
-                    fechaFin = fechaInicio.plusMonths(1); // Agregar 1 mes
-                    txtFechaFin.setText(fechaFin.format(formatter));
-                    btnGrabarAbono.setEnabled(true);
-                } else if (selectedValue.equals("Trimestral")) {
-                    txtMonto.setText("15");
-                    fechaFin = fechaInicio.plusMonths(3); // Agregar 3 meses
-                    txtFechaFin.setText(fechaFin.format(formatter));
-                    btnGrabarAbono.setEnabled(true);
-                }
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "Por favor ingrese una fecha válida.", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        }        
     }//GEN-LAST:event_TipoBXItemStateChanged
 
     /**
@@ -295,7 +270,8 @@ public class RegistrarAbonado extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    public javax.swing.JComboBox<String> TipoBX;
+    public javax.swing.JComboBox<ComboBoxTipoAbonado> TipoBX;
+    public javax.swing.JComboBox<ComboBoxItemVeh> VehiculosCBX;
     public javax.swing.JButton btnCancelar;
     public javax.swing.JButton btnGrabarAbono;
     private javax.swing.JLabel jLabel1;

@@ -24,7 +24,7 @@ public class GenerarTicket extends javax.swing.JFrame {
 
     private void inicializarControlador() {
         
-        ticketController = new TicketController(this);
+        ticketController = new TicketController(this, null);
     }
     
     @SuppressWarnings("unchecked")

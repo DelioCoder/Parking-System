@@ -74,32 +74,30 @@ GO
 CREATE PROCEDURE AgregarAbonado
     @fecha_inicio_abo NVARCHAR(50),
     @fecha_fin_abo NVARCHAR(50),
-    @tipo_abo NVARCHAR(50),
-    @monto_abo FLOAT
+    @id_vehiculo int,
+    @id_tipo_abonado int
 AS
 BEGIN
-    INSERT INTO abonado (fecha_inicio_abo, fecha_fin_abo, tipo_abo, monto_abo)
-    VALUES (@fecha_inicio_abo, @fecha_fin_abo, @tipo_abo, @monto_abo);
+    INSERT INTO abonado (fecha_inicio_abo, fecha_fin_abo, id_vehiculo, id_tipo_abonado)
+    VALUES (@fecha_inicio_abo, @fecha_fin_abo, @id_vehiculo, @id_tipo_abonado);
 END;
-GO
 
 CREATE PROCEDURE ActualizarAbonado
     @id_abo INT,
     @fecha_inicio_abo NVARCHAR(50),
     @fecha_fin_abo NVARCHAR(50),
-    @tipo_abo NVARCHAR(50),
-    @monto_abo FLOAT
+    @id_vehiculo int,
+    @id_tipo_abonado int
 AS
 BEGIN
     UPDATE abonado
     SET 
         fecha_inicio_abo = @fecha_inicio_abo,
         fecha_fin_abo = @fecha_fin_abo,
-        tipo_abo = @tipo_abo,
-        monto_abo = @monto_abo
+        id_vehiculo = @id_vehiculo,
+        id_tipo_abonado = @id_tipo_abonado
     WHERE id_abo = @id_abo;
 END;
-GO
 
 CREATE PROCEDURE EliminarAbonado
     @id_abo INT
@@ -107,4 +105,11 @@ AS
 BEGIN
     DELETE FROM abonado WHERE id_abo = @id_abo;
 END;
-GO
+
+
+CREATE PROCEDURE ObtenerTipoAbonado
+AS
+BEGIN
+    SELECT id_tipo_abo, nombre, monto
+    FROM Tipo_Abonado;
+END;

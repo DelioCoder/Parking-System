@@ -9,21 +9,17 @@ public class Abonado {
     private int id_abo;
     private String fecha_inicio_abo;
     private String fecha_fin_abo;
-    private String tipo_abo;
-    private Float monto_abo;
+    private int id_vehiculo;
+    private int id_tipo_abonado;
 
     public Abonado() { }
 
-    public Abonado(
-            int id_abo, String fecha_inicio_abo,
-            String fecha_fin_abo, String tipo_abo,
-            Float monto_abo)
-    {
+    public Abonado(int id_abo, String fecha_inicio_abo, String fecha_fin_abo, String tipo_abo, Float monto_abo, int id_vehiculo, int id_tipo_abonado) {
         this.id_abo = id_abo;
         this.fecha_inicio_abo = fecha_inicio_abo;
         this.fecha_fin_abo = fecha_fin_abo;
-        this.tipo_abo = tipo_abo;
-        this.monto_abo = monto_abo;
+        this.id_vehiculo = id_vehiculo;
+        this.id_tipo_abonado = id_tipo_abonado;
     }
 
     public int getId_abo() {
@@ -50,25 +46,27 @@ public class Abonado {
         this.fecha_fin_abo = fecha_fin_abo;
     }
 
-    public String getTipo_abo() {
-        return tipo_abo;
+    public int getId_vehiculo() {
+        return id_vehiculo;
     }
 
-    public void setTipo_abo(String tipo_abo) {
-        this.tipo_abo = tipo_abo;
+    public void setId_vehiculo(int id_vehiculo) {
+        this.id_vehiculo = id_vehiculo;
     }
 
-    public Float getMonto_abo() {
-        return monto_abo;
+    public int getId_tipo_abonado() {
+        return id_tipo_abonado;
     }
 
-    public void setMonto_abo(Float monto_abo) {
-        this.monto_abo = monto_abo;
+    public void setId_tipo_abonado(int id_tipo_abonado) {
+        this.id_tipo_abonado = id_tipo_abonado;
     }
 
     @Override
     public String toString() {
-        return "Abonado{" + "id_abo=" + id_abo + ", fecha_inicio_abo=" + fecha_inicio_abo + ", fecha_fin_abo=" + fecha_fin_abo + ", tipo_abo=" + tipo_abo + ", monto_abo=" + monto_abo + '}';
+        return "Abonado{" + "id_abo=" + id_abo + ", fecha_inicio_abo=" + fecha_inicio_abo + ", fecha_fin_abo=" + fecha_fin_abo + ", id_vehiculo=" + id_vehiculo + ", id_tipo_abonado=" + id_tipo_abonado + '}';
     }
+
+   
     
 }
