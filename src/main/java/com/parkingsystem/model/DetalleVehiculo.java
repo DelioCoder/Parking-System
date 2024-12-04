@@ -2,7 +2,7 @@ package com.parkingsystem.model;
 
 /**
  *
- * @author david
+ * @author john
  */
 public class DetalleVehiculo {
     
