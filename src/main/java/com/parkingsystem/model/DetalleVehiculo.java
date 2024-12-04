@@ -10,12 +10,29 @@ public class DetalleVehiculo {
     private Vehiculo vehiculo;
     private Abonado abonado;
     private Ticket_Estacionamiento ticket;
-    
     private Zona_Estacionamiento zona;
     private Piso_estacionamiento piso;
-
+    private Boleta_Pago boletaPago;
+    private Tipo_Abonado tipoAbonado;
+    
     public DetalleVehiculo() {
              
+    }
+
+    public Tipo_Abonado getTipoAbonado() {
+        return tipoAbonado;
+    }
+
+    public void setTipoAbonado(Tipo_Abonado tipoAbonado) {
+        this.tipoAbonado = tipoAbonado;
+    }
+
+    public Boleta_Pago getBoletaPago() {
+        return boletaPago;
+    }
+
+    public void setBoletaPago(Boleta_Pago boletaPago) {
+        this.boletaPago = boletaPago;
     }
         
     public Zona_Estacionamiento getZona() {
@@ -33,9 +50,6 @@ public class DetalleVehiculo {
     public void setPiso(Piso_estacionamiento piso) {
         this.piso = piso;
     }
-
-
-
 
     public Conductor getConductor() {
         return conductor;

@@ -3,10 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package com.parkingsystem.view.vehiculo;
-import com.parkingsystem.controller.ConsultaVehiculoController;
 import com.parkingsystem.controller.DetalleVehiculoController;
-import com.parkingsystem.input.ComboBoxItem;
-import com.parkingsystem.input.ComboBoxItemVeh;
+
 
 /**
  *
@@ -16,13 +14,13 @@ public class DetalleVehiculoVista extends javax.swing.JFrame {
 
     private DetalleVehiculoController detalleVehiculoController;
     
-    public DetalleVehiculoVista() {
+    public DetalleVehiculoVista(int idVehiculo) {
         initComponents();
         inicializarControlador();
+        detalleVehiculoController.listarDetalleVehiculo(idVehiculo);
     }
 
     private void inicializarControlador() {
-        
         detalleVehiculoController = new DetalleVehiculoController(this);
     }
     
@@ -59,7 +57,7 @@ public class DetalleVehiculoVista extends javax.swing.JFrame {
         jLabel29 = new javax.swing.JLabel();
         jLabel30 = new javax.swing.JLabel();
         jLabel31 = new javax.swing.JLabel();
-        txtVehiculoEstatus = new javax.swing.JLabel();
+        txtTicketEstatus = new javax.swing.JLabel();
         txtFechaEntrada = new javax.swing.JLabel();
         txtZona = new javax.swing.JLabel();
         txtPiso = new javax.swing.JLabel();
@@ -69,10 +67,10 @@ public class DetalleVehiculoVista extends javax.swing.JFrame {
         jLabel18 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
-        txtFechaInicio = new javax.swing.JLabel();
-        txtFechaFin = new javax.swing.JLabel();
+        txtFechaInicioAbonado = new javax.swing.JLabel();
+        txtFechaFinAbonado = new javax.swing.JLabel();
         txtTipoAbono = new javax.swing.JLabel();
-        txtMonto = new javax.swing.JLabel();
+        txtMontoAbonado = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -208,8 +206,8 @@ public class DetalleVehiculoVista extends javax.swing.JFrame {
 
         jLabel31.setText("Piso:");
 
-        txtVehiculoEstatus.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
-        txtVehiculoEstatus.setText("ESTACIONADO");
+        txtTicketEstatus.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        txtTicketEstatus.setText("ESTACIONADO");
 
         txtFechaEntrada.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         txtFechaEntrada.setText("ROJO");
@@ -227,24 +225,27 @@ public class DetalleVehiculoVista extends javax.swing.JFrame {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(29, 29, 29)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel28)
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel27)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtVehiculoEstatus, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel28)
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addComponent(jLabel27)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtTicketEstatus, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addComponent(jLabel31)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtPiso, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(62, Short.MAX_VALUE))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(jLabel29)
                         .addGap(18, 18, 18)
-                        .addComponent(txtFechaEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addComponent(txtFechaEntrada, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel30)
                         .addGap(18, 18, 18)
-                        .addComponent(txtZona, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel31)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtPiso, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(48, Short.MAX_VALUE))
+                        .addComponent(txtZona, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18))))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -252,7 +253,7 @@ public class DetalleVehiculoVista extends javax.swing.JFrame {
                 .addGap(21, 21, 21)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel27)
-                    .addComponent(txtVehiculoEstatus))
+                    .addComponent(txtTicketEstatus))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel28)
                 .addGap(18, 18, 18)
@@ -288,17 +289,17 @@ public class DetalleVehiculoVista extends javax.swing.JFrame {
         jLabel20.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         jLabel20.setText("Monto:");
 
-        txtFechaInicio.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        txtFechaInicio.setText("ROJO");
+        txtFechaInicioAbonado.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        txtFechaInicioAbonado.setText("ROJO");
 
-        txtFechaFin.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        txtFechaFin.setText("ROJO");
+        txtFechaFinAbonado.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        txtFechaFinAbonado.setText("ROJO");
 
         txtTipoAbono.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         txtTipoAbono.setText("ROJO");
 
-        txtMonto.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        txtMonto.setText("ROJO");
+        txtMontoAbonado.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        txtMontoAbonado.setText("ROJO");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -307,24 +308,26 @@ public class DetalleVehiculoVista extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(19, 19, 19)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel16)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel16)
+                        .addContainerGap(903, Short.MAX_VALUE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel17)
                         .addGap(18, 18, 18)
-                        .addComponent(txtFechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(31, 31, 31)
+                        .addComponent(txtFechaInicioAbonado, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel18)
                         .addGap(18, 18, 18)
-                        .addComponent(txtFechaFin, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(30, 30, 30)
+                        .addComponent(txtFechaFinAbonado, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel19)
                         .addGap(18, 18, 18)
                         .addComponent(txtTipoAbono, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(33, 33, 33)
+                        .addGap(54, 54, 54)
                         .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(txtMonto, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(119, Short.MAX_VALUE))
+                        .addComponent(txtMontoAbonado, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(59, 59, 59))))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -337,10 +340,10 @@ public class DetalleVehiculoVista extends javax.swing.JFrame {
                     .addComponent(jLabel18)
                     .addComponent(jLabel19)
                     .addComponent(jLabel20)
-                    .addComponent(txtFechaInicio)
-                    .addComponent(txtFechaFin)
+                    .addComponent(txtFechaInicioAbonado)
+                    .addComponent(txtFechaFinAbonado)
                     .addComponent(txtTipoAbono)
-                    .addComponent(txtMonto))
+                    .addComponent(txtMontoAbonado))
                 .addGap(19, 19, 19))
         );
 
@@ -392,7 +395,7 @@ public class DetalleVehiculoVista extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new DetalleVehiculoVista().setVisible(true);
+                new DetalleVehiculoVista(1).setVisible(true);
             }
         });
     }
@@ -422,19 +425,19 @@ public class DetalleVehiculoVista extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JLabel txtColor;
-    private javax.swing.JLabel txtConductorNombre;
-    private javax.swing.JLabel txtDNI;
-    private javax.swing.JLabel txtFechaEntrada;
-    private javax.swing.JLabel txtFechaFin;
-    private javax.swing.JLabel txtFechaInicio;
-    private javax.swing.JLabel txtMarca;
-    private javax.swing.JLabel txtMonto;
-    private javax.swing.JLabel txtPiso;
-    private javax.swing.JLabel txtPlaca;
-    private javax.swing.JLabel txtTelefono;
-    private javax.swing.JLabel txtTipoAbono;
-    private javax.swing.JLabel txtVehiculoEstatus;
-    private javax.swing.JLabel txtZona;
+    public javax.swing.JLabel txtColor;
+    public javax.swing.JLabel txtConductorNombre;
+    public javax.swing.JLabel txtDNI;
+    public javax.swing.JLabel txtFechaEntrada;
+    public javax.swing.JLabel txtFechaFinAbonado;
+    public javax.swing.JLabel txtFechaInicioAbonado;
+    public javax.swing.JLabel txtMarca;
+    public javax.swing.JLabel txtMontoAbonado;
+    public javax.swing.JLabel txtPiso;
+    public javax.swing.JLabel txtPlaca;
+    public javax.swing.JLabel txtTelefono;
+    public javax.swing.JLabel txtTicketEstatus;
+    public javax.swing.JLabel txtTipoAbono;
+    public javax.swing.JLabel txtZona;
     // End of variables declaration//GEN-END:variables
 }

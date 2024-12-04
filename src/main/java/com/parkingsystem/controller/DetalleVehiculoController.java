@@ -1,24 +1,17 @@
 package com.parkingsystem.controller;
-
-
 import com.parkingsystem.model.Vehiculo;
-import com.parkingsystem.DAO.DetalleVehiculoDAO;
-
 import com.parkingsystem.view.vehiculo.DetalleVehiculoVista;
-
-import java.awt.Color;
-import java.awt.Component;
-
-import java.awt.Point;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.List;
-import javax.swing.BorderFactory;
-
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
-
+import com.parkingsystem.DAO.DetalleVehiculoDAO;
+import com.parkingsystem.model.Abonado;
+import com.parkingsystem.model.Boleta_Pago;
+import com.parkingsystem.model.Conductor;
+import com.parkingsystem.model.DetalleVehiculo;
+import com.parkingsystem.model.Piso_estacionamiento;
+import com.parkingsystem.model.Ticket_Estacionamiento;
+import com.parkingsystem.model.Tipo_Abonado;
+import com.parkingsystem.model.Zona_Estacionamiento;
+import java.awt.Color;
 
 /**
  *
@@ -28,6 +21,11 @@ public class DetalleVehiculoController {
     
     private DetalleVehiculoDAO detalleVehiculoDAO = new DetalleVehiculoDAO();
     private DetalleVehiculoVista detalleVehiculoVista;
+    public DetalleVehiculo detalleVehiculo;
+    
+    public DetalleVehiculoController(DetalleVehiculoVista detalleVehiculoVista) {
+        this.detalleVehiculoVista = detalleVehiculoVista;
+    }
 
     public DetalleVehiculoDAO getDetalleVehiculoDAO() {
         return detalleVehiculoDAO;
@@ -46,110 +44,56 @@ public class DetalleVehiculoController {
     }
     
 
-    public void rellenarTabla(String value) {
-        List<Vehiculo> vehiculos = vehiculoDao.listarVehiculos(value);
+    public void listarDetalleVehiculo(int idVehiculo) {
+        detalleVehiculo = detalleVehiculoDAO.listarDetalleVehiculo(idVehiculo);
 
-        if (vehiculos == null) {
-            System.out.println("No se han podido recuperar vehiculos.");
+        if (detalleVehiculo == null) {
+            System.out.println("No se han podido recuperar detalleVehiculo.");
             return;
-        }
-
-        String[] columnas = {"Placa", "Color", "Marca", "Modelo", "Año", "Nombre de conductor", "DNI de conductor", "Acciones"};
-        DefaultTableModel modeloTabla = new DefaultTableModel(columnas, 0) {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return column == 7; // Solo la columna de "Acciones" será editable
-            }
         };
-
-        for (Vehiculo vehiculo : vehiculos) {
-
-            Object[] fila = {
-                vehiculo.getPlaca_veh(),
-                vehiculo.getColor_veh(),
-                vehiculo.getMarca_veh(),
-                vehiculo.getModelo_veh(),
-                vehiculo.getAño_veh(),
-                vehiculo.getNombre_cond()+" "+vehiculo.getApellido_cond(),
-                vehiculo.getDni_cond(),
-                vehiculo // Pasamos el objeto Conductor como referencia en la última columna
-            };
-            modeloTabla.addRow(fila);
-        }
-
-        // Asignar el modelo a la tabla
-        this.tablaVehiculo.jTableVehiculo.setModel(modeloTabla);
         
-        // Habilitar edición con un solo clic en la columna de acciones
-        this.tablaVehiculo.jTableVehiculo.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                JTable table = (JTable) e.getSource();
-                Point point = e.getPoint();
-                int row = table.rowAtPoint(point);
-                int column = table.columnAtPoint(point);
+        Conductor conductor = detalleVehiculo.getConductor();
+        Vehiculo vehiculo = detalleVehiculo.getVehiculo();
+        Abonado abonado = detalleVehiculo.getAbonado();
+        Ticket_Estacionamiento ticket = detalleVehiculo.getTicket();
+        Zona_Estacionamiento zona = detalleVehiculo.getZona();
+        Piso_estacionamiento piso = detalleVehiculo.getPiso();
+        Boleta_Pago boletaPago = detalleVehiculo.getBoletaPago();
+        Tipo_Abonado tipoAbonado = detalleVehiculo.getTipoAbonado();
 
-                // Verificar si se hizo clic en la columna de acciones
-                if (column == 7) {
-                    table.editCellAt(row, column);
-                    Component editor = table.getEditorComponent();
-                    if (editor != null) {
-                        editor.requestFocus();
-                    }
-                }
-            }
-        });
+        
+        detalleVehiculoVista.txtPlaca.setText(vehiculo.getPlaca_veh());
+        detalleVehiculoVista.txtMarca.setText(vehiculo.getMarca_veh());
+        detalleVehiculoVista.txtColor.setText(vehiculo.getColor_veh());
 
-        // Renderizador para fondo blanco y borde inferior por fila
-        DefaultTableCellRenderer renderizadorConBordeInferior = new DefaultTableCellRenderer() {
-            @Override
-            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-                Component componente = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-
-                // Fondo blanco fijo para todas las celdas
-                componente.setBackground(Color.WHITE);
-
-                // Bordes: solo línea inferior negra (border-bottom)
-                setBorder(BorderFactory.createLineBorder(new Color(240, 240, 240), 1));
-                return componente;
-            }
-        };
-
-        // Aplicar el renderizador a todas las columnas (incluida "Acciones")
-        for (int i = 0; i < this.tablaVehiculo.jTableVehiculo.getColumnCount(); i++) {
-            this.tablaVehiculo.jTableVehiculo.getColumnModel().getColumn(i).setCellRenderer(renderizadorConBordeInferior);
+        detalleVehiculoVista.txtConductorNombre.setText(conductor.getNombre_cond()+ " "+ conductor.getApellido_cond());
+        detalleVehiculoVista.txtDNI.setText(conductor.getDni_cond());
+        detalleVehiculoVista.txtTelefono.setText(conductor.getTelefono_cond());
+        
+        detalleVehiculoVista.txtFechaEntrada.setText(ticket.getFecha_entrada()+ " " +ticket.getHora_entrada());
+        
+        String estadoTicket = ticket.getEstado_ticket();
+        System.out.println("estadoTicket: "+estadoTicket);
+        if ("Activo".equals(estadoTicket)) {
+            estadoTicket = "ESTACIONADO";
+            detalleVehiculoVista.txtTicketEstatus.setForeground(Color.GREEN);
+        } else {
+            estadoTicket = estadoTicket.toUpperCase();
         }
+        
+        detalleVehiculoVista.txtTicketEstatus.setText(estadoTicket);
+        
+        detalleVehiculoVista.txtFechaInicioAbonado.setText(abonado.getFecha_inicio_abo());
+        detalleVehiculoVista.txtFechaFinAbonado.setText(abonado.getFecha_fin_abo());
 
-        // Renderizador y editor para la columna de acciones
-        this.tablaVehiculo.jTableVehiculo.getColumnModel().getColumn(7).setCellRenderer(new AccionesRenderer());
-        this.tablaVehiculo.jTableVehiculo.getColumnModel().getColumn(7).setCellEditor(new AccionesEditor());
+        detalleVehiculoVista.txtPiso.setText(piso.getNumero_piso()+"");
+        
+        detalleVehiculoVista.txtZona.setText(zona.getNombre_zona_est());
+        
+        
+        detalleVehiculoVista.txtTipoAbono.setText(tipoAbonado.getNombre());
+        detalleVehiculoVista.txtMontoAbonado.setText(tipoAbonado.getMonto()+"");
 
-        // Configuración de la tabla
-        this.tablaVehiculo.jTableVehiculo.setRowHeight(30); // Altura de fila
-        this.tablaVehiculo.jTableVehiculo.setShowGrid(false); // Desactivar cuadrícula general
-        this.tablaVehiculo.jTableVehiculo.setBackground(Color.WHITE); // Fondo de tabla blanco
-        this.tablaVehiculo.jTableVehiculo.setSelectionBackground(Color.WHITE); // Fondo blanco para selección
-        this.tablaVehiculo.jTableVehiculo.setSelectionForeground(Color.BLACK); // Texto negro para selección
-
-        // Habilitar edición con un solo clic en la columna de acciones
-        this.tablaVehiculo.jTableVehiculo.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                JTable table = (JTable) e.getSource();
-                Point point = e.getPoint();
-                int row = table.rowAtPoint(point);
-                int column = table.columnAtPoint(point);
-
-                // Verificar si se hizo clic en la columna de acciones
-                if (column == 4) {
-                    table.editCellAt(row, column);
-                    Component editor = table.getEditorComponent();
-                    if (editor != null) {
-                        editor.requestFocus();
-                    }
-                }
-            }
-        });
     }
     
 

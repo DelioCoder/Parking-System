@@ -45,6 +45,11 @@ ALTER TABLE Abonado
 ADD CONSTRAINT FK_TipoAbonado
 FOREIGN KEY (id_tipo_abonado) REFERENCES Tipo_Abonado(id_tipo_abo);
 
+ALTER TABLE Abonado
+ADD CONSTRAINT FK_ABONADO_VEHICULO
+FOREIGN KEY (id_vehiculo) REFERENCES Vehiculo(id_veh);
+
+
 CREATE TABLE Piso_estacionamiento (
     id_piso_est INT PRIMARY KEY IDENTITY,
     numero_piso_est INT,

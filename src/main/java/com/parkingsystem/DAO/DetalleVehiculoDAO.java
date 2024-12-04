@@ -2,18 +2,18 @@ package com.parkingsystem.DAO;
 
 import com.parkingsystem.configuration.Cconnection;
 import com.parkingsystem.model.Abonado;
+import com.parkingsystem.model.Boleta_Pago;
 import com.parkingsystem.model.Conductor;
 import com.parkingsystem.model.DetalleVehiculo;
 import com.parkingsystem.model.Piso_estacionamiento;
 import com.parkingsystem.model.Ticket_Estacionamiento;
+import com.parkingsystem.model.Tipo_Abonado;
 import com.parkingsystem.model.Vehiculo;
 import com.parkingsystem.model.Zona_Estacionamiento;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 
 /**
  *
@@ -36,6 +36,8 @@ public class DetalleVehiculoDAO {
         detalleVehiculo.setTicket(new Ticket_Estacionamiento());
         detalleVehiculo.setZona(new Zona_Estacionamiento());
         detalleVehiculo.setPiso(new Piso_estacionamiento());
+        detalleVehiculo.setBoletaPago(new Boleta_Pago());
+        detalleVehiculo.setTipoAbonado(new Tipo_Abonado());
 
         
         try {
@@ -47,45 +49,41 @@ public class DetalleVehiculoDAO {
                 pst.setInt(1, idVehiculo); // Pasar la placa como parámetro
 
                 rs = pst.executeQuery();
-                
-                /*
-
-
-		bp.fecha_pago AS FechaPago,  
-		bp.monto_pago AS MontoPago,  
-		bp.metodo_pago AS MetodoPago,  
-		bp.hora_salida AS HoraSalida  
-                
-                */
 
                 while (rs.next()) {
-                    detalleVehiculo.getConductor().setNombre_cond(rs.getString("NombreConductor"));
-                    detalleVehiculo.getConductor().setApellido_cond(rs.getString("ApellidoConductor"));
-                    detalleVehiculo.getConductor().setDni_cond(rs.getString("DNICoche"));
-                    detalleVehiculo.getConductor().setTelefono_cond(rs.getString("TelefonoConductor"));
+                    detalleVehiculo.getConductor().setNombre_cond(rs.getString("nombre_cond"));
+                    detalleVehiculo.getConductor().setApellido_cond(rs.getString("apellido_cond"));
+                    detalleVehiculo.getConductor().setDni_cond(rs.getString("dni_cond"));
+                    detalleVehiculo.getConductor().setTelefono_cond(rs.getString("telefono_cond"));
 
                     
-                    detalleVehiculo.getVehiculo().setPlaca_veh(rs.getString("PlacaVehiculo"));
-                    detalleVehiculo.getVehiculo().setColor_veh(rs.getString("ColorVehiculo"));
-                    detalleVehiculo.getVehiculo().setMarca_veh(rs.getString("MarcaVehiculo"));
-                    detalleVehiculo.getVehiculo().setModelo_veh(rs.getString("ModeloVehiculo"));
-                    detalleVehiculo.getVehiculo().setAño_veh(rs.getString("AñoVehiculo"));
+                    detalleVehiculo.getVehiculo().setPlaca_veh(rs.getString("placa_veh"));
+                    detalleVehiculo.getVehiculo().setColor_veh(rs.getString("color_veh"));
+                    detalleVehiculo.getVehiculo().setMarca_veh(rs.getString("marca_veh"));
+                    detalleVehiculo.getVehiculo().setModelo_veh(rs.getString("modelo_veh"));
+                    detalleVehiculo.getVehiculo().setAño_veh(rs.getString("año_veh"));
                     
-                    detalleVehiculo.getPiso().setNumero_piso(rs.getInt("NumeroPisoEstacionamiento"));
-                    detalleVehiculo.getPiso().setCapacidad(rs.getInt("CapacidadPisoEstacionamiento"));
+                    detalleVehiculo.getPiso().setNumero_piso(rs.getInt("numero_piso_est"));
+                    detalleVehiculo.getPiso().setCapacidad(rs.getInt("capacidad_piso_est"));
                     
                     
-                    detalleVehiculo.getZona().setNombre_zona_est(rs.getString("NombreEspacio"));
-                    detalleVehiculo.getZona().setEstado_espacio(rs.getString("EstadoEspacio"));
+                    detalleVehiculo.getZona().setNombre_zona_est(rs.getString("nombre_espacio"));
+                    detalleVehiculo.getZona().setEstado_espacio(rs.getString("estado_espacio"));
                     
-                    detalleVehiculo.getTicket().setFecha_entrada(rs.getString("FechaEntrada"));
-                    detalleVehiculo.getTicket().setHora_entrada(rs.getString("HoraEntrada"));
-                    detalleVehiculo.getTicket().setEstado_ticket(rs.getString("EstadoTicket"));
+                    detalleVehiculo.getTicket().setFecha_entrada(rs.getString("fecha_entrada"));
+                    detalleVehiculo.getTicket().setHora_entrada(rs.getString("hora_entrada"));
+                    detalleVehiculo.getTicket().setEstado_ticket(rs.getString("estado_ticket"));
 
-                    detalleVehiculo.getAbonado().setFecha_inicio_abo(rs.getString("FechaEntrada"));
-                    detalleVehiculo.getAbonado().set(rs.getString("HoraEntrada"));
-                    detalleVehiculo.getAbonado().set(rs.getString("EstadoTicket"));
-                    detalleVehiculo.getAbonado().setFecha_entrada(rs.getString("FechaEntrada"));
+                    detalleVehiculo.getBoletaPago().setMonto_pago(rs.getFloat("monto_pago"));
+                    detalleVehiculo.getBoletaPago().setHora_salida(rs.getString("hora_salida"));
+                    detalleVehiculo.getBoletaPago().setMetodo_pago(rs.getString("metodo_pago"));
+                    
+                    detalleVehiculo.getAbonado().setFecha_inicio_abo(rs.getString("fecha_inicio_abo"));
+                    detalleVehiculo.getAbonado().setFecha_fin_abo(rs.getString("fecha_fin_abo"));
+                    
+                    detalleVehiculo.getTipoAbonado().setMonto(rs.getFloat("monto_tipo_abonado"));
+                    detalleVehiculo.getTipoAbonado().setNombre(rs.getString("nombre_tipo_abonado"));
+
                 }
 
             } else {
@@ -101,7 +99,7 @@ public class DetalleVehiculoDAO {
                 System.out.println("Error al cerrar recursos: " + e.toString());
             }
         }
-        return vehiculo;
+        return detalleVehiculo;
     }
     
 }
