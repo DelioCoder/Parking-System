@@ -157,14 +157,18 @@ public class TicketController implements ActionListener
             
             ComboBoxItem selectedZona = (ComboBoxItem) this.vista.BxUbi.getSelectedItem();
 
+            if(selectedZona.toString().contains("Ocupado")){
+                JOptionPane.showMessageDialog(vista, "Este espacio esta ocupado.");
+            }
+            
             if (selectedZona != null) {
                 ticket.setId_zona_est(selectedZona.getId());
             }
             ticket.setFecha_entrada(vista.txtEntrada.getText());
             ticket.setHora_entrada(vista.txtHoraEntrada.getText());
-            ticket.setEstado_ticket("Activo");
+            ticket.setEstado_ticket("ACTIVO");
             
-            if (ticketDao.agregarTicket(ticket)) {
+            if (ticketDao.agregarTicket(ticket) && !selectedZona.toString().contains("Ocupado")) {
                 
                 JOptionPane.showMessageDialog(vista, "Ticket registrado con éxito.");
             } else {
