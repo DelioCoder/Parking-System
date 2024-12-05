@@ -13,7 +13,8 @@ public class Abonado {
     private String placa_veh;
     private int id_tipo_abonado;
     private String nombre_abonado;
-
+    private String monto_abo;
+    
     public Abonado() { }
 
     public Abonado(int id_abo, String fecha_inicio_abo, String fecha_fin_abo, int id_vehiculo, String placa_veh, int id_tipo_abonado, String nombre_abonado) {
@@ -24,6 +25,14 @@ public class Abonado {
         this.placa_veh = placa_veh;
         this.id_tipo_abonado = id_tipo_abonado;
         this.nombre_abonado = nombre_abonado;
+    }
+
+    public String getMonto_abo() {
+        return monto_abo;
+    }
+
+    public void setMonto_abo(String monto_abo) {
+        this.monto_abo = monto_abo;
     }
 
     public int getId_abo() {

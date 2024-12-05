@@ -41,7 +41,6 @@ BEGIN
 END;
 
 
-
 CREATE PROCEDURE spCrearConductor
     @nombre_cond NVARCHAR(40),
     @apellido_cond NVARCHAR(40),

@@ -1,54 +1,54 @@
-
-
 CREATE PROCEDURE sp_consulta_placa
-    @Placa VARCHAR(10)
+    @id_veh INT 
 AS
 BEGIN
+    SET NOCOUNT ON;
 
-
-	SELECT   
-		c.nombre_cond AS NombreConductor,  
-		c.apellido_cond AS ApellidoConductor,  
-		c.dni_cond AS DNICoche,  
-		c.telefono_cond AS TelefonoConductor,  
-    
-		v.placa_veh AS PlacaVehiculo,  
-		v.color_veh AS ColorVehiculo,  
-		v.marca_veh AS MarcaVehiculo,  
-		v.modelo_veh AS ModeloVehiculo,  
-		v.año_veh AS AñoVehiculo,  
-
-		pe.numero_piso_est AS NumeroPisoEstacionamiento,  
-		pe.capacidad_piso_est AS CapacidadPisoEstacionamiento,  
-
-		ze.nombre_espacio AS NombreEspacio,  
-		ze.numero_espacio AS NumeroEspacio,  
-		ze.estado_espacio AS EstadoEspacio,  
-
-		te.fecha_entrada AS FechaEntrada,  
-		te.hora_entrada AS HoraEntrada,  
-		te.estado_ticket AS EstadoTicket,  
-
-		bp.fecha_pago AS FechaPago,  
-		bp.monto_pago AS MontoPago,  
-		bp.metodo_pago AS MetodoPago,  
-		bp.hora_salida AS HoraSalida  
-
-	FROM   
-		conductor c  
-	JOIN   
-		Vehiculo v ON c.id_cond = v.id_cond
-	JOIN   
-		Zona_Estacionamiento ze ON ze.id_zona_est = (SELECT id_zona_est FROM Ticket_Estacionamiento WHERE id_veh = v.id_veh)  
-	JOIN   
-		Ticket_Estacionamiento te ON te.id_veh = v.id_veh  
-	JOIN   
-		Boleta_Pago bp ON bp.id_ticket = te.id_ticket  
-	JOIN   
-		Piso_estacionamiento pe ON ze.id_piso_est = pe.id_piso_est
-
-	where v.placa_veh = @Placa;
+    SELECT 
+        v.id_veh,
+        v.placa_veh,
+        v.color_veh,
+        v.marca_veh,
+        v.modelo_veh,
+        v.año_veh,
+        v.estado AS estado_vehiculo,
+        c.id_cond,
+        c.nombre_cond,
+        c.apellido_cond,
+        c.dni_cond,
+        c.telefono_cond,
+        c.estado AS estado_conductor,
+        a.id_abo,
+        a.fecha_inicio_abo,
+        a.fecha_fin_abo,
+        t.id_tipo_abo,
+        t.nombre AS nombre_tipo_abonado,
+        t.monto AS monto_tipo_abonado,
+        p.id_piso_est,
+        p.numero_piso_est,
+        p.capacidad_piso_est,
+        z.id_zona_est,
+        z.nombre_espacio,
+        z.numero_espacio,
+        z.estado_espacio,
+        te.id_ticket,
+        te.fecha_entrada,
+        te.hora_entrada,
+        te.estado_ticket,
+        b.id_boleta_pago,
+        b.fecha_pago,
+        b.monto_pago,
+        b.metodo_pago,
+        b.hora_salida
+    FROM Vehiculo v
+    LEFT JOIN conductor c ON v.id_cond = c.id_cond
+    LEFT JOIN Abonado a ON v.id_veh = a.id_vehiculo
+    LEFT JOIN Tipo_Abonado t ON a.id_tipo_abonado = t.id_tipo_abo
+    LEFT JOIN Ticket_Estacionamiento te ON v.id_veh = te.id_veh
+    LEFT JOIN Zona_Estacionamiento z ON te.id_zona_est = z.id_zona_est
+    LEFT JOIN Piso_estacionamiento p ON z.id_piso_est = p.id_piso_est
+    LEFT JOIN Boleta_Pago b ON te.id_ticket = b.id_ticket
+    WHERE v.id_veh = @id_veh;
 END;
 
-
-EXEC sp_consulta_placa 'ABC123';
+EXEC sp_consulta_placa 1;

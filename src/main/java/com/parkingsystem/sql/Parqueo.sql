@@ -45,6 +45,11 @@ ALTER TABLE Abonado
 ADD CONSTRAINT FK_TipoAbonado
 FOREIGN KEY (id_tipo_abonado) REFERENCES Tipo_Abonado(id_tipo_abo);
 
+ALTER TABLE Abonado
+ADD CONSTRAINT FK_ABONADO_VEHICULO
+FOREIGN KEY (id_vehiculo) REFERENCES Vehiculo(id_veh);
+
+
 CREATE TABLE Piso_estacionamiento (
     id_piso_est INT PRIMARY KEY IDENTITY,
     numero_piso_est INT,
@@ -99,6 +104,9 @@ ALTER TABLE Boleta_Pago
 ADD CONSTRAINT FK_Boleta_Pago_Ticket_Estacionamiento
 FOREIGN KEY (id_ticket) REFERENCES Ticket_Estacionamiento(id_ticket);
 
+
+
+
 INSERT INTO Piso_estacionamiento (numero_piso_est, capacidad_piso_est)
 VALUES
 (1, 20),
@@ -120,29 +128,26 @@ VALUES
 (9, 'A9', 'Disponible', 5),
 (10, 'A10', 'Ocupado', 5);	
 
-INSERT INTO conductor (nombre_cond, apellido_cond, dni_cond, telefono_cond) VALUES
-('Juan', 'Pérez', 12345678, 987654321),
-('María', 'González', 87654321, 912345678),
-('Carlos', 'Ramírez', 45678912, 923456789),
-('Ana', 'López', 34567891, 934567890),
-('Luis', 'Torres', 56789123, 945678901);
+INSERT INTO conductor (nombre_cond, apellido_cond, dni_cond, telefono_cond, estado) VALUES
+('Juan', 'Pérez', 12345678, 987654321, 1),
+('María', 'González', 87654321, 912345678, 1),
+('Carlos', 'Ramírez', 45678912, 923456789, 1),
+('Ana', 'López', 34567891, 934567890, 1),
+('Luis', 'Torres', 56789123, 945678901, 1);
 
-INSERT INTO vehiculo (placa_veh, color_veh, marca_veh, modelo_veh, año_veh, id_cond) VALUES
-('ABC123', 'Rojo', 'Toyota', 'Corolla', '2022', 1),
-('XYZ789', 'Azul', 'Honda', 'Civic', '2021', 2),
-('LMN456', 'Negro', 'Ford', 'Focus', '2020', 3),
-('PQR678', 'Blanco', 'Chevrolet', 'Cruze', '2019', 4),
-('GHI321', 'Gris', 'Mazda', '3', '2018', 5);
+INSERT INTO vehiculo (placa_veh, color_veh, marca_veh, modelo_veh, año_veh, id_cond, estado) VALUES
+('ABC123', 'Rojo', 'Toyota', 'Corolla', '2022', 1, 1),
+('XYZ789', 'Azul', 'Honda', 'Civic', '2021', 2, 1),
+('LMN456', 'Negro', 'Ford', 'Focus', '2020', 3, 1),
+('PQR678', 'Blanco', 'Chevrolet', 'Cruze', '2019', 4, 1),
+('GHI321', 'Gris', 'Mazda', '3', '2018', 5, 1);
 
 
 INSERT INTO Ticket_Estacionamiento (fecha_entrada, hora_entrada, estado_ticket, id_veh, id_zona_est)  
 VALUES   
-    ('2024-10-29', '08:00:00','Activo', 1, 1),  -- Ticket para el veh�culo con id_veh = 1 en la zona con id_zona_est = 1  
-    ('2024-10-28', '04:00:00','Activo', 2, 2),  -- Ticket para el veh�culo con id_veh = 2 en la zona con id_zona_est = 2  
-    ('2024-10-27', '05:00:00','Activo', 3, 3);  -- Ticket para el veh�culo con id_veh = 3 en la zona con id_zona_est = 3  
-
-
-select * from Ticket_Estacionamiento;
+    ('2024-10-29', '08:00:00','ACTIVO', 1, 1),  -- Ticket para el veh�culo con id_veh = 1 en la zona con id_zona_est = 1  
+    ('2024-10-28', '04:00:00','ACTIVO', 2, 2),  -- Ticket para el veh�culo con id_veh = 2 en la zona con id_zona_est = 2  
+    ('2024-10-27', '05:00:00','PAGADO', 3, 3);  -- Ticket para el veh�culo con id_veh = 3 en la zona con id_zona_est = 3  
 
 
 INSERT INTO Boleta_Pago (fecha_pago, monto_pago, metodo_pago, hora_salida, id_ticket)  
@@ -151,10 +156,7 @@ VALUES
     ('2024-10-29 12:30:00', 45.50, 'Tarjeta', '2024-10-29 12:30:00', 2),  -- Boleta para el ticket con id_ticket = 2  
     ('2024-10-29 13:00:00', 30.50, 'Tarjeta', '2024-10-29 13:00:00', 3);  -- Boleta para el ticket con id_ticket = 3
 
+
 INSERT INTO Tipo_Abonado(nombre, monto) VALUES ('mensual', 30), ('trimestral', 15);
 
---ALTER TABLE Abonado
---ALTER COLUMN fecha_inicio_abo VARCHAR(15);
 
---ALTER TABLE Abonado
---ALTER COLUMN fecha_fin_abo VARCHAR(15);
