@@ -6,6 +6,7 @@ import com.parkingsystem.model.Conductor;
 import com.parkingsystem.model.Vehiculo;
 import com.parkingsystem.view.conductor.ModalConductor;
 import com.parkingsystem.view.conductor.TablaC;
+import com.parkingsystem.view.vehiculo.DetalleVehiculoVista;
 import com.parkingsystem.view.vehiculo.ModalVehiculo;
 import com.parkingsystem.view.vehiculo.TablaVehiculo;
 import java.awt.Color;
@@ -185,6 +186,13 @@ public class VehiculoController {
         rellenarTabla(conductorText);
     }
     
+    private void verDetalleVehiculo(Vehiculo vehiculo) {
+        DetalleVehiculoVista form = new DetalleVehiculoVista(vehiculo.getId());
+        form.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE); // Evita que la ventana principal se cierre
+        form.setVisible(true);
+        form.toFront();  // Asegura que el formulario aparezca en el frente
+    };
+    
     private void abrirModalEditarVehiculo(Vehiculo vehiculo) {
         ModalVehiculo form = new ModalVehiculo(tablaVehiculo, vehiculo, false);
         form.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE); // Evita que la ventana principal se cierre
@@ -217,15 +225,27 @@ public class VehiculoController {
             panel.setBackground(Color.WHITE); // Fondo blanco fijo
             panel.setBorder(BorderFactory.createLineBorder(new Color(240, 240, 240), 1));
 
-
+            JLabel verDetalle = new JLabel("<html><a style='color: purple;' href='#'>Ver detalle</a></html>");
             JLabel editar = new JLabel("<html><a style='color: blue;' href='#'>Editar</a></html>");
             JLabel eliminar = new JLabel("<html><a style='color: red;' href='#'>Eliminar</a></html>");
 
             // Configurar cursor como pointer
+            
+            verDetalle.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
             editar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
             eliminar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
             // Acciones con un solo clic
+            verDetalle.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mousePressed(MouseEvent e) {
+                    if (currentVehiculo != null) {
+                        stopCellEditing(); // Finaliza la edición antes de disparar la acción
+                        verDetalleVehiculo(currentVehiculo);
+                    }
+                }
+            });
+            
             editar.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mousePressed(MouseEvent e) {
@@ -245,9 +265,9 @@ public class VehiculoController {
                     }
                 }
             });
-
+            
+            panel.add(verDetalle);
             panel.add(editar);
-            panel.add(new JLabel(" | "));
             panel.add(eliminar);
         }
 
@@ -282,15 +302,17 @@ public class VehiculoController {
             if (value instanceof Vehiculo) {
                 Vehiculo vehiculo = (Vehiculo) value;
 
+                JLabel verDetalle = new JLabel("<html><a style='color: purple;' href='#'>Ver detalle</a></html>");
                 JLabel editar = new JLabel("<html><a style='color: blue;' href='#'>Editar</a></html>");
                 JLabel eliminar = new JLabel("<html><a style='color: red;' href='#'>Eliminar</a></html>");
 
                 // Configurar cursor como pointer
+                verDetalle.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
                 editar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
                 eliminar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
+                add(verDetalle);
                 add(editar);
-                add(new JLabel(" | "));
                 add(eliminar);
             }
 

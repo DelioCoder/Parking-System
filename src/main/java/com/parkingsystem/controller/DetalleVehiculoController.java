@@ -45,6 +45,7 @@ public class DetalleVehiculoController {
     
 
     public void listarDetalleVehiculo(int idVehiculo) {
+        System.out.println("xd"+idVehiculo);
         detalleVehiculo = detalleVehiculoDAO.listarDetalleVehiculo(idVehiculo);
 
         if (detalleVehiculo == null) {
@@ -58,7 +59,6 @@ public class DetalleVehiculoController {
         Ticket_Estacionamiento ticket = detalleVehiculo.getTicket();
         Zona_Estacionamiento zona = detalleVehiculo.getZona();
         Piso_estacionamiento piso = detalleVehiculo.getPiso();
-        Boleta_Pago boletaPago = detalleVehiculo.getBoletaPago();
         Tipo_Abonado tipoAbonado = detalleVehiculo.getTipoAbonado();
 
         
@@ -70,29 +70,55 @@ public class DetalleVehiculoController {
         detalleVehiculoVista.txtDNI.setText(conductor.getDni_cond());
         detalleVehiculoVista.txtTelefono.setText(conductor.getTelefono_cond());
         
-        detalleVehiculoVista.txtFechaEntrada.setText(ticket.getFecha_entrada()+ " " +ticket.getHora_entrada());
         
-        String estadoTicket = ticket.getEstado_ticket();
-        
-        if ("ACTIVO".equals(estadoTicket)) {
-            estadoTicket = "ESTACIONADO";
-            detalleVehiculoVista.txtTicketEstatus.setForeground(Color.GREEN);
+        if (ticket != null) {
+            detalleVehiculoVista.txtFechaEntrada.setText(ticket.getFecha_entrada()+ " " +ticket.getHora_entrada());
+            String estadoTicket = ticket.getEstado_ticket();
+            if ("ACTIVO".equals(estadoTicket)) {
+                estadoTicket = "ESTACIONADO";
+                detalleVehiculoVista.txtTicketEstatus.setForeground(new Color(19,183, 30));
+            } else {
+                estadoTicket = estadoTicket.toUpperCase();
+            }
+            detalleVehiculoVista.txtTicketEstatus.setText(estadoTicket);
+            detalleVehiculoVista.txtPiso.setText(piso.getNumero_piso()+"");
+            detalleVehiculoVista.txtZona.setText(zona.getNombre_zona_est());
         } else {
-            estadoTicket = estadoTicket.toUpperCase();
+            System.out.println("sin ticket");
+            detalleVehiculoVista.txtTicketEstatus.setText("NO ESTACIONADO");
+            detalleVehiculoVista.txtTicketEstatus.setForeground(Color.GRAY);
+
+            detalleVehiculoVista.txtPiso.setVisible(false);
+            detalleVehiculoVista.txtZona.setVisible(false);
+            detalleVehiculoVista.txtTicket2.setVisible(false);
+            detalleVehiculoVista.txtTicket3.setVisible(false);
+            detalleVehiculoVista.txtTicket4.setVisible(false);
+            detalleVehiculoVista.txtTicket5.setVisible(false);
         }
         
-        detalleVehiculoVista.txtTicketEstatus.setText(estadoTicket);
-        
-        detalleVehiculoVista.txtFechaInicioAbonado.setText(abonado.getFecha_inicio_abo());
-        detalleVehiculoVista.txtFechaFinAbonado.setText(abonado.getFecha_fin_abo());
+        if (abonado != null) {
+            detalleVehiculoVista.txtFechaInicioAbonado.setText(abonado.getFecha_inicio_abo());
+            detalleVehiculoVista.txtFechaFinAbonado.setText(abonado.getFecha_fin_abo());
+            detalleVehiculoVista.txtTipoAbono.setText(tipoAbonado.getNombre());
+            detalleVehiculoVista.txtMontoAbonado.setText(tipoAbonado.getMonto()+"");
+        } else {
+            System.out.println("sin abonado");
+            detalleVehiculoVista.txtFechaInicioAbonado.setVisible(false);
+            detalleVehiculoVista.txtFechaFinAbonado.setVisible(false);
+            detalleVehiculoVista.txtTipoAbono.setVisible(false);
+            detalleVehiculoVista.txtMontoAbonado.setVisible(false);
+            
+            detalleVehiculoVista.txtAbo1.setVisible(false);
+            detalleVehiculoVista.txtAbo2.setVisible(false);
+            detalleVehiculoVista.txtAbo3.setVisible(false);
+            detalleVehiculoVista.txtAbo4.setVisible(false);
+            detalleVehiculoVista.txtAbo5.setVisible(false);
+            detalleVehiculoVista.abonadoContainer.setVisible(false);
+        }
 
-        detalleVehiculoVista.txtPiso.setText(piso.getNumero_piso()+"");
-        
-        detalleVehiculoVista.txtZona.setText(zona.getNombre_zona_est());
         
         
-        detalleVehiculoVista.txtTipoAbono.setText(tipoAbonado.getNombre());
-        detalleVehiculoVista.txtMontoAbonado.setText(tipoAbonado.getMonto()+"");
+ 
 
     }
     

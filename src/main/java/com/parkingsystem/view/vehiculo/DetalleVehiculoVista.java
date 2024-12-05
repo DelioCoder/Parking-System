@@ -51,27 +51,28 @@ public class DetalleVehiculoVista extends javax.swing.JFrame {
         txtConductorNombre = new javax.swing.JLabel();
         txtDNI = new javax.swing.JLabel();
         txtTelefono = new javax.swing.JLabel();
-        jPanel5 = new javax.swing.JPanel();
-        jLabel27 = new javax.swing.JLabel();
-        jLabel28 = new javax.swing.JLabel();
-        jLabel29 = new javax.swing.JLabel();
-        jLabel30 = new javax.swing.JLabel();
-        jLabel31 = new javax.swing.JLabel();
+        ticketContainer = new javax.swing.JPanel();
+        txtTicket1 = new javax.swing.JLabel();
+        txtTicket2 = new javax.swing.JLabel();
+        txtTicket3 = new javax.swing.JLabel();
+        txtTicket4 = new javax.swing.JLabel();
+        txtTicket5 = new javax.swing.JLabel();
         txtTicketEstatus = new javax.swing.JLabel();
         txtFechaEntrada = new javax.swing.JLabel();
         txtZona = new javax.swing.JLabel();
         txtPiso = new javax.swing.JLabel();
-        jPanel3 = new javax.swing.JPanel();
-        jLabel16 = new javax.swing.JLabel();
-        jLabel17 = new javax.swing.JLabel();
-        jLabel18 = new javax.swing.JLabel();
-        jLabel19 = new javax.swing.JLabel();
-        jLabel20 = new javax.swing.JLabel();
+        abonadoContainer = new javax.swing.JPanel();
+        txtAbo1 = new javax.swing.JLabel();
+        txtAbo2 = new javax.swing.JLabel();
+        txtAbo3 = new javax.swing.JLabel();
+        txtAbo4 = new javax.swing.JLabel();
+        txtAbo5 = new javax.swing.JLabel();
         txtFechaInicioAbonado = new javax.swing.JLabel();
         txtFechaFinAbonado = new javax.swing.JLabel();
         txtTipoAbono = new javax.swing.JLabel();
         txtMontoAbonado = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
+        btnVolver = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -108,22 +109,22 @@ public class DetalleVehiculoVista extends javax.swing.JFrame {
         jLabel10.setText("Teléfono:");
 
         txtColor.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        txtColor.setText("ROJO");
+        txtColor.setText(" ");
 
         txtPlaca.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        txtPlaca.setText("CR7003");
+        txtPlaca.setText(" ");
 
         txtMarca.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        txtMarca.setText("TOYOTA");
+        txtMarca.setText(" ");
 
         txtConductorNombre.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        txtConductorNombre.setText("John Chunqui Almeyda");
+        txtConductorNombre.setText(" ");
 
         txtDNI.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        txtDNI.setText("72310845");
+        txtDNI.setText(" ");
 
         txtTelefono.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        txtTelefono.setText("958472344");
+        txtTelefono.setText(" ");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -150,9 +151,9 @@ public class DetalleVehiculoVista extends javax.swing.JFrame {
                                 .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtColor, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtDNI, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(52, 52, 52)
+                            .addComponent(txtDNI, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtColor, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(39, 39, 39)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel10)
                             .addComponent(jLabel8))
@@ -190,156 +191,156 @@ public class DetalleVehiculoVista extends javax.swing.JFrame {
 
         jPanel4.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 110, -1, 190));
 
-        jPanel5.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jPanel5.setPreferredSize(new java.awt.Dimension(433, 185));
+        ticketContainer.setBackground(new java.awt.Color(255, 255, 255));
+        ticketContainer.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        ticketContainer.setPreferredSize(new java.awt.Dimension(433, 185));
 
-        jLabel27.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jLabel27.setText("Automovil Actualmente:");
+        txtTicket1.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        txtTicket1.setText("Automovil Actualmente:");
 
-        jLabel28.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jLabel28.setText("Datos del Estacionamiento");
+        txtTicket2.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        txtTicket2.setText("Datos del Estacionamiento");
 
-        jLabel29.setText("Fecha de entrada:");
+        txtTicket3.setText("Fecha de entrada:");
 
-        jLabel30.setText("Zona:");
+        txtTicket4.setText("Zona:");
 
-        jLabel31.setText("Piso:");
+        txtTicket5.setText("Piso:");
 
-        txtTicketEstatus.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
-        txtTicketEstatus.setText("ESTACIONADO");
+        txtTicketEstatus.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        txtTicketEstatus.setText(" ");
 
         txtFechaEntrada.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        txtFechaEntrada.setText("ROJO");
+        txtFechaEntrada.setText(" ");
 
         txtZona.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        txtZona.setText("ROJO");
+        txtZona.setText(" ");
 
         txtPiso.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        txtPiso.setText("ROJO");
+        txtPiso.setText(" ");
 
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
+        javax.swing.GroupLayout ticketContainerLayout = new javax.swing.GroupLayout(ticketContainer);
+        ticketContainer.setLayout(ticketContainerLayout);
+        ticketContainerLayout.setHorizontalGroup(
+            ticketContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ticketContainerLayout.createSequentialGroup()
                 .addGap(29, 29, 29)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel28)
-                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addComponent(jLabel27)
+                .addGroup(ticketContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(ticketContainerLayout.createSequentialGroup()
+                        .addGroup(ticketContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtTicket2)
+                            .addGroup(ticketContainerLayout.createSequentialGroup()
+                                .addComponent(txtTicket1)
                                 .addGap(18, 18, 18)
                                 .addComponent(txtTicketEstatus, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addComponent(jLabel31)
+                            .addGroup(ticketContainerLayout.createSequentialGroup()
+                                .addComponent(txtTicket5)
                                 .addGap(18, 18, 18)
                                 .addComponent(txtPiso, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addContainerGap(62, Short.MAX_VALUE))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel29)
+                    .addGroup(ticketContainerLayout.createSequentialGroup()
+                        .addComponent(txtTicket3)
                         .addGap(18, 18, 18)
                         .addComponent(txtFechaEntrada, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel30)
+                        .addComponent(txtTicket4)
                         .addGap(18, 18, 18)
                         .addComponent(txtZona, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18))))
         );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
+        ticketContainerLayout.setVerticalGroup(
+            ticketContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ticketContainerLayout.createSequentialGroup()
                 .addGap(21, 21, 21)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel27)
+                .addGroup(ticketContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtTicket1)
                     .addComponent(txtTicketEstatus))
                 .addGap(18, 18, 18)
-                .addComponent(jLabel28)
+                .addComponent(txtTicket2)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel29)
-                    .addComponent(jLabel30)
+                .addGroup(ticketContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtTicket3)
+                    .addComponent(txtTicket4)
                     .addComponent(txtFechaEntrada)
                     .addComponent(txtZona))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel31)
+                .addGroup(ticketContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtTicket5)
                     .addComponent(txtPiso))
                 .addContainerGap(43, Short.MAX_VALUE))
         );
 
-        jPanel4.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 110, -1, 190));
+        jPanel4.add(ticketContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 110, -1, 190));
 
-        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        abonadoContainer.setBackground(new java.awt.Color(255, 255, 255));
+        abonadoContainer.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jLabel16.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jLabel16.setText("Datos de abonado");
+        txtAbo1.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        txtAbo1.setText("Datos de abonado");
 
-        jLabel17.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        jLabel17.setText("Fecha de inicio:");
+        txtAbo2.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        txtAbo2.setText("Fecha de inicio:");
 
-        jLabel18.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        jLabel18.setText("Fecha de FIn:");
+        txtAbo3.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        txtAbo3.setText("Fecha de FIn:");
 
-        jLabel19.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        jLabel19.setText("Tipo de abono:");
+        txtAbo4.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        txtAbo4.setText("Tipo de abono:");
 
-        jLabel20.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        jLabel20.setText("Monto:");
+        txtAbo5.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        txtAbo5.setText("Monto:");
 
         txtFechaInicioAbonado.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        txtFechaInicioAbonado.setText("ROJO");
+        txtFechaInicioAbonado.setText(" ");
 
         txtFechaFinAbonado.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        txtFechaFinAbonado.setText("ROJO");
+        txtFechaFinAbonado.setText(" ");
 
         txtTipoAbono.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        txtTipoAbono.setText("ROJO");
+        txtTipoAbono.setText(" ");
 
         txtMontoAbonado.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        txtMontoAbonado.setText("ROJO");
+        txtMontoAbonado.setText(" ");
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
+        javax.swing.GroupLayout abonadoContainerLayout = new javax.swing.GroupLayout(abonadoContainer);
+        abonadoContainer.setLayout(abonadoContainerLayout);
+        abonadoContainerLayout.setHorizontalGroup(
+            abonadoContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(abonadoContainerLayout.createSequentialGroup()
                 .addGap(19, 19, 19)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel16)
+                .addGroup(abonadoContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(abonadoContainerLayout.createSequentialGroup()
+                        .addComponent(txtAbo1)
                         .addContainerGap(903, Short.MAX_VALUE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel17)
+                    .addGroup(abonadoContainerLayout.createSequentialGroup()
+                        .addComponent(txtAbo2)
                         .addGap(18, 18, 18)
                         .addComponent(txtFechaInicioAbonado, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel18)
+                        .addComponent(txtAbo3)
                         .addGap(18, 18, 18)
                         .addComponent(txtFechaFinAbonado, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel19)
+                        .addComponent(txtAbo4)
                         .addGap(18, 18, 18)
                         .addComponent(txtTipoAbono, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(54, 54, 54)
-                        .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtAbo5, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(txtMontoAbonado, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(59, 59, 59))))
         );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
+        abonadoContainerLayout.setVerticalGroup(
+            abonadoContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(abonadoContainerLayout.createSequentialGroup()
                 .addGap(17, 17, 17)
-                .addComponent(jLabel16)
+                .addComponent(txtAbo1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel17)
-                    .addComponent(jLabel18)
-                    .addComponent(jLabel19)
-                    .addComponent(jLabel20)
+                .addGroup(abonadoContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtAbo2)
+                    .addComponent(txtAbo3)
+                    .addComponent(txtAbo4)
+                    .addComponent(txtAbo5)
                     .addComponent(txtFechaInicioAbonado)
                     .addComponent(txtFechaFinAbonado)
                     .addComponent(txtTipoAbono)
@@ -347,16 +348,31 @@ public class DetalleVehiculoVista extends javax.swing.JFrame {
                 .addGap(19, 19, 19))
         );
 
-        jPanel4.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 330, 1050, -1));
+        jPanel4.add(abonadoContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 330, 1050, -1));
 
         jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
         jLabel1.setText("Consulta detalle de Vehiculo");
         jPanel4.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 30, 430, -1));
 
-        getContentPane().add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1180, 470));
+        btnVolver.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        btnVolver.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/anterior.png"))); // NOI18N
+        btnVolver.setText("Volver");
+        btnVolver.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVolverActionPerformed(evt);
+            }
+        });
+        jPanel4.add(btnVolver, new org.netbeans.lib.awtextra.AbsoluteConstraints(990, 460, 120, 40));
+
+        getContentPane().add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1180, 530));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_btnVolverActionPerformed
 
     /**
      * @param args the command line arguments
@@ -401,19 +417,11 @@ public class DetalleVehiculoVista extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public javax.swing.JPanel abonadoContainer;
+    private javax.swing.JButton btnVolver;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
-    private javax.swing.JLabel jLabel19;
-    private javax.swing.JLabel jLabel20;
-    private javax.swing.JLabel jLabel27;
-    private javax.swing.JLabel jLabel28;
-    private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel30;
-    private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -421,10 +429,14 @@ public class DetalleVehiculoVista extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
     private javax.swing.JSeparator jSeparator1;
+    public javax.swing.JPanel ticketContainer;
+    public javax.swing.JLabel txtAbo1;
+    public javax.swing.JLabel txtAbo2;
+    public javax.swing.JLabel txtAbo3;
+    public javax.swing.JLabel txtAbo4;
+    public javax.swing.JLabel txtAbo5;
     public javax.swing.JLabel txtColor;
     public javax.swing.JLabel txtConductorNombre;
     public javax.swing.JLabel txtDNI;
@@ -436,6 +448,11 @@ public class DetalleVehiculoVista extends javax.swing.JFrame {
     public javax.swing.JLabel txtPiso;
     public javax.swing.JLabel txtPlaca;
     public javax.swing.JLabel txtTelefono;
+    public javax.swing.JLabel txtTicket1;
+    public javax.swing.JLabel txtTicket2;
+    public javax.swing.JLabel txtTicket3;
+    public javax.swing.JLabel txtTicket4;
+    public javax.swing.JLabel txtTicket5;
     public javax.swing.JLabel txtTicketEstatus;
     public javax.swing.JLabel txtTipoAbono;
     public javax.swing.JLabel txtZona;

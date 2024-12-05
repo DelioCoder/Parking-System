@@ -30,16 +30,7 @@ public class DetalleVehiculoDAO {
     
     public DetalleVehiculo listarDetalleVehiculo(int idVehiculo) {
         DetalleVehiculo detalleVehiculo = new DetalleVehiculo();
-        detalleVehiculo.setVehiculo(new Vehiculo());
-        detalleVehiculo.setConductor(new Conductor());
-        detalleVehiculo.setAbonado(new Abonado());
-        detalleVehiculo.setTicket(new Ticket_Estacionamiento());
-        detalleVehiculo.setZona(new Zona_Estacionamiento());
-        detalleVehiculo.setPiso(new Piso_estacionamiento());
-        detalleVehiculo.setBoletaPago(new Boleta_Pago());
-        detalleVehiculo.setTipoAbonado(new Tipo_Abonado());
 
-        
         try {
             connection = connectionManager.connect();
             if (connection != null) {
@@ -51,39 +42,59 @@ public class DetalleVehiculoDAO {
                 rs = pst.executeQuery();
 
                 while (rs.next()) {
-                    detalleVehiculo.getConductor().setNombre_cond(rs.getString("nombre_cond"));
-                    detalleVehiculo.getConductor().setApellido_cond(rs.getString("apellido_cond"));
-                    detalleVehiculo.getConductor().setDni_cond(rs.getString("dni_cond"));
-                    detalleVehiculo.getConductor().setTelefono_cond(rs.getString("telefono_cond"));
+                    Vehiculo vehiculo = new Vehiculo();
+                    Conductor conductor = new Conductor();
 
+                    vehiculo.setId(rs.getInt("id_veh"));
+                    vehiculo.setPlaca_veh(rs.getString("placa_veh"));
+                    vehiculo.setColor_veh(rs.getString("color_veh"));
+                    vehiculo.setMarca_veh(rs.getString("marca_veh"));
+                    vehiculo.setModelo_veh(rs.getString("modelo_veh"));
+                    vehiculo.setAño_veh(rs.getString("año_veh"));
                     
-                    detalleVehiculo.getVehiculo().setPlaca_veh(rs.getString("placa_veh"));
-                    detalleVehiculo.getVehiculo().setColor_veh(rs.getString("color_veh"));
-                    detalleVehiculo.getVehiculo().setMarca_veh(rs.getString("marca_veh"));
-                    detalleVehiculo.getVehiculo().setModelo_veh(rs.getString("modelo_veh"));
-                    detalleVehiculo.getVehiculo().setAño_veh(rs.getString("año_veh"));
-                    
-                    detalleVehiculo.getPiso().setNumero_piso(rs.getInt("numero_piso_est"));
-                    detalleVehiculo.getPiso().setCapacidad(rs.getInt("capacidad_piso_est"));
-                    
-                    
-                    detalleVehiculo.getZona().setNombre_zona_est(rs.getString("nombre_espacio"));
-                    detalleVehiculo.getZona().setEstado_espacio(rs.getString("estado_espacio"));
-                    
-                    detalleVehiculo.getTicket().setFecha_entrada(rs.getString("fecha_entrada"));
-                    detalleVehiculo.getTicket().setHora_entrada(rs.getString("hora_entrada"));
-                    detalleVehiculo.getTicket().setEstado_ticket(rs.getString("estado_ticket"));
+                    conductor.setNombre_cond(rs.getString("id_cond"));
+                    conductor.setNombre_cond(rs.getString("nombre_cond"));
+                    conductor.setApellido_cond(rs.getString("apellido_cond"));
+                    conductor.setDni_cond(rs.getString("dni_cond"));
+                    conductor.setTelefono_cond(rs.getString("telefono_cond"));
 
-                    detalleVehiculo.getBoletaPago().setMonto_pago(rs.getFloat("monto_pago"));
-                    detalleVehiculo.getBoletaPago().setHora_salida(rs.getString("hora_salida"));
-                    detalleVehiculo.getBoletaPago().setMetodo_pago(rs.getString("metodo_pago"));
+                    detalleVehiculo.setVehiculo(vehiculo);
+                    detalleVehiculo.setConductor(conductor);
                     
-                    detalleVehiculo.getAbonado().setFecha_inicio_abo(rs.getString("fecha_inicio_abo"));
-                    detalleVehiculo.getAbonado().setFecha_fin_abo(rs.getString("fecha_fin_abo"));
+                    int idTicket = rs.getInt("id_ticket");
                     
-                    detalleVehiculo.getTipoAbonado().setMonto(rs.getFloat("monto_tipo_abonado"));
-                    detalleVehiculo.getTipoAbonado().setNombre(rs.getString("nombre_tipo_abonado"));
+                    if (idTicket != 0) {
+                        Ticket_Estacionamiento ticket = new Ticket_Estacionamiento();
+                        Zona_Estacionamiento zona = new Zona_Estacionamiento();
+                        Piso_estacionamiento piso = new Piso_estacionamiento();
+                        
+                        ticket.setId_ticket(rs.getInt("id_ticket"));
+                        ticket.setFecha_entrada(rs.getString("fecha_entrada"));
+                        ticket.setHora_entrada(rs.getString("hora_entrada"));
+                        ticket.setEstado_ticket(rs.getString("estado_ticket"));
+                        zona.setNombre_zona_est(rs.getString("nombre_espacio"));
+                        zona.setEstado_espacio(rs.getString("estado_espacio"));    
+                        piso.setNumero_piso(rs.getInt("numero_piso_est"));
+                        piso.setCapacidad(rs.getInt("capacidad_piso_est"));
+                        
+                        detalleVehiculo.setTicket(ticket);
+                        detalleVehiculo.setZona(zona);
+                        detalleVehiculo.setPiso(piso);
+                    }
+                    
+                    int idAbonado = rs.getInt("id_abo");
 
+                    if (idAbonado != 0) {
+                        Abonado abonado = new Abonado();
+                        Tipo_Abonado tipoAbonado = new Tipo_Abonado();
+                        abonado.setFecha_inicio_abo(rs.getString("fecha_inicio_abo"));
+                        abonado.setFecha_fin_abo(rs.getString("fecha_fin_abo"));
+                        tipoAbonado.setNombre(rs.getString("nombre_tipo_abonado"));
+                        tipoAbonado.setMonto(rs.getFloat("monto_tipo_abonado"));
+                        detalleVehiculo.setAbonado(abonado);
+                        detalleVehiculo.setTipoAbonado(tipoAbonado);
+                    }
+                    
                 }
 
             } else {
