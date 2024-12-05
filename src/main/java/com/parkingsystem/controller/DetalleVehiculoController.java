@@ -73,8 +73,8 @@ public class DetalleVehiculoController {
         detalleVehiculoVista.txtFechaEntrada.setText(ticket.getFecha_entrada()+ " " +ticket.getHora_entrada());
         
         String estadoTicket = ticket.getEstado_ticket();
-        System.out.println("estadoTicket: "+estadoTicket);
-        if ("Activo".equals(estadoTicket)) {
+        
+        if ("ACTIVO".equals(estadoTicket)) {
             estadoTicket = "ESTACIONADO";
             detalleVehiculoVista.txtTicketEstatus.setForeground(Color.GREEN);
         } else {
