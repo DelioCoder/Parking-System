@@ -29,24 +29,27 @@ public class BoletaController implements ActionListener
     
     public void rellenarTabla() {
         List<Boleta_Pago> boletas = boletaDao.listarBoletas();
-        
+
         if (boletas == null) {
             System.out.println("No se han podido recuperar boletas.");
             return;
         }
-        
+
         String[] columnas = {"conductor", "DNI", "telefono", "Color de Vehiculo", "Monto de Pago", "Hora de Entrada", "Hora de Salida", "Zona", "Piso"};
         DefaultTableModel modeloTabla = new DefaultTableModel(columnas, 0);
 
         for (Boleta_Pago boleta : boletas) {
+            String horaEntradaFormateada = boleta.getHoraEntrada().substring(0, 5); // HH:mm -> hora
+            String horaSalidaFormateada = boleta.getHora_salida().substring(0, 5); // HH:mm -> hora
+
             Object[] fila = {
                 boleta.getConductor(),
                 boleta.getDni(),
                 boleta.getTelefono(),
                 boleta.getColorVehiculo(),
                 boleta.getMonto_pago(),
-                boleta.getHoraEntrada(),
-                boleta.getHora_salida(),
+                horaEntradaFormateada,
+                horaSalidaFormateada,
                 boleta.getZona(),
                 boleta.getPiso(),
             };

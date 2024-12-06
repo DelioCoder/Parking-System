@@ -12,6 +12,7 @@ import com.parkingsystem.input.ComboBoxItemVeh;
 import com.parkingsystem.model.Boleta_Pago;
 import com.parkingsystem.view.ticket.GenerarTicket;
 import com.parkingsystem.view.ticket.TablaTickets;
+import com.parkingsystem.view.ticket.Voucher;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -169,8 +170,8 @@ public class TicketController implements ActionListener
             ticket.setEstado_ticket("ACTIVO");
             
             if (ticketDao.agregarTicket(ticket) && !selectedZona.toString().contains("Ocupado")) {
-                
                 JOptionPane.showMessageDialog(vista, "Ticket registrado con éxito.");
+                rellenarTablaTickets("");
             } else {
                 JOptionPane.showMessageDialog(vista, "Error al registrar el ticket.");
             }
@@ -205,9 +206,10 @@ public class TicketController implements ActionListener
             boleta.setHora_salida(horaSalida);
             boleta.setId_ticket(idTicket);
             
-            if (this.ticketDao.actualizarEstadoTicket(idTicket, "Pagado") && this.boletaDao.agregarBoleta(boleta)) {
+            if (this.ticketDao.actualizarEstadoTicket(idTicket, "PAGADO") && this.boletaDao.agregarBoleta(boleta)) {
                 JOptionPane.showMessageDialog(vista_principal, "El estado del ticket se actualizó a 'Pagado'.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-
+                Voucher voucherForm = new Voucher(boleta);
+                voucherForm.setVisible(true);
                 rellenarTablaTickets("");
             } else {
                 JOptionPane.showMessageDialog(vista_principal, "Error al actualizar el estado del ticket.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -240,12 +242,11 @@ public class TicketController implements ActionListener
 
             double montoBase = 20.0;
             double montoAdicionalPorHora = 10.0;
-            return montoBase + (duracionEnHoras - 1) * montoAdicionalPorHora;
+            return Math.abs(montoBase + (duracionEnHoras - 1) * montoAdicionalPorHora);
         } catch (Exception e) {
             e.printStackTrace();
             return 20.0;
         }
     }
-
-    
+   
 }
